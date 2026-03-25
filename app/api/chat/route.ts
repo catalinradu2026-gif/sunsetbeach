@@ -60,7 +60,7 @@ STUDIOURILE DISPONIBILE:
 - Studio E318 (${studios.e318.title}): ${studios.e318.description}
 
 Prețuri: G108/G109 de la 400 lei/noapte (vârf sezon 1200 lei), E317/E318 de la 370 lei/noapte (cu 30 lei mai ieftin).
-Facilități: piscine gratuite, parcare gratuită, beach bar, 200m până la plajă, Wi-Fi, AC, frigider, espressor, balcon.
+Facilități: piscine gratuite, parcare gratuită, beach bar, 250m până la plajă, Wi-Fi, AC, frigider, espressor, balcon.
 Opțional: mic dejun 40 lei/persoană/zi.
 Minim 3 nopți. Discount 10% la plată integrală.
 

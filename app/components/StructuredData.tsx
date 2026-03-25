@@ -4,7 +4,7 @@ export default function StructuredData() {
       '@context': 'https://schema.org',
       '@type': 'LodgingBusiness',
       name: 'Sunset Beach Olimp – Blaxy Residence',
-      description: 'Studiouri de vacanță la malul Mării Negre în Olimp, România. Piscine gratuite, parcare gratuită, 200m până la plajă. Cazare Olimp 2026.',
+      description: 'Studiouri de vacanță la malul Mării Negre în Olimp, România. Piscine gratuite, parcare gratuită, 250m până la plajă. Cazare Olimp 2026.',
       url: 'https://sunsetbeach.com.ro',
       telephone: '+40787813485',
       email: '',
@@ -61,7 +61,7 @@ export default function StructuredData() {
           name: 'Unde se află Blaxy Residence în Olimp?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Blaxy Residence se află în stațiunea Olimp, la 200m de plajă. Complexul dispune de piscine, parcare gratuită, pază 24/7 și acces facil la plajă.',
+            text: 'Blaxy Residence se află în stațiunea Olimp, la 250m de plajă. Complexul dispune de piscine, parcare gratuită, pază 24/7 și acces facil la plajă.',
           },
         },
         {
@@ -77,7 +77,7 @@ export default function StructuredData() {
           name: 'Ce facilități are Blaxy Residence Olimp?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Blaxy Residence Olimp oferă: piscine gratuite cu șezlonguri, parcare gratuită, Wi-Fi, aer condiționat, bar și restaurant în complex, magazin, pază 24/7 și plajă la 200m.',
+            text: 'Blaxy Residence Olimp oferă: piscine gratuite cu șezlonguri, parcare gratuită, Wi-Fi, aer condiționat, bar și restaurant în complex, magazin, pază 24/7 și plajă la 250m.',
           },
         },
       ],

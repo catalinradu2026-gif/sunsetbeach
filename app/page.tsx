@@ -97,7 +97,7 @@ export default function Home() {
             Studiouri de închiriat la malul mării
           </p>
           <p className="text-white/90 mt-1 text-sm md:text-base font-semibold">
-            De la <span className="text-amber-300">370 lei</span>/noapte · Piscine gratuite · 200m plajă
+            De la <span className="text-amber-300">370 lei</span>/noapte · Piscine gratuite · 250m plajă
           </p>
           <div className="mt-6 flex flex-row items-center gap-2">
             <a
@@ -370,7 +370,7 @@ export default function Home() {
           <div className="text-center mb-8">
             <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">Locație</p>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Unde ne găsești</h2>
-            <p className="text-gray-400 mt-2 text-sm">Blaxy Residence · Olimp · 200m până la plajă</p>
+            <p className="text-gray-400 mt-2 text-sm">Blaxy Residence · Olimp · 250m până la plajă</p>
           </div>
           <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
             <iframe

@@ -67,8 +67,8 @@ export default function Home() {
           style={{ WebkitTransform: 'translateZ(0)', transform: 'translateZ(0)' } as React.CSSProperties}
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50" />
+        {/* Overlay gradient – jos mai întunecat pentru lizibilitate text */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
 
         {/* Overlay de start – dispare după click */}
         {!started && (
@@ -87,46 +87,49 @@ export default function Home() {
           </div>
         )}
 
-        {/* Conținut hero */}
-        <div className="relative z-10 flex flex-col items-center">
-          <p className="text-white/60 text-[10px] tracking-[0.25em] uppercase mb-3">Blaxy · Olimp</p>
-          <h1 className="text-3xl md:text-8xl font-bold text-white leading-none tracking-tight">
-            sunsetbeach.com.ro
-          </h1>
-          <p className="text-white/70 mt-3 md:mt-6 text-xs md:text-lg max-w-[260px] md:max-w-sm">
-            Studiouri de închiriat la malul mării
-          </p>
-          <p className="text-white/90 mt-1 text-sm md:text-base font-semibold">
-            De la <span className="text-amber-300">370 lei</span>/noapte · Piscine gratuite · 250m plajă
-          </p>
-          <div className="mt-6 flex flex-row items-center gap-2">
-            <a
-              href="tel:+40787813485"
-              className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-xs md:text-sm font-semibold px-4 md:px-6 py-2.5 md:py-3 rounded-full transition shadow"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              Sună acum
-            </a>
-            <button
-              onClick={() => setChatOpen(true)}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2.5 md:py-3 rounded-full transition"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-              </svg>
-              Descoperă Olimpul
-            </button>
-            <a
-              href="#studiouri"
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2.5 md:py-3 rounded-full transition"
-            >
-              Vezi studiourile
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </a>
+        {/* Conținut hero – jos stânga, stil cinematic */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-12 pb-16 md:pb-20">
+          <div className="max-w-5xl mx-auto">
+            <p className="text-white/50 text-[10px] tracking-[0.3em] uppercase mb-2">Blaxy Residence · Olimp · România</p>
+            <h1 className="text-4xl md:text-7xl font-bold text-white leading-none tracking-tight mb-3">
+              Sunset Beach<br />
+              <span className="text-amber-300">Olimp</span>
+            </h1>
+            <p className="text-white/70 text-sm md:text-base mb-1">
+              Studiouri premium la malul Mării Negre
+            </p>
+            <p className="text-white/60 text-xs md:text-sm mb-6">
+              De la <span className="text-amber-300 font-semibold">370 lei</span>/noapte · Piscine gratuite · 250m plajă
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href="tel:+40787813485"
+                className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full transition shadow"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                Sună acum
+              </a>
+              <a
+                href="#studiouri"
+                className="flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold text-xs md:text-sm px-5 py-2.5 rounded-full transition shadow"
+              >
+                Vezi studiourile
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+              <button
+                onClick={() => setChatOpen(true)}
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-5 py-2.5 rounded-full transition"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                </svg>
+                Descoperă Olimpul
+              </button>
+            </div>
           </div>
         </div>
 

@@ -43,7 +43,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
       <div className={`flex flex-col md:flex-row ${flip ? 'md:flex-row-reverse' : ''}`}>
 
         {/* FOTO */}
-        <div className="relative w-full md:w-1/2 h-72 md:h-auto min-h-[320px] bg-gray-100 shrink-0">
+        <div className="relative w-full md:w-1/2 h-80 md:h-auto md:min-h-[380px] bg-gray-100 shrink-0">
           {hasImages ? (
             <>
               <Image

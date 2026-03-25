@@ -81,10 +81,10 @@ export default function Home() {
         {/* Conținut hero */}
         <div className="relative z-10 flex flex-col items-center">
           <p className="text-white/60 text-xs tracking-[0.3em] uppercase mb-4">Blaxy · Olimp</p>
-          <h1 className="text-6xl md:text-8xl font-bold text-white leading-none tracking-tight">
+          <h1 className="text-5xl md:text-8xl font-bold text-white leading-none tracking-tight">
             sunsetbeach.ro
           </h1>
-          <p className="text-white/70 mt-6 text-base md:text-lg max-w-sm">
+          <p className="text-white/70 mt-4 md:mt-6 text-sm md:text-lg max-w-xs md:max-w-sm">
             Studiouri de închiriat la malul mării
           </p>
           <a
@@ -128,7 +128,7 @@ export default function Home() {
 
       {/* DESCRIERE */}
       <section className="bg-gray-50 border-y border-gray-100">
-        <div className="max-w-5xl mx-auto px-4 py-20">
+        <div className="max-w-5xl mx-auto px-4 py-12 md:py-20">
 
           {/* Titlu */}
           <div className="text-center mb-14">
@@ -205,7 +205,7 @@ export default function Home() {
       </section>
 
       {/* STUDIOURI */}
-      <section id="studiouri" className="max-w-5xl mx-auto px-4 py-20 space-y-6">
+      <section id="studiouri" className="max-w-5xl mx-auto px-4 py-10 md:py-20 space-y-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900">Studiourile noastre</h2>
           <p className="text-gray-400 mt-2 text-sm">Selectează o perioadă și rezervă direct pe WhatsApp</p>

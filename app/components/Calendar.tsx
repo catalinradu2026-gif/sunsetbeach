@@ -105,7 +105,7 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
     const inR = inRange(key)
     const isToday = key === toKey(today)
 
-    let base = 'relative flex flex-col items-center justify-center h-8 rounded-md text-xs transition cursor-pointer select-none '
+    let base = 'relative flex flex-col items-center justify-center h-10 md:h-8 rounded-md text-xs transition cursor-pointer select-none '
 
     if (adminMode) {
       if (occ) base += 'bg-red-100 text-red-700 font-semibold '

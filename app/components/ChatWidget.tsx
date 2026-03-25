@@ -53,7 +53,7 @@ export default function ChatWidget() {
     <>
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-24 right-4 md:right-6 z-50 w-[340px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '480px' }}>
+        <div className="fixed bottom-0 right-0 left-0 md:bottom-24 md:right-6 md:left-auto z-50 w-full md:w-[340px] bg-white md:rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '85dvh', maxHeight: '520px' }}>
 
           {/* Header */}
           <div className="bg-ocean px-4 py-3 flex items-center gap-3">
@@ -100,7 +100,8 @@ export default function ChatWidget() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && send()}
               placeholder="Scrie un mesaj..."
-              className="flex-1 text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ocean/30 focus:border-ocean"
+              className="flex-1 border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ocean/30 focus:border-ocean"
+              style={{ fontSize: '16px' }}
             />
             <button
               onClick={send}

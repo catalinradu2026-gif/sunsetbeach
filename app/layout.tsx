@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://sunsetbeach.com.ro'),
   title: 'Cazare Olimp 2026 – Studiouri la Mare cu Piscină | Blaxy Residence',
   description: 'Cazare Olimp 2026 – studiouri de vacanță la malul Mării Negre, Blaxy Residence. Piscine gratuite, 200m până la plajă, parcare gratuită, aer condiționat. Rezervă acum pe WhatsApp!',
-  keywords: 'cazare olimp, cazare olimp 2026, studio olimp, inchiriere olimp, cazare mare romania, litoral romania, blaxy residence olimp, studio vacanta olimp, cazare ieftina olimp, apartament olimp, cazare olimp piscina, vacanta olimp, hotel olimp, cazare mamaia nord, cazare constanta, sea side romania, cazare litoral 2026, studio inchiriere olimp 2026, cazare olimp whatsapp',
+  keywords: 'cazare olimp, cazare olimp 2026, cazare la mare, cazare mare romania, studio olimp, inchiriere olimp, litoral romania, blaxy residence olimp, studio vacanta olimp, cazare ieftina olimp, apartament olimp, cazare olimp piscina, vacanta la mare, vacanta olimp, hotel olimp, cazare mamaia nord, cazare constanta, cazare litoral 2026, studio inchiriere olimp 2026, cazare olimp whatsapp, inchiriere apartament mare, sejur mare romania',
   openGraph: {
     title: 'Cazare Olimp 2026 – Studiouri la Mare cu Piscină | Blaxy Residence',
     description: 'Studiouri de vacanță la malul Mării Negre în Olimp. Piscine gratuite, parcare, 200m până la plajă. Prețuri 370-1200 lei/noapte. Rezervă pe WhatsApp!',

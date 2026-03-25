@@ -238,13 +238,13 @@ export default function Home() {
             <StudioCard
               studioId="g108"
               data={data.g108}
-              images={['/images/g108/1.jpg', '/images/g108/2.jpg', '/images/g108/3.jpg']}
+              images={['/images/g108/1.jpeg', '/images/g108/2.jpeg', '/images/g108/3.jpeg', '/images/g108/4.jpeg', '/images/g108/5.jpeg']}
               flip={false}
             />
             <StudioCard
               studioId="g109"
               data={data.g109}
-              images={['/images/g109/1.jpg', '/images/g109/2.jpg', '/images/g109/3.jpg']}
+              images={['/images/g109/1.jpeg', '/images/g109/2.jpeg', '/images/g109/3.jpeg', '/images/g109/4.jpeg', '/images/g109/6.jpeg']}
               flip={true}
             />
           </div>

@@ -45,7 +45,7 @@ export default function Home() {
     <main className="min-h-screen bg-white text-gray-800">
 
       {/* HERO */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center text-center px-4 overflow-hidden" style={{ height: '100dvh' }}>
 
         {/* Video fundal */}
         <video
@@ -56,6 +56,8 @@ export default function Home() {
           muted
           loop
           playsInline
+          preload="auto"
+          style={{ WebkitTransform: 'translateZ(0)' } as React.CSSProperties}
         />
 
         {/* Overlay */}
@@ -87,15 +89,26 @@ export default function Home() {
           <p className="text-white/70 mt-4 md:mt-6 text-sm md:text-lg max-w-xs md:max-w-sm">
             Studiouri de închiriat la malul mării
           </p>
-          <a
-            href="#studiouri"
-            className="mt-10 flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/25 text-white text-sm font-medium px-6 py-3 rounded-full transition"
-          >
-            Vezi studiourile
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </a>
+          <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
+            <a
+              href="tel:+40787813485"
+              className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-sm font-semibold px-6 py-3 rounded-full transition shadow"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              Sună acum
+            </a>
+            <a
+              href="#studiouri"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/25 text-white text-sm font-medium px-6 py-3 rounded-full transition"
+            >
+              Vezi studiourile
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+          </div>
         </div>
 
         {/* Buton mute/unmute */}
@@ -256,8 +269,14 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="border-t border-gray-100">
-        <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-gray-400">
+        <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <span className="font-medium text-gray-500">sunsetbeach.ro · Blaxy – Olimp</span>
+          <a href="tel:+40787813485" className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            0787 813 485
+          </a>
           <span>© 2025 · Toate drepturile rezervate</span>
         </div>
       </footer>

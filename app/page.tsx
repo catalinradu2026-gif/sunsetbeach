@@ -126,6 +126,98 @@ export default function Home() {
         </div>
       </section>
 
+      {/* DESCRIERE */}
+      <section className="bg-gray-50 border-y border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 py-20">
+
+          {/* Titlu */}
+          <div className="text-center mb-14">
+            <p className="text-xs tracking-[0.3em] uppercase text-orange-400 font-medium mb-3">Blaxy Residence · Olimp</p>
+            <h2 className="text-4xl font-bold text-gray-900 leading-tight">Cazare la malul Mării Negre</h2>
+            <p className="text-gray-400 mt-3 max-w-lg mx-auto">Cameră triplă superioară de lux, situată într-un complex rezidențial chiar lângă mare</p>
+          </div>
+
+          {/* Stats rapide */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
+            {[
+              { label: 'Capacitate', value: '2–3 adulți', sub: '+ 2 copii' },
+              { label: 'Distanță plajă', value: '200 m', sub: 'pe jos' },
+              { label: 'Piscine', value: 'Acces gratuit', sub: 'șezlonguri incluse' },
+              { label: 'Parcare', value: 'Gratuită', sub: 'în complex' },
+            ].map(s => (
+              <div key={s.label} className="bg-white rounded-2xl p-5 text-center border border-gray-100">
+                <div className="text-xl font-bold text-gray-900">{s.value}</div>
+                <div className="text-xs text-gray-400 mt-1">{s.sub}</div>
+                <div className="text-xs font-medium text-gray-500 mt-2 uppercase tracking-wide">{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Facilități */}
+          <div className="grid md:grid-cols-2 gap-6 mb-14">
+
+            <div className="bg-white rounded-2xl p-6 border border-gray-100">
+              <h3 className="font-semibold text-gray-900 mb-4">În cameră</h3>
+              <ul className="space-y-2 text-sm text-gray-600">
+                {[
+                  'Pat matrimonial + canapea extensibilă',
+                  'Wi-Fi și aer condiționat',
+                  'Frigider, espressor (cafea inclusă)',
+                  'Feon, consumabile baie',
+                  'Masă și scaune pe balcon',
+                  'Vedere la piscine și la mare',
+                ].map(item => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-gray-100">
+              <h3 className="font-semibold text-gray-900 mb-4">În complex</h3>
+              <ul className="space-y-2 text-sm text-gray-600">
+                {[
+                  'Piscine cu șezlonguri și umbrele',
+                  'Beach baruri: mic dejun, burgeri, pizza, grătar',
+                  'Magazin „La 2 pași" la parter',
+                  'Pază și securitate 24/7',
+                  'Parcare gratuită',
+                ].map(item => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Restaurante + CTA */}
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-1">În apropiere</h3>
+              <p className="text-sm text-gray-500">Popasul Pescarilor · Hacienda de Mare · Casa de Mare · Lacul Racilor</p>
+            </div>
+            <a
+              href="https://wa.me/40787813485"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-sm font-medium px-6 py-3 rounded-full transition"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.563 4.14 1.539 5.877L0 24l6.293-1.516A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.795 9.795 0 01-5.012-1.378l-.36-.214-3.733.899.942-3.64-.235-.374A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+              </svg>
+              Rezervări: 0787 813 485
+            </a>
+          </div>
+
+        </div>
+      </section>
+
       {/* STUDIOURI */}
       <section id="studiouri" className="max-w-5xl mx-auto px-4 py-20 space-y-6">
         <div className="text-center mb-16">

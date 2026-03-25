@@ -20,7 +20,7 @@ function getSystemPrompt() {
     return `Studio ${id.toUpperCase()}: ${s.description}. WhatsApp: +${s.whatsapp}. Prețuri: ${priceEntries}.`
   }
 
-  return `Ești asistentul virtual al sunsetbeach.ro – studiouri de vacanță la malul mării în Olimp, România (complexul Blaxy).
+  return `Ești asistentul virtual al sunsetbeach.com.ro – studiouri de vacanță la malul mării în Olimp, România (complexul Blaxy).
 
 Data de azi: ${today}
 

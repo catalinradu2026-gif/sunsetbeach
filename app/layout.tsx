@@ -3,7 +3,7 @@ import './globals.css'
 import ChatWidget from './components/ChatWidget'
 
 export const metadata: Metadata = {
-  title: 'sunsetbeach.ro',
+  title: 'sunsetbeach.com.ro',
   description: 'Studiouri de închiriat la malul mării – Blaxy, Olimp.',
 }
 

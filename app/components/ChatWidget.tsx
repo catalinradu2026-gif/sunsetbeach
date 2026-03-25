@@ -7,7 +7,7 @@ interface Message {
   content: string
 }
 
-const WELCOME = 'Bună! Sunt asistentul sunsetbeach.ro 🌅 Te pot ajuta cu informații despre studiouri, prețuri sau rezervări. Cu ce te pot ajuta?\n\nHello! I\'m the sunsetbeach.ro assistant 🌅 I can help with studio info, prices or bookings. How can I help?'
+const WELCOME = 'Bună! Sunt asistentul sunsetbeach.com.ro 🌅 Te pot ajuta cu informații despre studiouri, prețuri sau rezervări. Cu ce te pot ajuta?\n\nHello! I\'m the sunsetbeach.com.ro assistant 🌅 I can help with studio info, prices or bookings. How can I help?'
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
@@ -59,7 +59,7 @@ export default function ChatWidget() {
           <div className="bg-ocean px-4 py-3 flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm">🌅</div>
             <div className="flex-1">
-              <p className="text-white font-semibold text-sm">sunsetbeach.ro</p>
+              <p className="text-white font-semibold text-sm">sunsetbeach.com.ro</p>
               <p className="text-white/60 text-xs">Asistent virtual · online</p>
             </div>
             <button onClick={() => setOpen(false)} className="text-white/60 hover:text-white transition text-lg leading-none">×</button>

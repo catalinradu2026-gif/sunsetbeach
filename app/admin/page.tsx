@@ -133,7 +133,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-ocean text-white px-6 py-4 flex items-center gap-4">
-        <h1 className="text-xl font-bold">⚙️ Admin – sunsetbeach.ro</h1>
+        <h1 className="text-xl font-bold">⚙️ Admin – sunsetbeach.com.ro</h1>
         <a href="/" className="ml-auto text-sm opacity-80 hover:opacity-100">← Site</a>
       </header>
 

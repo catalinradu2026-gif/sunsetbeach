@@ -4,13 +4,19 @@
     "description": "Studio cu vedere la mare, etaj 1, capacitate 2-3 persoane",
     "whatsapp": "40787813485",
     "prices": {},
-    "occupied": []
+    "occupied": [
+      "2025-07-18","2025-07-19","2025-07-20","2025-07-21",
+      "2025-07-22","2025-07-23","2025-07-24","2025-07-25"
+    ]
   },
   "g109": {
     "name": "Studio G109",
     "description": "Studio cu vedere la piscină, etaj 1, capacitate 2-3 persoane",
     "whatsapp": "40787813485",
     "prices": {},
-    "occupied": []
+    "occupied": [
+      "2025-07-18","2025-07-19","2025-07-20","2025-07-21",
+      "2025-07-22","2025-07-23","2025-07-24","2025-07-25"
+    ]
   }
 }

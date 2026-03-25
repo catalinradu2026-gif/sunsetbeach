@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0ea5e9"/>
+  <!-- Sun -->
+  <circle cx="16" cy="12" r="5" fill="#fbbf24"/>
+  <!-- Sun rays -->
+  <line x1="16" y1="4" x2="16" y2="2" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="16" y1="22" x2="16" y2="20" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="8" y1="12" x2="6" y2="12" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="26" y1="12" x2="24" y2="12" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="10.3" y1="6.3" x2="8.9" y2="4.9" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="23.1" y1="19.1" x2="21.7" y2="17.7" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="21.7" y1="6.3" x2="23.1" y2="4.9" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="8.9" y1="19.1" x2="10.3" y2="17.7" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  <!-- Sea waves -->
+  <path d="M4 24 Q8 21 12 24 Q16 27 20 24 Q24 21 28 24" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M4 28 Q8 25 12 28 Q16 31 20 28 Q24 25 28 28" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

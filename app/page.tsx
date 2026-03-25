@@ -305,11 +305,8 @@ export default function Home() {
                   images={[
                     '/images/e317/11.jpeg','/images/e317/12.jpeg','/images/e317/13.jpeg',
                     '/images/e317/14.jpeg','/images/e317/15.jpeg','/images/e317/16.jpeg',
-                    '/images/e317/17.jpeg','/images/e317/18.jpeg','/images/e317/22.jpeg','/images/e317/33.jpeg',
-                    '/images/e317/WhatsApp Image 2026-03-25 at 15.22.26 (3).jpeg',
-                    '/images/e317/WhatsApp Image 2026-03-25 at 15.22.26 (4).jpeg',
-                    '/images/e317/WhatsApp Image 2026-03-25 at 15.29.46 (2).jpeg',
-                    '/images/e317/WhatsApp Image 2026-03-25 at 15.29.46 (4).jpeg',
+                    '/images/e317/17.jpeg','/images/e317/18.jpeg','/images/e317/22.jpeg',
+                    '/images/e317/33.jpeg','/images/e317/44.jpeg','/images/e317/45.jpeg',
                   ]}
                   flip={false}
                 />
@@ -317,14 +314,10 @@ export default function Home() {
                   studioId="e318"
                   data={data.e318}
                   images={[
+                    '/images/e318/1.jpeg','/images/e318/2.jpeg','/images/e318/3.jpeg',
+                    '/images/e318/4.jpeg','/images/e318/5.jpeg','/images/e318/6.jpeg',
                     '/images/e318/12.jpeg','/images/e318/13.jpeg','/images/e318/14.jpeg',
                     '/images/e318/15.jpeg','/images/e318/16.jpeg','/images/e318/17.jpeg','/images/e318/18.jpeg',
-                    '/images/e318/WhatsApp Image 2026-03-25 at 19.21.57.jpeg',
-                    '/images/e318/WhatsApp Image 2026-03-25 at 19.21.57 (1).jpeg',
-                    '/images/e318/WhatsApp Image 2026-03-25 at 19.21.57 (2).jpeg',
-                    '/images/e318/WhatsApp Image 2026-03-25 at 19.21.57 (3).jpeg',
-                    '/images/e318/WhatsApp Image 2026-03-25 at 19.21.57 (4).jpeg',
-                    '/images/e318/WhatsApp Image 2026-03-25 at 19.21.57 (5).jpeg',
                   ]}
                   flip={true}
                 />

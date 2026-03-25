@@ -103,9 +103,9 @@ export default function Home() {
           </div>
         )}
 
-        {/* Conținut hero – jos stânga, stil cinematic */}
+        {/* Conținut hero – jos dreapta, stil cinematic */}
         <div className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-12 pb-16 md:pb-20">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto text-right">
             <p className="text-white/50 text-[10px] tracking-[0.3em] uppercase mb-2">{tr.heroTagline}</p>
             <h1 className="text-4xl md:text-7xl font-bold text-white leading-none tracking-tight mb-3">
               {tr.heroTitle1}<br />
@@ -115,7 +115,7 @@ export default function Home() {
             <p className="text-white/60 text-xs md:text-sm mb-6">
               {tr.heroPrice} <span className="text-amber-300 font-semibold">370 lei</span>{tr.heroPriceUnit}
             </p>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
               <a
                 href="tel:+40787813485"
                 className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full transition shadow"

@@ -63,14 +63,8 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
                     onClick={() => setImgIdx(i => (i + 1) % validImages.length)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full w-8 h-8 flex items-center justify-center backdrop-blur-sm transition"
                   >›</button>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                    {validImages.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setImgIdx(i)}
-                        className={`rounded-full transition-all ${i === imgIdx ? 'w-4 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/50'}`}
-                      />
-                    ))}
+                  <div className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full">
+                    {imgIdx + 1} / {validImages.length}
                   </div>
                 </>
               )}

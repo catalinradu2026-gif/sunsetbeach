@@ -238,13 +238,30 @@ export default function Home() {
             <StudioCard
               studioId="g108"
               data={data.g108}
-              images={['/images/g108/1.jpeg', '/images/g108/2.jpeg', '/images/g108/3.jpeg', '/images/g108/4.jpeg', '/images/g108/5.jpeg']}
+              images={[
+                '/images/g108/1.jpeg','/images/g108/2.jpeg','/images/g108/3.jpeg',
+                '/images/g108/4.jpeg','/images/g108/5.jpeg','/images/g108/6.jpeg',
+                '/images/g108/7.jpeg','/images/g108/8.jpeg','/images/g108/9.jpeg',
+                '/images/g108/10.jpeg','/images/g108/11.jpeg','/images/g108/12.jpeg','/images/g108/13.jpeg',
+                '/images/g108/piscina1.jpeg','/images/g108/piscina2.jpeg','/images/g108/piscina3.jpeg',
+                '/images/g108/piscina4.jpeg','/images/g108/piscina5.jpeg',
+                '/images/g108/piscina bar.jpeg','/images/g108/piscina bar2.jpeg',
+                '/images/g108/Alee plaja Padurea de pini.jpeg',
+              ]}
               flip={false}
             />
             <StudioCard
               studioId="g109"
               data={data.g109}
-              images={['/images/g109/1.jpeg', '/images/g109/2.jpeg', '/images/g109/3.jpeg', '/images/g109/4.jpeg', '/images/g109/6.jpeg']}
+              images={[
+                '/images/g109/1.jpeg','/images/g109/2.jpeg','/images/g109/3.jpeg',
+                '/images/g109/4.jpeg','/images/g109/6.jpeg','/images/g109/7.jpeg',
+                '/images/g109/8.jpeg','/images/g109/9.jpeg','/images/g109/10.jpeg','/images/g109/11.jpeg',
+                '/images/g109/piscina1.jpeg','/images/g109/piscina2.jpeg','/images/g109/piscina3.jpeg',
+                '/images/g109/piscina4.jpeg','/images/g109/piscina5.jpeg',
+                '/images/g109/piscina bar.jpeg','/images/g109/piscina bar2.jpeg',
+                '/images/g109/Alee plaja Padurea de pini.jpeg',
+              ]}
               flip={true}
             />
           </div>

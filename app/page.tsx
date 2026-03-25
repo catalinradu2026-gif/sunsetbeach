@@ -57,7 +57,8 @@ export default function Home() {
           loop
           playsInline
           preload="auto"
-          style={{ WebkitTransform: 'translateZ(0)' } as React.CSSProperties}
+          poster="/images/g108/piscina1.jpeg"
+          style={{ WebkitTransform: 'translateZ(0)', transform: 'translateZ(0)' } as React.CSSProperties}
         />
 
         {/* Overlay */}
@@ -65,7 +66,7 @@ export default function Home() {
 
         {/* Overlay de start – dispare după click */}
         {!started && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60">
             <button
               onClick={handleStart}
               className="group flex flex-col items-center gap-4 text-white transition hover:scale-105"

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Calendar from './Calendar'
+import { t, Lang } from '../translations'
 
 interface StudioData {
   name: string
@@ -18,6 +19,7 @@ interface Props {
   data: StudioData
   images: string[]
   flip?: boolean
+  lang?: Lang
 }
 
 function toKey(d: Date) {
@@ -37,7 +39,8 @@ function calcPrice(prices: Record<string, number>, start: string, end: string) {
   return { total: total > 0 ? total : null, nights }
 }
 
-export default function StudioCard({ studioId, data, images, flip = false }: Props) {
+export default function StudioCard({ studioId, data, images, flip = false, lang = 'ro' }: Props) {
+  const tr = t[lang]
   const [imgIdx, setImgIdx] = useState(0)
   const [selectedRange, setSelectedRange] = useState<{ start: string; end: string } | null>(null)
   const [paymentOption, setPaymentOption] = useState<'full' | 'half' | null>(null)
@@ -144,18 +147,18 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
               )}
             </div>
             <span className="bg-emerald-50 text-emerald-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-100 shrink-0 ml-3 mt-1">
-              Disponibil
+              {tr.available}
             </span>
           </div>
 
           <p className="text-gray-500 text-sm leading-relaxed mb-3">{data.description}</p>
-          <p className="text-xs text-orange-500 font-medium mb-4">Minim 3 nopți</p>
+          <p className="text-xs text-orange-500 font-medium mb-4">{tr.minNights}</p>
 
           <div className="border-t border-gray-100 mb-4" />
 
           {/* Calendar */}
           <div className="flex-1">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Disponibilitate & Prețuri</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{tr.availPrices}</p>
             <Calendar
               prices={data.prices}
               occupied={data.occupied}
@@ -165,9 +168,9 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
 
           {/* MIC DEJUN */}
           <div className="mt-4 border border-dashed border-amber-300 rounded-xl p-3 bg-amber-50">
-            <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-2">Opțional · Mic dejun</p>
+            <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-2">{tr.optBreakfast}</p>
             <div className="flex items-center gap-3">
-              <span className="text-xs text-amber-800">40 lei / persoană / zi</span>
+              <span className="text-xs text-amber-800">{tr.breakfastRate}</span>
               <div className="flex items-center gap-2 ml-auto">
                 <button
                   onClick={() => setBreakfastPersons(p => Math.max(0, p - 1))}
@@ -182,7 +185,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
             </div>
             {breakfastPersons > 0 && selectedRange && priceInfo?.nights && (
               <p className="text-xs text-amber-700 mt-1.5">
-                Total mic dejun: <strong>{breakfastPersons * 40 * priceInfo.nights} lei</strong> ({breakfastPersons} pers. × {priceInfo.nights} zile)
+                {tr.breakfastTotalLabel}: <strong>{breakfastPersons * 40 * priceInfo.nights} lei</strong> ({breakfastPersons} {tr.pers} × {priceInfo.nights} {tr.days})
               </p>
             )}
           </div>
@@ -190,7 +193,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
           {/* Avertisment minim nopți */}
           {minNightsWarning && (
             <div className="mt-3 px-3 py-2 bg-orange-50 border border-orange-200 rounded-xl text-xs text-orange-700">
-              Rezervarea minimă este de <strong>3 nopți</strong>. Te rugăm să selectezi o perioadă mai lungă.
+              {tr.minNightsMsg}
             </div>
           )}
 
@@ -204,7 +207,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
               {selectedRange.start !== selectedRange.end && (
                 <> → <strong>{new Date(selectedRange.end).toLocaleDateString('ro-RO')}</strong></>
               )}
-              {priceInfo?.nights && <span className="ml-1 text-blue-500">({priceInfo.nights} nopți)</span>}
+              {priceInfo?.nights && <span className="ml-1 text-blue-500">({priceInfo.nights} {tr.nights})</span>}
             </div>
           )}
 
@@ -213,13 +216,13 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
             <div className="mt-3 space-y-2">
               {/* Total */}
               <div className="p-3 bg-gray-50 rounded-xl border border-gray-200 text-center">
-                <span className="text-sm text-gray-500">Total: </span>
+                <span className="text-sm text-gray-500">{tr.totalLabel}: </span>
                 <span className="text-lg font-bold text-gray-900">{priceInfo.total.toLocaleString('ro-RO')} lei</span>
-                <span className="text-xs text-gray-400 block">({priceInfo.nights} nopți · ~{Math.round(priceInfo.total / priceInfo.nights).toLocaleString('ro-RO')} lei/noapte)</span>
+                <span className="text-xs text-gray-400 block">({priceInfo.nights} {tr.nights} · ~{Math.round(priceInfo.total / priceInfo.nights).toLocaleString('ro-RO')} {tr.perNight})</span>
               </div>
 
               {/* Opțiuni plată */}
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider pt-1">Modalitate de plată</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider pt-1">{tr.paymentMethod}</p>
 
               <button
                 onClick={() => setPaymentOption(paymentOption === 'full' ? null : 'full')}
@@ -227,8 +230,8 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">Plată integrală</p>
-                    <p className="text-xs text-green-600 font-medium">Discount 10%</p>
+                    <p className="text-sm font-semibold text-gray-800">{tr.fullPayment}</p>
+                    <p className="text-xs text-green-600 font-medium">{tr.discount10}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-base font-bold text-green-700">{Math.round(priceInfo.total * 0.9).toLocaleString('ro-RO')} lei</p>
@@ -243,12 +246,12 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">Avans 50%</p>
-                    <p className="text-xs text-gray-500">+ 50% la check-in</p>
+                    <p className="text-sm font-semibold text-gray-800">{tr.advance50}</p>
+                    <p className="text-xs text-gray-500">{tr.atCheckin}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-base font-bold text-blue-700">{Math.round(priceInfo.total / 2).toLocaleString('ro-RO')} lei acum</p>
-                    <p className="text-xs text-gray-400">+ {Math.round(priceInfo.total / 2).toLocaleString('ro-RO')} lei la check-in</p>
+                    <p className="text-base font-bold text-blue-700">{Math.round(priceInfo.total / 2).toLocaleString('ro-RO')} lei {tr.nowLabel}</p>
+                    <p className="text-xs text-gray-400">+ {Math.round(priceInfo.total / 2).toLocaleString('ro-RO')} {tr.atCheckin}</p>
                   </div>
                 </div>
               </button>
@@ -265,7 +268,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            Rezervă pe WhatsApp
+            {tr.bookWhatsapp}
           </a>
         </div>
       </div>

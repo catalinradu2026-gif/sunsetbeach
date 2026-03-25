@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import StudioCard from './components/StudioCard'
 import ChatWidget from './components/ChatWidget'
+import { t, Lang } from './translations'
 
 interface StudioData {
   name: string
@@ -25,6 +26,8 @@ export default function Home() {
   const [started, setStarted] = useState(false)
   const [muted, setMuted] = useState(true)
   const [chatOpen, setChatOpen] = useState(false)
+  const [lang, setLang] = useState<Lang>('ro')
+  const tr = t[lang]
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -70,6 +73,19 @@ export default function Home() {
         {/* Overlay gradient – jos mai întunecat pentru lizibilitate text */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
 
+        {/* Language toggle */}
+        <div className="absolute top-4 right-4 z-20 flex gap-1">
+          {(['ro', 'en', 'de'] as Lang[]).map(l => (
+            <button
+              key={l}
+              onClick={() => setLang(l)}
+              className={`text-xs font-bold px-2.5 py-1 rounded-full transition ${lang === l ? 'bg-white text-gray-900' : 'bg-white/20 text-white hover:bg-white/30'}`}
+            >
+              {t[l].flag} {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
+
         {/* Overlay de start – dispare după click */}
         {!started && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60">
@@ -82,7 +98,7 @@ export default function Home() {
                   <path d="M8 5v14l11-7z"/>
                 </svg>
               </div>
-              <span className="text-sm tracking-widest uppercase font-medium text-white/80">Pornește cu sunet</span>
+              <span className="text-sm tracking-widest uppercase font-medium text-white/80">{tr.heroSound}</span>
             </button>
           </div>
         )}
@@ -90,16 +106,14 @@ export default function Home() {
         {/* Conținut hero – jos stânga, stil cinematic */}
         <div className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-12 pb-16 md:pb-20">
           <div className="max-w-5xl mx-auto">
-            <p className="text-white/50 text-[10px] tracking-[0.3em] uppercase mb-2">Blaxy Residence · Olimp · România</p>
+            <p className="text-white/50 text-[10px] tracking-[0.3em] uppercase mb-2">{tr.heroTagline}</p>
             <h1 className="text-4xl md:text-7xl font-bold text-white leading-none tracking-tight mb-3">
-              Sunset Beach<br />
-              <span className="text-amber-300">Olimp</span>
+              {tr.heroTitle1}<br />
+              <span className="text-amber-300">{tr.heroTitle2}</span>
             </h1>
-            <p className="text-white/70 text-sm md:text-base mb-1">
-              Studiouri premium la malul Mării Negre
-            </p>
+            <p className="text-white/70 text-sm md:text-base mb-1">{tr.heroSub}</p>
             <p className="text-white/60 text-xs md:text-sm mb-6">
-              De la <span className="text-amber-300 font-semibold">370 lei</span>/noapte · Piscine gratuite · 250m plajă
+              {tr.heroPrice} <span className="text-amber-300 font-semibold">370 lei</span>{tr.heroPriceUnit}
             </p>
             <div className="flex flex-wrap items-center gap-2">
               <a
@@ -109,13 +123,13 @@ export default function Home() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                Sună acum
+                {tr.heroCall}
               </a>
               <a
                 href="#studiouri"
                 className="flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold text-xs md:text-sm px-5 py-2.5 rounded-full transition shadow"
               >
-                Vezi studiourile
+                {tr.heroSee}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -127,7 +141,7 @@ export default function Home() {
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                 </svg>
-                Descoperă Olimpul
+                {tr.heroDiscover}
               </button>
             </div>
           </div>
@@ -167,18 +181,18 @@ export default function Home() {
 
           {/* Titlu */}
           <div className="text-center mb-8 md:mb-14">
-            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">Blaxy Residence · Olimp</p>
-            <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">Cazare la malul Mării Negre</h2>
-            <p className="text-gray-400 mt-2 text-sm max-w-lg mx-auto">Cameră triplă superioară de lux, chiar lângă mare</p>
+            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">{tr.sectionTagline}</p>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">{tr.sectionTitle}</h2>
+            <p className="text-gray-400 mt-2 text-sm max-w-lg mx-auto">{tr.sectionSub}</p>
           </div>
 
           {/* Stats rapide */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 md:mb-14">
             {[
-              { label: 'Capacitate', value: '2–3 adulți', sub: '+ 2 copii' },
-              { label: 'Plajă', value: '200 m', sub: 'pe jos' },
-              { label: 'Piscine', value: 'Gratuit', sub: 'șezlonguri incluse' },
-              { label: 'Parcare', value: 'Gratuită', sub: 'în complex' },
+              { label: tr.stat1Label, value: tr.stat1Value, sub: tr.stat1Sub },
+              { label: tr.stat2Label, value: tr.stat2Value, sub: tr.stat2Sub },
+              { label: tr.stat3Label, value: tr.stat3Value, sub: tr.stat3Sub },
+              { label: tr.stat4Label, value: tr.stat4Value, sub: tr.stat4Sub },
             ].map(s => (
               <div key={s.label} className="bg-white rounded-xl p-3 md:p-5 text-center border border-gray-100">
                 <div className="text-base md:text-xl font-bold text-gray-900">{s.value}</div>
@@ -192,16 +206,9 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-4 mb-8 md:mb-14">
 
             <div className="bg-white rounded-2xl p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4">În cameră</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{tr.inRoom}</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                {[
-                  'Pat matrimonial + canapea extensibilă',
-                  'Wi-Fi și aer condiționat',
-                  'Frigider, espressor (cafea inclusă)',
-                  'Feon, consumabile baie',
-                  'Masă și scaune pe balcon',
-                  'Vedere la piscine și la mare',
-                ].map(item => (
+                {tr.roomFeatures.map(item => (
                   <li key={item} className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
                     {item}
@@ -211,15 +218,9 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-2xl p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4">În complex</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{tr.inComplex}</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                {[
-                  'Piscine cu șezlonguri și umbrele',
-                  'Beach baruri: mic dejun, burgeri, pizza, grătar',
-                  'Magazin „La 2 pași" la parter',
-                  'Pază și securitate 24/7',
-                  'Parcare gratuită',
-                ].map(item => (
+                {tr.complexFeatures.map(item => (
                   <li key={item} className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
                     {item}
@@ -232,8 +233,8 @@ export default function Home() {
 
           {/* Restaurante + CTA */}
           <div className="bg-white rounded-2xl p-6 border border-gray-100">
-            <h3 className="font-semibold text-gray-900 mb-1">În apropiere</h3>
-            <p className="text-sm text-gray-500">Popasul Pescarilor · Hacienda de Mare · Casa de Mare · Lacul Racilor</p>
+            <h3 className="font-semibold text-gray-900 mb-1">{tr.nearby}</h3>
+            <p className="text-sm text-gray-500">{tr.nearbyText}</p>
           </div>
 
         </div>
@@ -242,8 +243,8 @@ export default function Home() {
       {/* STUDIOURI */}
       <section id="studiouri" className="max-w-5xl mx-auto px-4 py-10 md:py-20 space-y-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900">Studiourile noastre</h2>
-          <p className="text-gray-400 mt-2 text-sm">Selectează o perioadă și rezervă direct pe WhatsApp</p>
+          <h2 className="text-3xl font-bold text-gray-900">{tr.studiosTitle}</h2>
+          <p className="text-gray-400 mt-2 text-sm">{tr.studiosSub}</p>
         </div>
 
         {!data ? (
@@ -252,7 +253,7 @@ export default function Home() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
             </svg>
-            <span className="text-sm">Se încarcă...</span>
+            <span className="text-sm">{tr.loading}</span>
           </div>
         ) : (
           <div className="space-y-12">
@@ -261,13 +262,14 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex-1 h-px bg-gradient-to-r from-blue-200 to-transparent" />
-                <span className="text-xs font-bold text-blue-600 uppercase tracking-widest px-1">🌊 Cu vedere la Piscine și la Mare</span>
+                <span className="text-xs font-bold text-blue-600 uppercase tracking-widest px-1">{tr.groupSea}</span>
                 <div className="flex-1 h-px bg-gradient-to-l from-blue-200 to-transparent" />
               </div>
               <div className="space-y-6">
                 <StudioCard
                   studioId="g108"
                   data={data.g108}
+                  lang={lang}
                   images={[
                     '/images/g108/1.jpeg','/images/g108/2.jpeg','/images/g108/3.jpeg',
                     '/images/g108/4.jpeg','/images/g108/5.jpeg','/images/g108/6.jpeg',
@@ -283,6 +285,7 @@ export default function Home() {
                 <StudioCard
                   studioId="g109"
                   data={data.g109}
+                  lang={lang}
                   images={[
                     '/images/g109/1.jpeg','/images/g109/2.jpeg','/images/g109/3.jpeg',
                     '/images/g109/4.jpeg','/images/g109/6.jpeg','/images/g109/7.jpeg',
@@ -301,13 +304,14 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex-1 h-px bg-gradient-to-r from-teal-200 to-transparent" />
-                <span className="text-xs font-bold text-teal-600 uppercase tracking-widest px-1">🌿 Cu vedere la Lac</span>
+                <span className="text-xs font-bold text-teal-600 uppercase tracking-widest px-1">{tr.groupLake}</span>
                 <div className="flex-1 h-px bg-gradient-to-l from-teal-200 to-transparent" />
               </div>
               <div className="space-y-6">
                 <StudioCard
                   studioId="e317"
                   data={data.e317}
+                  lang={lang}
                   images={[
                     '/images/e317/11.jpeg','/images/e317/12.jpeg','/images/e317/13.jpeg',
                     '/images/e317/14.jpeg','/images/e317/15.jpeg','/images/e317/16.jpeg',
@@ -319,6 +323,7 @@ export default function Home() {
                 <StudioCard
                   studioId="e318"
                   data={data.e318}
+                  lang={lang}
                   images={[
                     '/images/e318/A.jpeg','/images/e318/B.jpeg',
                     '/images/e318/1.jpeg','/images/e318/2.jpeg','/images/e318/3.jpeg',
@@ -339,14 +344,12 @@ export default function Home() {
       <section className="bg-gray-50 border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
           <div className="text-center mb-10">
-            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">Experiențele clienților</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Ce spun oaspeții noștri</h2>
+            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">{tr.reviewsTagline}</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{tr.reviewsTitle}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              { name: 'Andreea M.', stars: 5, text: 'Locație perfectă! Piscinele sunt curate, plaja e la 2 minute pe jos. Studiourile sunt spațioase și curate. Revenim cu siguranță!', date: 'Iulie 2025' },
-              { name: 'Mihai și Diana', stars: 5, text: 'Am stat 7 nopți și a fost o experiență minunată. Prețul e corect pentru ce oferă, parcarea gratuită e un mare plus. Recomandăm!', date: 'August 2025' },
-              { name: 'Familia Popescu', stars: 5, text: 'Al treilea an când venim la Blaxy Residence. Studiourile sunt mereu îngrijite, proprietarul e foarte comunicativ pe WhatsApp.', date: 'Iulie 2025' },
+              ...tr.reviews.map(r => ({ ...r, stars: 5 })),
             ].map((r) => (
               <div key={r.name} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
                 <div className="flex items-center gap-1 mb-3">
@@ -371,9 +374,9 @@ export default function Home() {
       <section className="border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
           <div className="text-center mb-8">
-            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">Locație</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Unde ne găsești</h2>
-            <p className="text-gray-400 mt-2 text-sm">Blaxy Residence · Olimp · 250m până la plajă</p>
+            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">{tr.mapTagline}</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{tr.mapTitle}</h2>
+            <p className="text-gray-400 mt-2 text-sm">{tr.mapSub}</p>
           </div>
           <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
             <iframe
@@ -392,14 +395,14 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="border-t border-gray-100 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-          <span className="font-medium text-gray-500">sunsetbeach.com.ro · Blaxy – Olimp</span>
+          <span className="font-medium text-gray-500">{tr.footer}</span>
           <a href="tel:+40787813485" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-bold text-base transition">
             <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
             </svg>
             0787 813 485
           </a>
-          <span>© 2026 · Toate drepturile rezervate</span>
+          <span>{tr.footerRights}</span>
         </div>
       </footer>
 
@@ -411,7 +414,7 @@ export default function Home() {
       href="https://wa.me/40787813485?text=Bună ziua! Sunt interesat de un studio la sunsetbeach.com.ro. Vă rog să îmi comunicați disponibilitatea."
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bc5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition hover:scale-110"
+      className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#20bc5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition hover:scale-110"
       aria-label="WhatsApp"
     >
       <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">

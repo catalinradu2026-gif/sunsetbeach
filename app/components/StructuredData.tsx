@@ -18,8 +18,8 @@ export default function StructuredData() {
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: 43.8023,
-        longitude: 28.5876,
+        latitude: 43.898245,
+        longitude: 28.608197,
       },
       hasMap: 'https://maps.google.com/?q=Blaxy+Resort+Olimp+Romania',
       amenityFeature: [

@@ -314,6 +314,7 @@ export default function Home() {
                   studioId="e318"
                   data={data.e318}
                   images={[
+                    '/images/e318/A.jpeg','/images/e318/B.jpeg',
                     '/images/e318/1.jpeg','/images/e318/2.jpeg','/images/e318/3.jpeg',
                     '/images/e318/4.jpeg','/images/e318/5.jpeg','/images/e318/6.jpeg',
                     '/images/e318/12.jpeg','/images/e318/13.jpeg','/images/e318/14.jpeg',

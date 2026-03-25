@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import StudioCard from './components/StudioCard'
+import ChatWidget from './components/ChatWidget'
 
 interface StudioData {
   name: string
@@ -20,6 +21,7 @@ export default function Home() {
   const [data, setData] = useState<StudiosData | null>(null)
   const [started, setStarted] = useState(false)
   const [muted, setMuted] = useState(true)
+  const [chatOpen, setChatOpen] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function Home() {
   }
 
   return (
+    <>
     <main className="min-h-screen bg-white text-gray-800">
 
       {/* HERO */}
@@ -100,6 +103,15 @@ export default function Home() {
               </svg>
               Sună acum
             </a>
+            <button
+              onClick={() => setChatOpen(true)}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2.5 md:py-3 rounded-full transition"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+              </svg>
+              Descoperă Olimpul
+            </button>
             <a
               href="#studiouri"
               className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2.5 md:py-3 rounded-full transition"
@@ -283,5 +295,7 @@ export default function Home() {
       </footer>
 
     </main>
+    <ChatWidget externalOpen={chatOpen} />
+    </>
   )
 }

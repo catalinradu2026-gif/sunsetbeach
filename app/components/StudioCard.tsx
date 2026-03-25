@@ -80,7 +80,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
         </div>
 
         {/* INFO + CALENDAR */}
-        <div className="flex flex-col flex-1 p-6 md:p-8">
+        <div className="flex flex-col flex-1 p-4 md:p-8">
 
           {/* Header */}
           <div className="flex items-start justify-between mb-3">

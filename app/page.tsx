@@ -83,17 +83,17 @@ export default function Home() {
 
         {/* Conținut hero */}
         <div className="relative z-10 flex flex-col items-center">
-          <p className="text-white/60 text-xs tracking-[0.3em] uppercase mb-4">Blaxy · Olimp</p>
-          <h1 className="text-5xl md:text-8xl font-bold text-white leading-none tracking-tight">
+          <p className="text-white/60 text-[10px] tracking-[0.25em] uppercase mb-3">Blaxy · Olimp</p>
+          <h1 className="text-3xl md:text-8xl font-bold text-white leading-none tracking-tight">
             sunsetbeach.ro
           </h1>
-          <p className="text-white/70 mt-4 md:mt-6 text-sm md:text-lg max-w-xs md:max-w-sm">
+          <p className="text-white/70 mt-3 md:mt-6 text-xs md:text-lg max-w-[260px] md:max-w-sm">
             Studiouri de închiriat la malul mării
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
+          <div className="mt-6 flex flex-row items-center gap-2">
             <a
               href="tel:+40787813485"
-              className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-sm font-semibold px-6 py-3 rounded-full transition shadow"
+              className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-xs md:text-sm font-semibold px-4 md:px-6 py-2.5 md:py-3 rounded-full transition shadow"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -102,7 +102,7 @@ export default function Home() {
             </a>
             <a
               href="#studiouri"
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/25 text-white text-sm font-medium px-6 py-3 rounded-full transition"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2.5 md:py-3 rounded-full transition"
             >
               Vezi studiourile
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,30 +145,30 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 py-12 md:py-20">
 
           {/* Titlu */}
-          <div className="text-center mb-14">
-            <p className="text-xs tracking-[0.3em] uppercase text-orange-400 font-medium mb-3">Blaxy Residence · Olimp</p>
-            <h2 className="text-4xl font-bold text-gray-900 leading-tight">Cazare la malul Mării Negre</h2>
-            <p className="text-gray-400 mt-3 max-w-lg mx-auto">Cameră triplă superioară de lux, situată într-un complex rezidențial chiar lângă mare</p>
+          <div className="text-center mb-8 md:mb-14">
+            <p className="text-[10px] tracking-[0.25em] uppercase text-orange-400 font-medium mb-2">Blaxy Residence · Olimp</p>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">Cazare la malul Mării Negre</h2>
+            <p className="text-gray-400 mt-2 text-sm max-w-lg mx-auto">Cameră triplă superioară de lux, chiar lângă mare</p>
           </div>
 
           {/* Stats rapide */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 md:mb-14">
             {[
               { label: 'Capacitate', value: '2–3 adulți', sub: '+ 2 copii' },
-              { label: 'Distanță plajă', value: '200 m', sub: 'pe jos' },
-              { label: 'Piscine', value: 'Acces gratuit', sub: 'șezlonguri incluse' },
+              { label: 'Plajă', value: '200 m', sub: 'pe jos' },
+              { label: 'Piscine', value: 'Gratuit', sub: 'șezlonguri incluse' },
               { label: 'Parcare', value: 'Gratuită', sub: 'în complex' },
             ].map(s => (
-              <div key={s.label} className="bg-white rounded-2xl p-5 text-center border border-gray-100">
-                <div className="text-xl font-bold text-gray-900">{s.value}</div>
-                <div className="text-xs text-gray-400 mt-1">{s.sub}</div>
-                <div className="text-xs font-medium text-gray-500 mt-2 uppercase tracking-wide">{s.label}</div>
+              <div key={s.label} className="bg-white rounded-xl p-3 md:p-5 text-center border border-gray-100">
+                <div className="text-base md:text-xl font-bold text-gray-900">{s.value}</div>
+                <div className="text-[10px] text-gray-400 mt-0.5">{s.sub}</div>
+                <div className="text-[10px] font-medium text-gray-500 mt-1.5 uppercase tracking-wide">{s.label}</div>
               </div>
             ))}
           </div>
 
           {/* Facilități */}
-          <div className="grid md:grid-cols-2 gap-6 mb-14">
+          <div className="grid md:grid-cols-2 gap-4 mb-8 md:mb-14">
 
             <div className="bg-white rounded-2xl p-6 border border-gray-100">
               <h3 className="font-semibold text-gray-900 mb-4">În cameră</h3>

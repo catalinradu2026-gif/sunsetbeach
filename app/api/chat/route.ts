@@ -53,10 +53,16 @@ function getSystemPrompt(webContext: string) {
 
 Data de azi: ${today}
 
-Studio G108: ${studios.g108.description}. WhatsApp: +${studios.g108.whatsapp}
-Studio G109: ${studios.g109.description}. WhatsApp: +${studios.g109.whatsapp}
+STUDIOURILE DISPONIBILE:
+- Studio G108 (${studios.g108.title}): ${studios.g108.description}
+- Studio G109 (${studios.g109.title}): ${studios.g109.description}
+- Studio E317 (${studios.e317.title}): ${studios.e317.description}
+- Studio E318 (${studios.e318.title}): ${studios.e318.description}
 
-Facilități: piscine gratuite, parcare gratuită, beach bar, 200m până la plajă, Wi-Fi, AC, frigider, espressor, balcon cu masă.
+Prețuri: G108/G109 de la 400 lei/noapte (vârf sezon 1200 lei), E317/E318 de la 370 lei/noapte (cu 30 lei mai ieftin).
+Facilități: piscine gratuite, parcare gratuită, beach bar, 200m până la plajă, Wi-Fi, AC, frigider, espressor, balcon.
+Opțional: mic dejun 40 lei/persoană/zi.
+Minim 3 nopți. Discount 10% la plată integrală.
 
 ${webContext ? `Informații actuale din web:\n${webContext}\n` : ''}
 

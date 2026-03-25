@@ -19,20 +19,67 @@ interface Props {
   flip?: boolean
 }
 
+function toKey(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+}
+
+function calcPrice(prices: Record<string, number>, start: string, end: string) {
+  let total = 0
+  let nights = 0
+  let cur = new Date(start)
+  const endD = new Date(end)
+  while (cur < endD) {
+    total += prices[toKey(cur)] || 0
+    nights++
+    cur.setDate(cur.getDate() + 1)
+  }
+  return { total: total > 0 ? total : null, nights }
+}
+
 export default function StudioCard({ studioId, data, images, flip = false }: Props) {
   const [imgIdx, setImgIdx] = useState(0)
   const [selectedRange, setSelectedRange] = useState<{ start: string; end: string } | null>(null)
+  const [paymentOption, setPaymentOption] = useState<'full' | 'half' | null>(null)
+  const [minNightsWarning, setMinNightsWarning] = useState(false)
 
   const validImages = images.filter(Boolean)
   const hasImages = validImages.length > 0
 
+  const priceInfo = selectedRange ? calcPrice(data.prices, selectedRange.start, selectedRange.end) : null
+
+  function handleRangeSelect(range: { start: string; end: string } | null) {
+    if (!range) {
+      setSelectedRange(null)
+      setMinNightsWarning(false)
+      return
+    }
+    const { nights } = calcPrice(data.prices, range.start, range.end)
+    if (nights < 3) {
+      setMinNightsWarning(true)
+      setSelectedRange(null)
+      return
+    }
+    setMinNightsWarning(false)
+    setSelectedRange(range)
+    setPaymentOption(null)
+  }
+
   function buildWhatsappMsg() {
     if (!selectedRange) {
-      return `Bună ziua! Sunt interesat de ${data.name} la Blaxy Residence Olimp. Vă rog să îmi comunicați disponibilitatea și prețul.`
+      return `Bună ziua! Sunt interesat de ${data.name} la sunsetbeach.com.ro. Vă rog să îmi comunicați disponibilitatea și prețul.`
     }
     const start = new Date(selectedRange.start).toLocaleDateString('ro-RO')
     const end = new Date(selectedRange.end).toLocaleDateString('ro-RO')
-    return `Bună ziua! Sunt interesat de ${data.name} în perioada ${start} – ${end}. Vă rog să confirmați disponibilitatea.`
+    const nights = priceInfo?.nights || ''
+    let paymentText = ''
+    if (priceInfo?.total && paymentOption === 'full') {
+      const discounted = Math.round(priceInfo.total * 0.9)
+      paymentText = ` Optez pentru plata integrală (${discounted.toLocaleString('ro-RO')} lei, discount 10%).`
+    } else if (priceInfo?.total && paymentOption === 'half') {
+      const half = Math.round(priceInfo.total / 2)
+      paymentText = ` Optez pentru avans 50% (${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in).`
+    }
+    return `Bună ziua! Sunt interesat de ${data.name} în perioada ${start} – ${end} (${nights} nopți).${paymentText} Vă rog să confirmați disponibilitatea.`
   }
 
   const waNumber = data.whatsapp.replace(/\D/g, '')
@@ -93,9 +140,10 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
             </span>
           </div>
 
-          <p className="text-gray-500 text-sm leading-relaxed mb-5">{data.description}</p>
+          <p className="text-gray-500 text-sm leading-relaxed mb-3">{data.description}</p>
+          <p className="text-xs text-orange-500 font-medium mb-4">Minim 3 nopți</p>
 
-          <div className="border-t border-gray-100 mb-5" />
+          <div className="border-t border-gray-100 mb-4" />
 
           {/* Calendar */}
           <div className="flex-1">
@@ -103,13 +151,20 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
             <Calendar
               prices={data.prices}
               occupied={data.occupied}
-              onRangeSelect={setSelectedRange}
+              onRangeSelect={handleRangeSelect}
             />
           </div>
 
-          {/* Selected range */}
+          {/* Avertisment minim nopți */}
+          {minNightsWarning && (
+            <div className="mt-3 px-3 py-2 bg-orange-50 border border-orange-200 rounded-xl text-xs text-orange-700">
+              Rezervarea minimă este de <strong>3 nopți</strong>. Te rugăm să selectezi o perioadă mai lungă.
+            </div>
+          )}
+
+          {/* Perioadă selectată */}
           {selectedRange && (
-            <div className="mt-4 px-3 py-2 bg-blue-50 border border-blue-100 rounded-xl text-xs text-blue-700 flex items-center gap-2">
+            <div className="mt-3 px-3 py-2 bg-blue-50 border border-blue-100 rounded-xl text-xs text-blue-700 flex items-center gap-2">
               <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -117,6 +172,54 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
               {selectedRange.start !== selectedRange.end && (
                 <> → <strong>{new Date(selectedRange.end).toLocaleDateString('ro-RO')}</strong></>
               )}
+              {priceInfo?.nights && <span className="ml-1 text-blue-500">({priceInfo.nights} nopți)</span>}
+            </div>
+          )}
+
+          {/* Calculator + Opțiuni plată */}
+          {selectedRange && priceInfo?.total && (
+            <div className="mt-3 space-y-2">
+              {/* Total */}
+              <div className="p-3 bg-gray-50 rounded-xl border border-gray-200 text-center">
+                <span className="text-sm text-gray-500">Total: </span>
+                <span className="text-lg font-bold text-gray-900">{priceInfo.total.toLocaleString('ro-RO')} lei</span>
+                <span className="text-xs text-gray-400 block">({priceInfo.nights} nopți · ~{Math.round(priceInfo.total / priceInfo.nights).toLocaleString('ro-RO')} lei/noapte)</span>
+              </div>
+
+              {/* Opțiuni plată */}
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider pt-1">Modalitate de plată</p>
+
+              <button
+                onClick={() => setPaymentOption(paymentOption === 'full' ? null : 'full')}
+                className={`w-full text-left p-3 rounded-xl border transition ${paymentOption === 'full' ? 'border-green-400 bg-green-50' : 'border-gray-200 bg-white hover:border-green-300'}`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">Plată integrală</p>
+                    <p className="text-xs text-green-600 font-medium">Discount 10%</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-base font-bold text-green-700">{Math.round(priceInfo.total * 0.9).toLocaleString('ro-RO')} lei</p>
+                    <p className="text-xs text-gray-400 line-through">{priceInfo.total.toLocaleString('ro-RO')} lei</p>
+                  </div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setPaymentOption(paymentOption === 'half' ? null : 'half')}
+                className={`w-full text-left p-3 rounded-xl border transition ${paymentOption === 'half' ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white hover:border-blue-300'}`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">Avans 50%</p>
+                    <p className="text-xs text-gray-500">+ 50% la check-in</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-base font-bold text-blue-700">{Math.round(priceInfo.total / 2).toLocaleString('ro-RO')} lei acum</p>
+                    <p className="text-xs text-gray-400">+ {Math.round(priceInfo.total / 2).toLocaleString('ro-RO')} lei la check-in</p>
+                  </div>
+                </div>
+              </button>
             </div>
           )}
 

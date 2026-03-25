@@ -169,8 +169,8 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
               <>
                 <span className="text-xs leading-none">{d.getDate()}</span>
                 {prices[toKey(d)] && !isPast(d) && !isOccupied(toKey(d)) && (
-                  <span className="text-[8px] leading-none text-sunset font-bold">
-                    {prices[toKey(d)]}€
+                  <span className="text-[7px] leading-none text-sunset font-bold">
+                    {prices[toKey(d)]}
                   </span>
                 )}
                 {adminMode && isOccupied(toKey(d)) && (
@@ -193,7 +193,7 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
           </span>
           {Object.keys(prices).length > 0 && (
             <span className="flex items-center gap-1">
-              <span className="text-sunset font-bold">€</span> Preț/noapte
+              <span className="text-sunset font-bold">lei</span> Preț/noapte
             </span>
           )}
         </div>
@@ -202,7 +202,7 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
       {/* Range price summary */}
       {rangeTotal !== null && rangeDays > 0 && (
         <div className="mt-2 p-2 bg-emerald-50 border border-emerald-100 rounded-lg text-xs text-emerald-700 text-center font-medium">
-          {rangeDays} nopți · ~{Math.round(rangeTotal/rangeDays)}€/noapte · <strong>{rangeTotal}€ total</strong>
+          {rangeDays} nopți · ~{Math.round(rangeTotal/rangeDays)} lei/noapte · <strong>{rangeTotal!.toLocaleString('ro-RO')} lei total</strong>
         </div>
       )}
     </div>

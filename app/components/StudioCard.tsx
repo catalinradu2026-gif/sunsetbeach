@@ -6,6 +6,7 @@ import Calendar from './Calendar'
 
 interface StudioData {
   name: string
+  title?: string
   description: string
   whatsapp: string
   prices: Record<string, number>
@@ -41,6 +42,7 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
   const [selectedRange, setSelectedRange] = useState<{ start: string; end: string } | null>(null)
   const [paymentOption, setPaymentOption] = useState<'full' | 'half' | null>(null)
   const [minNightsWarning, setMinNightsWarning] = useState(false)
+  const [breakfastPersons, setBreakfastPersons] = useState(0)
 
   const validImages = images.filter(Boolean)
   const hasImages = validImages.length > 0
@@ -79,7 +81,10 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
       const half = Math.round(priceInfo.total / 2)
       paymentText = ` Optez pentru avans 50% (${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in).`
     }
-    return `Bună ziua! Sunt interesat de ${data.name} în perioada ${start} – ${end} (${nights} nopți).${paymentText} Vă rog să confirmați disponibilitatea.`
+    const breakfastText = breakfastPersons > 0 && priceInfo?.nights
+      ? ` Doresc și mic dejun pentru ${breakfastPersons} persoane (${breakfastPersons * 40 * priceInfo.nights} lei total).`
+      : ''
+    return `Bună ziua! Sunt interesat de ${data.name} în perioada ${start} – ${end} (${nights} nopți).${paymentText}${breakfastText} Vă rog să confirmați disponibilitatea.`
   }
 
   const waNumber = data.whatsapp.replace(/\D/g, '')
@@ -134,6 +139,9 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
             <div>
               <p className="text-xs text-ocean font-semibold uppercase tracking-widest mb-1">{studioId.toUpperCase()} · Blaxy Residence</p>
               <h2 className="text-2xl font-bold text-gray-900">{data.name}</h2>
+              {data.title && (
+                <p className="text-xs text-blue-600 font-semibold mt-1 uppercase tracking-wide">{data.title}</p>
+              )}
             </div>
             <span className="bg-emerald-50 text-emerald-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-100 shrink-0 ml-3 mt-1">
               Disponibil
@@ -153,6 +161,30 @@ export default function StudioCard({ studioId, data, images, flip = false }: Pro
               occupied={data.occupied}
               onRangeSelect={handleRangeSelect}
             />
+          </div>
+
+          {/* MIC DEJUN */}
+          <div className="mt-4 border border-dashed border-amber-300 rounded-xl p-3 bg-amber-50">
+            <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-2">Opțional · Mic dejun</p>
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-amber-800">40 lei / persoană / zi</span>
+              <div className="flex items-center gap-2 ml-auto">
+                <button
+                  onClick={() => setBreakfastPersons(p => Math.max(0, p - 1))}
+                  className="w-7 h-7 rounded-full border border-amber-400 text-amber-700 font-bold flex items-center justify-center hover:bg-amber-100 transition"
+                >−</button>
+                <span className="w-5 text-center text-sm font-bold text-amber-900">{breakfastPersons}</span>
+                <button
+                  onClick={() => setBreakfastPersons(p => Math.min(5, p + 1))}
+                  className="w-7 h-7 rounded-full border border-amber-400 text-amber-700 font-bold flex items-center justify-center hover:bg-amber-100 transition"
+                >+</button>
+              </div>
+            </div>
+            {breakfastPersons > 0 && selectedRange && priceInfo?.nights && (
+              <p className="text-xs text-amber-700 mt-1.5">
+                Total mic dejun: <strong>{breakfastPersons * 40 * priceInfo.nights} lei</strong> ({breakfastPersons} pers. × {priceInfo.nights} zile)
+              </p>
+            )}
           </div>
 
           {/* Avertisment minim nopți */}

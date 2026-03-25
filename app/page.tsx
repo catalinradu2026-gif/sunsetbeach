@@ -6,6 +6,7 @@ import ChatWidget from './components/ChatWidget'
 
 interface StudioData {
   name: string
+  title?: string
   description: string
   whatsapp: string
   prices: Record<string, number>
@@ -15,6 +16,8 @@ interface StudioData {
 interface StudiosData {
   g108: StudioData
   g109: StudioData
+  e317: StudioData
+  e318: StudioData
 }
 
 export default function Home() {
@@ -246,36 +249,80 @@ export default function Home() {
             <span className="text-sm">Se încarcă...</span>
           </div>
         ) : (
-          <div className="space-y-6">
-            <StudioCard
-              studioId="g108"
-              data={data.g108}
-              images={[
-                '/images/g108/1.jpeg','/images/g108/2.jpeg','/images/g108/3.jpeg',
-                '/images/g108/4.jpeg','/images/g108/5.jpeg','/images/g108/6.jpeg',
-                '/images/g108/7.jpeg','/images/g108/8.jpeg','/images/g108/9.jpeg',
-                '/images/g108/10.jpeg','/images/g108/11.jpeg','/images/g108/12.jpeg','/images/g108/13.jpeg',
-                '/images/g108/piscina1.jpeg','/images/g108/piscina2.jpeg','/images/g108/piscina3.jpeg',
-                '/images/g108/piscina4.jpeg','/images/g108/piscina5.jpeg',
-                '/images/g108/piscina bar.jpeg','/images/g108/piscina bar2.jpeg',
-                '/images/g108/Alee plaja Padurea de pini.jpeg',
-              ]}
-              flip={false}
-            />
-            <StudioCard
-              studioId="g109"
-              data={data.g109}
-              images={[
-                '/images/g109/1.jpeg','/images/g109/2.jpeg','/images/g109/3.jpeg',
-                '/images/g109/4.jpeg','/images/g109/6.jpeg','/images/g109/7.jpeg',
-                '/images/g109/8.jpeg','/images/g109/9.jpeg','/images/g109/10.jpeg','/images/g109/11.jpeg',
-                '/images/g109/piscina1.jpeg','/images/g109/piscina2.jpeg','/images/g109/piscina3.jpeg',
-                '/images/g109/piscina4.jpeg','/images/g109/piscina5.jpeg',
-                '/images/g109/piscina bar.jpeg','/images/g109/piscina bar2.jpeg',
-                '/images/g109/Alee plaja Padurea de pini.jpeg',
-              ]}
-              flip={true}
-            />
+          <div className="space-y-12">
+
+            {/* Studiouri cu vedere la PISCINE ȘI LA MARE */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex-1 h-px bg-gradient-to-r from-blue-200 to-transparent" />
+                <span className="text-xs font-bold text-blue-600 uppercase tracking-widest px-1">🌊 Cu vedere la Piscine și la Mare</span>
+                <div className="flex-1 h-px bg-gradient-to-l from-blue-200 to-transparent" />
+              </div>
+              <div className="space-y-6">
+                <StudioCard
+                  studioId="g108"
+                  data={data.g108}
+                  images={[
+                    '/images/g108/1.jpeg','/images/g108/2.jpeg','/images/g108/3.jpeg',
+                    '/images/g108/4.jpeg','/images/g108/5.jpeg','/images/g108/6.jpeg',
+                    '/images/g108/7.jpeg','/images/g108/8.jpeg','/images/g108/9.jpeg',
+                    '/images/g108/10.jpeg','/images/g108/11.jpeg','/images/g108/12.jpeg','/images/g108/13.jpeg',
+                    '/images/g108/piscina1.jpeg','/images/g108/piscina2.jpeg','/images/g108/piscina3.jpeg',
+                    '/images/g108/piscina4.jpeg','/images/g108/piscina5.jpeg',
+                    '/images/g108/piscina bar.jpeg','/images/g108/piscina bar2.jpeg',
+                    '/images/g108/Alee plaja Padurea de pini.jpeg',
+                  ]}
+                  flip={false}
+                />
+                <StudioCard
+                  studioId="g109"
+                  data={data.g109}
+                  images={[
+                    '/images/g109/1.jpeg','/images/g109/2.jpeg','/images/g109/3.jpeg',
+                    '/images/g109/4.jpeg','/images/g109/6.jpeg','/images/g109/7.jpeg',
+                    '/images/g109/8.jpeg','/images/g109/9.jpeg','/images/g109/10.jpeg','/images/g109/11.jpeg',
+                    '/images/g109/piscina1.jpeg','/images/g109/piscina2.jpeg','/images/g109/piscina3.jpeg',
+                    '/images/g109/piscina4.jpeg','/images/g109/piscina5.jpeg',
+                    '/images/g109/piscina bar.jpeg','/images/g109/piscina bar2.jpeg',
+                    '/images/g109/Alee plaja Padurea de pini.jpeg',
+                  ]}
+                  flip={true}
+                />
+              </div>
+            </div>
+
+            {/* Studiouri cu vedere la LAC */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex-1 h-px bg-gradient-to-r from-teal-200 to-transparent" />
+                <span className="text-xs font-bold text-teal-600 uppercase tracking-widest px-1">🌿 Cu vedere la Lac</span>
+                <div className="flex-1 h-px bg-gradient-to-l from-teal-200 to-transparent" />
+              </div>
+              <div className="space-y-6">
+                <StudioCard
+                  studioId="e317"
+                  data={data.e317}
+                  images={[
+                    '/images/e317/1.jpeg','/images/e317/2.jpeg','/images/e317/3.jpeg',
+                    '/images/e317/12.jpeg','/images/e317/13.jpeg','/images/e317/14.jpeg',
+                    '/images/e317/15.jpeg','/images/e317/16.jpeg','/images/e317/17.jpeg','/images/e317/18.jpeg',
+                  ]}
+                  flip={false}
+                />
+                <StudioCard
+                  studioId="e318"
+                  data={data.e318}
+                  images={[
+                    '/images/e318/4.jpeg','/images/e318/5.jpeg','/images/e318/6.jpeg',
+                    '/images/e318/7.jpeg','/images/e318/10.jpeg','/images/e318/12.jpeg',
+                    '/images/e318/13.jpeg','/images/e318/14.jpeg','/images/e318/15.jpeg',
+                    '/images/e318/16.jpeg','/images/e318/17.jpeg','/images/e318/18.jpeg',
+                  ]}
+                  flip={true}
+                />
+              </div>
+            </div>
+
           </div>
         )}
       </section>

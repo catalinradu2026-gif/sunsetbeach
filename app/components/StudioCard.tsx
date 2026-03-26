@@ -87,7 +87,9 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
       paymentText = `\n💳 Plată: integrală → ${discounted.toLocaleString('ro-RO')} lei (economisești ${saved.toLocaleString('ro-RO')} lei)`
     } else if (total && paymentOption === 'half') {
       const half = Math.round(total / 2)
-      paymentText = `\n💳 Plată: avans 50% → ${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in`
+      const breakfastTotal = breakfastPersons > 0 && nightCount ? breakfastPersons * 40 * nightCount : 0
+      const checkin = half + breakfastTotal
+      paymentText = `\n💳 Plată: avans 50% → ${half.toLocaleString('ro-RO')} lei acum + ${checkin.toLocaleString('ro-RO')} lei la check-in${breakfastTotal > 0 ? ` (${half.toLocaleString('ro-RO')} lei cameră + ${breakfastTotal.toLocaleString('ro-RO')} lei mic dejun)` : ''}`
     } else {
       paymentText = `\n💳 Plată: nespecificată`
     }

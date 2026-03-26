@@ -85,9 +85,10 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
 
     let paymentText = ''
     if (total && paymentOption === 'full') {
-      const discounted = Math.round(grandTotal * 0.9)
-      const saved = Math.round(grandTotal * 0.1)
-      paymentText = `\n💳 Plată: integrală → ${discounted.toLocaleString('ro-RO')} lei (economisești ${saved.toLocaleString('ro-RO')} lei)`
+      const discountedRoom = Math.round(total * 0.9)
+      const saved = Math.round(total * 0.1)
+      const discounted = discountedRoom + breakfastTotal
+      paymentText = `\n💳 Plată: integrală → ${discounted.toLocaleString('ro-RO')} lei (economisești ${saved.toLocaleString('ro-RO')} lei pe cazare)`
     } else if (total && paymentOption === 'half') {
       const half = Math.round(total / 2)
       const checkin = half + breakfastTotal

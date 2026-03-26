@@ -76,18 +76,24 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
     const start = new Date(selectedRange.start).toLocaleDateString('ro-RO')
     const end = new Date(selectedRange.end).toLocaleDateString('ro-RO')
     const nights = priceInfo?.nights || ''
+    const totalPrice = priceInfo?.total ? `${priceInfo.total.toLocaleString('ro-RO')} lei` : ''
+
     let paymentText = ''
     if (priceInfo?.total && paymentOption === 'full') {
       const discounted = Math.round(priceInfo.total * 0.9)
-      paymentText = ` Optez pentru plata integrală (${discounted.toLocaleString('ro-RO')} lei, discount 10%).`
+      paymentText = `\n💳 Plată: integrală (${discounted.toLocaleString('ro-RO')} lei, discount 10%)`
     } else if (priceInfo?.total && paymentOption === 'half') {
       const half = Math.round(priceInfo.total / 2)
-      paymentText = ` Optez pentru avans 50% (${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in).`
+      paymentText = `\n💳 Plată: avans 50% (${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in)`
+    } else {
+      paymentText = `\n💳 Plată: nespecificată`
     }
+
     const breakfastText = breakfastPersons > 0 && priceInfo?.nights
-      ? ` Doresc și mic dejun pentru ${breakfastPersons} persoane (${breakfastPersons * 40 * priceInfo.nights} lei total).`
-      : ''
-    return `Bună ziua! Sunt interesat de ${data.name} în perioada ${start} – ${end} (${nights} nopți).${paymentText}${breakfastText} Vă rog să confirmați disponibilitatea.`
+      ? `\n🍳 Mic dejun: ${breakfastPersons} persoane × ${priceInfo.nights} zile = ${breakfastPersons * 40 * priceInfo.nights} lei`
+      : `\n🍳 Mic dejun: nu`
+
+    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}\n💰 Preț total: ${totalPrice}${paymentText}${breakfastText}\n\nVă rog să confirmați disponibilitatea.`
   }
 
   const waNumber = data.whatsapp.replace(/\D/g, '')

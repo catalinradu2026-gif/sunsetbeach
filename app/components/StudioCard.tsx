@@ -80,14 +80,16 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
     const nightCount = priceInfo?.nights || 0
     const perNight = nightCount > 0 ? Math.round(total / nightCount) : 0
 
+    const breakfastTotal = breakfastPersons > 0 && nightCount ? breakfastPersons * 40 * nightCount : 0
+    const grandTotal = total + breakfastTotal
+
     let paymentText = ''
     if (total && paymentOption === 'full') {
-      const discounted = Math.round(total * 0.9)
-      const saved = Math.round(total * 0.1)
+      const discounted = Math.round(grandTotal * 0.9)
+      const saved = Math.round(grandTotal * 0.1)
       paymentText = `\n💳 Plată: integrală → ${discounted.toLocaleString('ro-RO')} lei (economisești ${saved.toLocaleString('ro-RO')} lei)`
     } else if (total && paymentOption === 'half') {
       const half = Math.round(total / 2)
-      const breakfastTotal = breakfastPersons > 0 && nightCount ? breakfastPersons * 40 * nightCount : 0
       const checkin = half + breakfastTotal
       paymentText = `\n💳 Plată: avans 50% → ${half.toLocaleString('ro-RO')} lei acum + ${checkin.toLocaleString('ro-RO')} lei la check-in${breakfastTotal > 0 ? ` (${half.toLocaleString('ro-RO')} lei cameră + ${breakfastTotal.toLocaleString('ro-RO')} lei mic dejun)` : ''}`
     } else {
@@ -95,11 +97,11 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
     }
 
     const breakfastText = breakfastPersons > 0 && nightCount
-      ? `\n🍳 Mic dejun: ${breakfastPersons} persoane × ${nightCount} zile = ${breakfastPersons * 40 * nightCount} lei`
+      ? `\n🍳 Mic dejun: ${breakfastPersons} persoane × ${nightCount} zile = ${breakfastTotal.toLocaleString('ro-RO')} lei`
       : `\n🍳 Mic dejun: nu`
 
     const priceLines = total
-      ? `\n💰 Preț/noapte: ~${perNight.toLocaleString('ro-RO')} lei\n💰 Preț total: ${total.toLocaleString('ro-RO')} lei`
+      ? `\n💰 Preț/noapte: ~${perNight.toLocaleString('ro-RO')} lei\n💰 Cazare: ${total.toLocaleString('ro-RO')} lei${breakfastTotal > 0 ? `\n💰 Mic dejun: ${breakfastTotal.toLocaleString('ro-RO')} lei` : ''}\n💰 TOTAL: ${grandTotal.toLocaleString('ro-RO')} lei`
       : ''
 
     return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}${priceLines}${paymentText}${breakfastText}\n\nVă rog să confirmați disponibilitatea.`

@@ -116,7 +116,7 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
       }
     }
 
-    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}${priceLines}${paymentText}\n\nVă rog să confirmați disponibilitatea.`
+    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}${priceLines}${paymentText}\n🔐 Garanție: 500 lei la check-in (se returnează la check-out)\n\nVă rog să confirmați disponibilitatea.`
   }
 
   const waNumber = data.whatsapp.replace(/\D/g, '')

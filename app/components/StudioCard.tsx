@@ -76,24 +76,31 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
     const start = new Date(selectedRange.start).toLocaleDateString('ro-RO')
     const end = new Date(selectedRange.end).toLocaleDateString('ro-RO')
     const nights = priceInfo?.nights || ''
-    const totalPrice = priceInfo?.total ? `${priceInfo.total.toLocaleString('ro-RO')} lei` : ''
+    const total = priceInfo?.total || 0
+    const nightCount = priceInfo?.nights || 0
+    const perNight = nightCount > 0 ? Math.round(total / nightCount) : 0
 
     let paymentText = ''
-    if (priceInfo?.total && paymentOption === 'full') {
-      const discounted = Math.round(priceInfo.total * 0.9)
-      paymentText = `\n💳 Plată: integrală (${discounted.toLocaleString('ro-RO')} lei, discount 10%)`
-    } else if (priceInfo?.total && paymentOption === 'half') {
-      const half = Math.round(priceInfo.total / 2)
-      paymentText = `\n💳 Plată: avans 50% (${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in)`
+    if (total && paymentOption === 'full') {
+      const discounted = Math.round(total * 0.9)
+      const saved = Math.round(total * 0.1)
+      paymentText = `\n💳 Plată: integrală → ${discounted.toLocaleString('ro-RO')} lei (economisești ${saved.toLocaleString('ro-RO')} lei)`
+    } else if (total && paymentOption === 'half') {
+      const half = Math.round(total / 2)
+      paymentText = `\n💳 Plată: avans 50% → ${half.toLocaleString('ro-RO')} lei acum + ${half.toLocaleString('ro-RO')} lei la check-in`
     } else {
       paymentText = `\n💳 Plată: nespecificată`
     }
 
-    const breakfastText = breakfastPersons > 0 && priceInfo?.nights
-      ? `\n🍳 Mic dejun: ${breakfastPersons} persoane × ${priceInfo.nights} zile = ${breakfastPersons * 40 * priceInfo.nights} lei`
+    const breakfastText = breakfastPersons > 0 && nightCount
+      ? `\n🍳 Mic dejun: ${breakfastPersons} persoane × ${nightCount} zile = ${breakfastPersons * 40 * nightCount} lei`
       : `\n🍳 Mic dejun: nu`
 
-    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}\n💰 Preț total: ${totalPrice}${paymentText}${breakfastText}\n\nVă rog să confirmați disponibilitatea.`
+    const priceLines = total
+      ? `\n💰 Preț/noapte: ~${perNight.toLocaleString('ro-RO')} lei\n💰 Preț total: ${total.toLocaleString('ro-RO')} lei`
+      : ''
+
+    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}${priceLines}${paymentText}${breakfastText}\n\nVă rog să confirmați disponibilitatea.`
   }
 
   const waNumber = data.whatsapp.replace(/\D/g, '')

@@ -106,7 +106,6 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
           + (breakfastTotal > 0 ? `\n🍳 Mic dejun (${breakfastPersons} pers. × ${nightCount} zile × 40 lei): ${breakfastTotal.toLocaleString('ro-RO')} lei` : `\n🍳 Mic dejun: nu`)
           + `\n💰 TOTAL FINAL: ${grandTotal.toLocaleString('ro-RO')} lei`
         paymentText = `\n💳 Plată: avans 50% → ${half.toLocaleString('ro-RO')} lei acum + ${checkin.toLocaleString('ro-RO')} lei la check-in`
-          + (breakfastTotal > 0 ? ` (${half.toLocaleString('ro-RO')} lei cameră + ${breakfastTotal.toLocaleString('ro-RO')} lei mic dejun)` : '')
       } else {
         const grandTotal = total + breakfastTotal
         priceLines = `\n💰 Preț/noapte: ~${perNight.toLocaleString('ro-RO')} lei`

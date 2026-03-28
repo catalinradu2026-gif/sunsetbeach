@@ -128,7 +128,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {/* Toggle button */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="fixed bottom-4 right-4 md:right-6 z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105"
+        className={`fixed z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 ${open ? 'top-4 left-4 md:top-auto md:left-auto md:bottom-6 md:right-6' : 'bottom-4 right-4 md:bottom-6 md:right-6'}`}
         aria-label="Deschide chat"
       >
         {open ? (

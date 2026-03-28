@@ -414,7 +414,7 @@ export default function Home() {
       href="https://wa.me/40787813485?text=Bună ziua! Sunt interesat de un studio la sunsetbeach.com.ro. Vă rog să îmi comunicați disponibilitatea."
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#20bc5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition hover:scale-110"
+      className={`fixed z-50 bg-[#25D366] hover:bg-[#20bc5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition hover:scale-110 ${chatOpen ? 'top-4 left-20 md:top-auto md:left-6 md:bottom-6' : 'bottom-6 left-6'}`}
       aria-label="WhatsApp"
     >
       <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">

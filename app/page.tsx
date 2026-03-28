@@ -86,6 +86,37 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Butoane CTA – sus stânga */}
+        <div className="absolute top-4 left-4 z-30 flex flex-wrap gap-2">
+          <a
+            href="tel:+40787813485"
+            className="flex items-center gap-1.5 bg-white text-gray-900 hover:bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full transition shadow"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            {tr.heroCall}
+          </a>
+          <a
+            href="#studiouri"
+            className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold text-xs px-3 py-1.5 rounded-full transition shadow"
+          >
+            {tr.heroSee}
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+          <button
+            onClick={() => setChatOpen(true)}
+            className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs font-medium px-3 py-1.5 rounded-full transition"
+          >
+            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+            {tr.heroDiscover}
+          </button>
+        </div>
+
         {/* Overlay de start – dispare după click */}
         {!started && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60">
@@ -112,38 +143,9 @@ export default function Home() {
               <span className="text-amber-300">{tr.heroTitle2}</span>
             </h1>
             <p className="text-white/70 text-sm md:text-base mb-1">{tr.heroSub}</p>
-            <p className="text-white/60 text-xs md:text-sm mb-6">
+            <p className="text-white/60 text-xs md:text-sm">
               {tr.heroPrice} <span className="text-amber-300 font-semibold">370 lei</span>{tr.heroPriceUnit}
             </p>
-            <div className="flex flex-wrap items-center justify-end gap-2">
-              <a
-                href="tel:+40787813485"
-                className="flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full transition shadow"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                {tr.heroCall}
-              </a>
-              <a
-                href="#studiouri"
-                className="flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold text-xs md:text-sm px-5 py-2.5 rounded-full transition shadow"
-              >
-                {tr.heroSee}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </a>
-              <button
-                onClick={() => setChatOpen(true)}
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs md:text-sm font-medium px-5 py-2.5 rounded-full transition"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-                </svg>
-                {tr.heroDiscover}
-              </button>
-            </div>
           </div>
         </div>
 
@@ -414,7 +416,7 @@ export default function Home() {
       href="https://wa.me/40787813485?text=Bună ziua! Sunt interesat de un studio la sunsetbeach.com.ro. Vă rog să îmi comunicați disponibilitatea."
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#20bc5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition hover:scale-110"
+      className={`fixed left-6 z-50 bg-[#25D366] hover:bg-[#20bc5a] text-white rounded-full w-14 h-14 items-center justify-center shadow-lg transition hover:scale-110 ${chatOpen ? 'hidden md:flex md:bottom-6' : 'flex bottom-6'}`}
       aria-label="WhatsApp"
     >
       <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">

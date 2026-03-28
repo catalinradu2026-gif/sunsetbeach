@@ -125,10 +125,10 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         </div>
       )}
 
-      {/* Toggle button */}
+      {/* Toggle button — ascuns pe mobil cand chatul e deschis (headerul are deja X) */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="fixed bottom-4 right-4 md:right-6 z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105"
+        className={`fixed bottom-4 right-4 md:right-6 z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg items-center justify-center transition-all hover:scale-105 ${open ? 'hidden md:flex' : 'flex'}`}
         aria-label="Deschide chat"
       >
         {open ? (

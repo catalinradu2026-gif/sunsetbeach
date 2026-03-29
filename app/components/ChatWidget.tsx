@@ -67,7 +67,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
     <>
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-20 right-3 left-3 md:bottom-24 md:right-6 md:left-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '420px', maxHeight: '60dvh' }}>
+        <div className="fixed bottom-20 right-3 left-3 md:bottom-24 md:right-6 md:left-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '220px', maxHeight: '35dvh' }}>
 
           {/* Header */}
           <div className="bg-ocean px-4 py-3 flex items-center gap-3">

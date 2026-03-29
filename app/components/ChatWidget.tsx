@@ -16,14 +16,15 @@ interface ChatWidgetProps {
 
 export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
   const [open, setOpen] = useState(false)
+  const [bubble, setBubble] = useState(false)
 
   useEffect(() => {
     if (externalOpen) setOpen(true)
   }, [externalOpen])
 
   useEffect(() => {
-    const timer = setTimeout(() => setOpen(true), 2000)
-    return () => clearTimeout(timer)
+    const t1 = setTimeout(() => setBubble(true), 2000)
+    return () => clearTimeout(t1)
   }, [])
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: WELCOME }
@@ -67,7 +68,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
     <>
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-20 right-3 left-3 md:bottom-24 md:right-6 md:left-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '220px', maxHeight: '35dvh' }}>
+        <div className="fixed bottom-20 right-3 left-3 md:bottom-24 md:right-6 md:left-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '480px', maxHeight: '70dvh' }}>
 
           {/* Header */}
           <div className="bg-ocean px-4 py-3 flex items-center gap-3">
@@ -130,9 +131,23 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         </div>
       )}
 
+      {/* Bubble notification */}
+      {bubble && !open && (
+        <div
+          className="fixed bottom-24 right-4 z-50 bg-white rounded-2xl rounded-br-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[220px] cursor-pointer"
+          onClick={() => { setOpen(true); setBubble(false) }}
+        >
+          <button
+            className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-5 h-5 text-xs flex items-center justify-center text-gray-500 hover:bg-gray-300"
+            onClick={e => { e.stopPropagation(); setBubble(false) }}
+          >×</button>
+          <p className="text-sm text-gray-800">👋 Bine ați venit! Vreți să rezervați un studio? Vă ajut! 🌅</p>
+        </div>
+      )}
+
       {/* Toggle button */}
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => { setOpen(o => !o); setBubble(false) }}
         className={`fixed z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 ${open ? 'top-4 left-4 md:top-auto md:left-auto md:bottom-6 md:right-6' : 'bottom-4 right-4 md:bottom-6 md:right-6'}`}
         aria-label="Deschide chat"
       >

@@ -7,7 +7,7 @@ interface Message {
   content: string
 }
 
-const WELCOME = 'Bună! Sunt asistentul sunsetbeach.com.ro 🌅 Te pot ajuta cu informații despre studiouri, prețuri sau rezervări. Cu ce te pot ajuta?\n\nHello! I\'m the sunsetbeach.com.ro assistant 🌅 I can help with studio info, prices or bookings. How can I help?'
+const WELCOME = '👋 Bine ați venit la Sunset Beach Olimp! 🌅\n\nAvem studiouri moderne aproape de plajă. Locuri limitate disponibile vara aceasta! 🌊\n\nDoriți să verificați disponibilitatea sau prețurile? Vă ajut să faceți o rezervare acum!'
 
 interface ChatWidgetProps {
   externalOpen?: boolean
@@ -20,6 +20,11 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
   useEffect(() => {
     if (externalOpen) setOpen(true)
   }, [externalOpen])
+
+  useEffect(() => {
+    const timer = setTimeout(() => setOpen(true), 2000)
+    return () => clearTimeout(timer)
+  }, [])
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: WELCOME }
   ])

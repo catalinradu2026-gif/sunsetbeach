@@ -141,7 +141,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
             className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-5 h-5 text-xs flex items-center justify-center text-gray-500 hover:bg-gray-300"
             onClick={e => { e.stopPropagation(); setBubble(false) }}
           >×</button>
-          <p className="text-sm text-gray-800">👋 Bine ați venit! Vreți să rezervați un studio? Vă ajut! 🌅</p>
+          <p className="text-sm text-gray-800">👋 Bine ați venit! Vă ajut să rezervați un studio Premium în Olimp! 🌅</p>
         </div>
       )}
 

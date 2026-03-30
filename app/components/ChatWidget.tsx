@@ -68,7 +68,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
     <>
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-20 right-3 left-3 md:bottom-24 md:right-6 md:left-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '480px', maxHeight: '70dvh' }}>
+        <div className="fixed top-20 left-3 right-3 md:top-20 md:left-6 md:right-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '480px', maxHeight: '70dvh' }}>
 
           {/* Header */}
           <div className="bg-ocean px-4 py-3 flex items-center gap-3">
@@ -134,7 +134,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {/* Bubble notification */}
       {bubble && !open && (
         <div
-          className="fixed bottom-24 right-4 z-50 bg-white rounded-2xl rounded-br-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[220px] cursor-pointer"
+          className="fixed top-20 left-20 z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[220px] cursor-pointer"
           onClick={() => { setOpen(true); setBubble(false) }}
         >
           <button
@@ -148,7 +148,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {/* Toggle button */}
       <button
         onClick={() => { setOpen(o => !o); setBubble(false) }}
-        className={`fixed z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 ${open ? 'top-4 left-4 md:top-auto md:left-auto md:bottom-6 md:right-6' : 'bottom-4 right-4 md:bottom-6 md:right-6'}`}
+        className="fixed top-4 left-4 z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105"
         aria-label="Deschide chat"
       >
         {open ? (

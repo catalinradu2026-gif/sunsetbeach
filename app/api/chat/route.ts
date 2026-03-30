@@ -59,7 +59,7 @@ STUDIOURILE DISPONIBILE:
 - Studio E317 (${studios.e317.title}): ${studios.e317.description}
 - Studio E318 (${studios.e318.title}): ${studios.e318.description}
 
-Prețuri: G108/G109 de la 400 lei/noapte (vârf sezon 1200 lei), E317/E318 de la 370 lei/noapte (cu 30 lei mai ieftin).
+Prețurile variază în funcție de perioadă — dacă cineva întreabă de preț fără să spună luna, întreabă-l MAI ÎNTÂI pentru ce perioadă se gândește. NU inventa și NU ghici niciun preț.
 Facilități: piscine gratuite, parcare gratuită, beach bar, 250m până la plajă, Wi-Fi, AC, frigider, espressor, balcon.
 Opțional: mic dejun 40 lei/persoană/zi.
 Minim 3 nopți. Discount 10% la plată integrală.
@@ -76,6 +76,28 @@ Regulile tale:
 - Nu inventa prețuri specifice`
 }
 
+const MONTH_KEYWORDS: Record<string, string> = {
+  'mai': '2026-05', 'may': '2026-05',
+  'iunie': '2026-06', 'june': '2026-06',
+  'iulie': '2026-07', 'july': '2026-07',
+  'august': '2026-08', 'aug': '2026-08',
+  'septembrie': '2026-09', 'september': '2026-09',
+}
+
+function getPretReal(monthPrefix: string): string {
+  try {
+    const studios = JSON.parse(readFileSync(join(process.cwd(), 'data', 'studios.json'), 'utf-8'))
+    const gPrices = studios.g108.prices as Record<string, number>
+    const ePrices = studios.e317.prices as Record<string, number>
+    const sampleDay = `${monthPrefix}-15`
+    const pg = gPrices[sampleDay], pe = ePrices[sampleDay]
+    if (!pg) return ''
+    let note = ''
+    if (monthPrefix === '2026-07') note = ' (5-12 iulie: 1200/1170 lei — festival Blaxy, doar acele zile)'
+    return `PREȚUL REAL pentru această perioadă (din sistem): G108/G109 = ${pg} lei/noapte, E317/E318 = ${pe} lei/noapte.${note}`
+  } catch { return '' }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json()
@@ -84,17 +106,34 @@ export async function POST(req: NextRequest) {
     }
 
     const lastMessage = messages[messages.length - 1]?.content || ''
+    const recentText = messages.slice(-4).map((m: { content: string }) => m.content).join(' ').toLowerCase()
+
+    // Detecteaza luna si injecteaza pretul real ca system message suplimentar
+    let pretInjectat = ''
+    for (const [kw, prefix] of Object.entries(MONTH_KEYWORDS)) {
+      if (recentText.includes(kw)) {
+        pretInjectat = getPretReal(prefix)
+        break
+      }
+    }
 
     let webContext = ''
     if (isDiscoveryQuestion(lastMessage)) {
       webContext = await searchWeb(lastMessage)
     }
 
+    const systemMessages: { role: 'system' | 'user' | 'assistant'; content: string }[] = [
+      { role: 'system', content: getSystemPrompt(webContext) },
+    ]
+    if (pretInjectat) {
+      systemMessages.push({ role: 'system', content: pretInjectat })
+    }
+
     const response = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       max_tokens: 400,
       messages: [
-        { role: 'system', content: getSystemPrompt(webContext) },
+        ...systemMessages,
         ...messages.slice(-8).map((m: { role: string; content: string }) => ({
           role: m.role as 'user' | 'assistant',
           content: m.content,

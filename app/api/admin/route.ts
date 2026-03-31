@@ -4,11 +4,31 @@ import { join } from 'path'
 
 const filePath = join(process.cwd(), 'data', 'studios.json')
 
+const VALID_STUDIOS = ['g108', 'g109', 'e317', 'e318']
+const VALID_ACTIONS = ['setPrice', 'setPriceRange', 'toggleOccupied', 'setOccupiedRange', 'clearOccupiedRange', 'updateInfo']
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
+
 export async function POST(req: NextRequest) {
   const { password, studio, action, date, price, dates } = await req.json()
 
   if (password !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Parolă incorectă' }, { status: 401 })
+  }
+
+  if (!VALID_STUDIOS.includes(studio)) {
+    return NextResponse.json({ error: 'Studio invalid' }, { status: 400 })
+  }
+  if (!VALID_ACTIONS.includes(action)) {
+    return NextResponse.json({ error: 'Acțiune invalidă' }, { status: 400 })
+  }
+  if (date && !DATE_REGEX.test(date)) {
+    return NextResponse.json({ error: 'Dată invalidă' }, { status: 400 })
+  }
+  if (price !== undefined && (typeof price !== 'number' || price < 0 || price > 10000)) {
+    return NextResponse.json({ error: 'Preț invalid' }, { status: 400 })
+  }
+  if (dates && Array.isArray(dates) && dates.some((d: unknown) => typeof d === 'string' && !DATE_REGEX.test(d))) {
+    return NextResponse.json({ error: 'Date invalide' }, { status: 400 })
   }
 
   const data = JSON.parse(readFileSync(filePath, 'utf-8'))

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { rateLimit } from '@/lib/rateLimit'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -100,9 +101,23 @@ function getPretReal(monthPrefix: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json()
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    if (!rateLimit(ip, 20, 60_000)) {
+      return NextResponse.json({ error: 'Prea multe cereri. Încearcă din nou în câteva secunde.' }, { status: 429 })
+    }
+
+    const body = await req.json()
+    const { messages } = body
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+    }
+    if (messages.length > 50) {
+      return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+    }
+    for (const m of messages) {
+      if (typeof m.content !== 'string' || m.content.length > 2000) {
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+      }
     }
 
     const lastMessage = messages[messages.length - 1]?.content || ''

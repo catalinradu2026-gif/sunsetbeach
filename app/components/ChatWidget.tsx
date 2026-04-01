@@ -7,40 +7,101 @@ interface Message {
   content: string
 }
 
-const WELCOME = '👋 Bine ați venit la Sunset Beach Olimp! 🌅\n\nAvem studiouri moderne aproape de plajă. Locuri limitate disponibile vara aceasta! 🌊\n\nDoriți să verificați disponibilitatea sau prețurile? Vă ajut să faceți o rezervare acum!'
+const WELCOME = 'Bună! Sunt asistentul virtual Sunset Beach Olimp. Te ajut cu disponibilitate, prețuri și rezervări. Vorbește cu mine sau scrie!'
 
 interface ChatWidgetProps {
   externalOpen?: boolean
   onExternalClose?: () => void
 }
 
+function speak(text: string) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const clean = text.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[*_~`]/g, '').trim()
+  const utt = new SpeechSynthesisUtterance(clean)
+  utt.lang = 'ro-RO'
+  utt.rate = 1.05
+  utt.pitch = 1
+  utt.volume = 1
+  const voices = window.speechSynthesis.getVoices()
+  const roVoice = voices.find(v => v.lang.startsWith('ro')) || voices.find(v => v.lang.startsWith('en')) || voices[0]
+  if (roVoice) utt.voice = roVoice
+  window.speechSynthesis.speak(utt)
+}
+
 export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
   const [open, setOpen] = useState(false)
   const [bubble, setBubble] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([
+    { role: 'assistant', content: WELCOME }
+  ])
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [voiceOn, setVoiceOn] = useState(true)
+  const [speaking, setSpeaking] = useState(false)
+  const [userInteracted, setUserInteracted] = useState(false)
+  const [showGuide, setShowGuide] = useState(true)
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (externalOpen) setOpen(true)
   }, [externalOpen])
 
   useEffect(() => {
-    const t1 = setTimeout(() => setBubble(true), 2000)
-    return () => clearTimeout(t1)
+    const t = setTimeout(() => setBubble(true), 2000)
+    return () => clearTimeout(t)
   }, [])
-  const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: WELCOME }
-  ])
-  const [input, setInput] = useState('')
-  const [loading, setLoading] = useState(false)
-  const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (open) {
+      setBubble(false)
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [open])
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, open])
 
-  async function send() {
-    const text = input.trim()
-    if (!text || loading) return
+  useEffect(() => {
+    if (!open && typeof window !== 'undefined') window.speechSynthesis?.cancel()
+  }, [open])
 
+  function speakText(text: string) {
+    if (!voiceOn) return
+    setSpeaking(true)
+    const trySpeak = () => {
+      speak(text)
+      const interval = setInterval(() => {
+        if (!window.speechSynthesis.speaking) { setSpeaking(false); clearInterval(interval) }
+      }, 200)
+      setTimeout(() => { setSpeaking(false); clearInterval(interval) }, 15000)
+    }
+    if (window.speechSynthesis.getVoices().length > 0) {
+      trySpeak()
+    } else {
+      window.speechSynthesis.onvoiceschanged = () => { trySpeak(); window.speechSynthesis.onvoiceschanged = null }
+    }
+  }
+
+  function handleFirstInteraction() {
+    if (!userInteracted) {
+      setUserInteracted(true)
+      speakText(WELCOME)
+    }
+  }
+
+  function toggleVoice() {
+    if (voiceOn) window.speechSynthesis?.cancel()
+    setVoiceOn(v => !v)
+    setSpeaking(false)
+  }
+
+  async function send(textParam?: string) {
+    const text = (textParam || input).trim()
+    if (!text || loading) return
+    setShowGuide(false)
     const userMsg: Message = { role: 'user', content: text }
     const newMessages = [...messages, userMsg]
     setMessages(newMessages)
@@ -56,7 +117,9 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         }),
       })
       const data = await res.json()
-      setMessages(prev => [...prev, { role: 'assistant', content: data.reply || 'Ne pare rău, a apărut o eroare.' }])
+      const reply = data.reply || 'Ne pare rău, a apărut o eroare.'
+      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
+      speakText(reply)
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Eroare de conexiune. Încearcă din nou.' }])
     } finally {
@@ -71,30 +134,61 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         <div className="fixed top-20 left-3 right-3 md:top-20 md:left-6 md:right-auto z-50 md:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style={{ height: '480px', maxHeight: '70dvh' }}>
 
           {/* Header */}
-          <div className="bg-ocean px-4 py-3 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm">🌅</div>
+          <div className="bg-ocean px-4 py-3 flex items-center gap-3 shrink-0">
+            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm shrink-0">🌅</div>
             <div className="flex-1">
-              <p className="text-white font-semibold text-sm">sunsetbeach.com.ro</p>
-              <p className="text-white/60 text-xs">Asistent virtual · online</p>
+              <p className="text-white font-semibold text-sm">Sunset Beach Olimp</p>
+              <div className="flex items-center gap-1.5">
+                {speaking ? (
+                  <>
+                    <span className="flex gap-0.5">
+                      <span className="w-0.5 h-3 bg-white/80 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-0.5 h-3 bg-white/80 rounded-full animate-bounce" style={{ animationDelay: '100ms' }} />
+                      <span className="w-0.5 h-3 bg-white/80 rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
+                    </span>
+                    <p className="text-white/80 text-xs">Vorbesc...</p>
+                  </>
+                ) : (
+                  <>
+                    <span className="w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse" />
+                    <p className="text-white/60 text-xs">Asistent virtual · online</p>
+                  </>
+                )}
+              </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-white/60 hover:text-white transition text-lg leading-none">×</button>
+
+            {/* Buton voce */}
+            <button onClick={toggleVoice} title={voiceOn ? 'Oprește vocea' : 'Pornește vocea'}
+              className={`p-1.5 rounded-full transition-colors ${voiceOn ? 'text-white hover:bg-white/20' : 'text-white/30 hover:bg-white/10'}`}>
+              {voiceOn ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 6v12m-3.536-9.536a5 5 0 000 7.072M9 12H3m18 0h-6" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                </svg>
+              )}
+            </button>
+
+            <button onClick={() => setOpen(false)} className="text-white/70 hover:text-white transition text-2xl leading-none font-light w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/15">×</button>
           </div>
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
-                    m.role === 'user'
-                      ? 'bg-ocean text-white rounded-br-sm'
-                      : 'bg-gray-100 text-gray-800 rounded-bl-sm'
-                  }`}
-                >
+                <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+                  m.role === 'user'
+                    ? 'bg-ocean text-white rounded-br-sm'
+                    : 'bg-gray-100 text-gray-800 rounded-bl-sm'
+                }`}>
                   {m.content}
                 </div>
               </div>
             ))}
+
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-2.5 flex gap-1">
@@ -104,29 +198,44 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
                 </div>
               </div>
             )}
+
+            {/* Ghid microfon */}
+            {showGuide && messages.length === 1 && (
+              <div className="bg-blue-50 border border-blue-200 rounded-2xl px-4 py-3 w-full text-center cursor-pointer mt-1"
+                onClick={handleFirstInteraction}>
+                <p className="text-blue-700 font-semibold text-sm mb-1">🎤 Vorbește cu mine!</p>
+                <p className="text-blue-500 text-xs leading-relaxed">Apasă pe câmpul de text de jos,<br/>apoi apasă <strong>🎤</strong> de pe tastatură</p>
+              </div>
+            )}
+
             <div ref={bottomRef} />
           </div>
 
           {/* Input */}
-          <div className="border-t border-gray-100 p-3 flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && send()}
-              placeholder="Scrie un mesaj..."
-              className="flex-1 border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ocean/30 focus:border-ocean"
-              style={{ fontSize: '16px' }}
-            />
-            <button
-              onClick={send}
-              disabled={!input.trim() || loading}
-              className="bg-ocean hover:bg-blue-900 disabled:opacity-40 text-white rounded-xl w-9 h-9 flex items-center justify-center transition shrink-0"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-              </svg>
-            </button>
+          <div className="border-t border-gray-100 px-3 pt-2 pb-3 bg-white shrink-0">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                ref={inputRef}
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && send()}
+                onFocus={handleFirstInteraction}
+                placeholder="Scrie sau vorbește..."
+                className="flex-1 border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ocean/30 focus:border-ocean bg-gray-50 text-sm"
+                style={{ fontSize: '16px' }}
+              />
+              <button
+                onClick={() => send()}
+                disabled={!input.trim() || loading}
+                className="bg-ocean hover:bg-blue-900 disabled:opacity-40 text-white rounded-xl w-9 h-9 flex items-center justify-center transition shrink-0"
+              >
+                <svg className="w-4 h-4 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </button>
+            </div>
+            <p className="text-gray-400 text-[11px] mt-1.5 text-center">🎤 Pe mobil folosește microfonul de pe tastatură</p>
           </div>
         </div>
       )}
@@ -141,7 +250,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
             className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-5 h-5 text-xs flex items-center justify-center text-gray-500 hover:bg-gray-300"
             onClick={e => { e.stopPropagation(); setBubble(false) }}
           >×</button>
-          <p className="text-sm text-gray-800">👋 Bine ați venit! Vă ajut să rezervați un studio Premium în Olimp! 🌅</p>
+          <p className="text-sm text-gray-800">🌅 Bună! Te ajut cu rezervări și prețuri. Vorbește sau scrie!</p>
         </div>
       )}
 

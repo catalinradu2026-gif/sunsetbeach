@@ -16,11 +16,11 @@ interface ChatWidgetProps {
 
 function prepareForSpeech(text: string): string {
   return text
-    // Studiouri
-    .replace(/G108/gi, 'G unu zero opt')
-    .replace(/G109/gi, 'G unu zero nouă')
-    .replace(/E317/gi, 'E trei unu șapte')
-    .replace(/E318/gi, 'E trei unu opt')
+    // Studiouri - pronunta direct
+    .replace(/G108/gi, 'G 108')
+    .replace(/G109/gi, 'G 109')
+    .replace(/E317/gi, 'E 317')
+    .replace(/E318/gi, 'E 318')
     // Engleza pronuntata romaneste
     .replace(/Sunset Beach/gi, 'Sanset Bici')
     .replace(/Blaxy/gi, 'Blecsi')
@@ -33,6 +33,9 @@ function prepareForSpeech(text: string): string {
     .replace(/(\d+)\s*lei\/noapte/gi, '$1 lei pe noapte')
     .replace(/(\d+)\s*lei\/zi/gi, '$1 lei pe zi')
     .replace(/(\d+)%/g, '$1 procente')
+    // Sarita cratima si slash din cuvinte
+    .replace(/(\w)-(\w)/g, '$1 $2')
+    .replace(/(\w)\/(\w)/g, '$1 $2')
     // Emojis si markdown
     .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
     .replace(/[*_~`#]/g, '')

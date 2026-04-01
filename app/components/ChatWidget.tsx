@@ -14,10 +14,35 @@ interface ChatWidgetProps {
   onExternalClose?: () => void
 }
 
+function prepareForSpeech(text: string): string {
+  return text
+    // Studiouri
+    .replace(/G108/gi, 'G unu zero opt')
+    .replace(/G109/gi, 'G unu zero nouă')
+    .replace(/E317/gi, 'E trei unu șapte')
+    .replace(/E318/gi, 'E trei unu opt')
+    // Engleza pronuntata romaneste
+    .replace(/Sunset Beach/gi, 'Sanset Bici')
+    .replace(/Blaxy/gi, 'Blecsi')
+    .replace(/beach/gi, 'bici')
+    .replace(/check-in/gi, 'cek in')
+    .replace(/check-out/gi, 'cek aut')
+    .replace(/Wi-Fi/gi, 'uai fai')
+    .replace(/WhatsApp/gi, 'uotsap')
+    // Unitati
+    .replace(/(\d+)\s*lei\/noapte/gi, '$1 lei pe noapte')
+    .replace(/(\d+)\s*lei\/zi/gi, '$1 lei pe zi')
+    .replace(/(\d+)%/g, '$1 procente')
+    // Emojis si markdown
+    .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
+    .replace(/[*_~`#]/g, '')
+    .trim()
+}
+
 function speak(text: string) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return
   window.speechSynthesis.cancel()
-  const clean = text.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[*_~`]/g, '').trim()
+  const clean = prepareForSpeech(text)
   const utt = new SpeechSynthesisUtterance(clean)
   utt.lang = 'ro-RO'
   utt.rate = 1.05

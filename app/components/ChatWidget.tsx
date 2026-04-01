@@ -23,6 +23,7 @@ function prepareForSpeech(text: string): string {
     .replace(/E318/gi, 'E 318')
     // Engleza pronuntata romaneste
     .replace(/Sunset Beach/gi, 'Sanset Bici')
+    .replace(/Blaxy Residence/gi, 'Blecsi Rezidenc')
     .replace(/Blaxy/gi, 'Blecsi')
     .replace(/beach/gi, 'bici')
     .replace(/check-in/gi, 'cek in')
@@ -48,12 +49,19 @@ function speak(text: string) {
   const clean = prepareForSpeech(text)
   const utt = new SpeechSynthesisUtterance(clean)
   utt.lang = 'ro-RO'
-  utt.rate = 1.05
-  utt.pitch = 1
+  utt.rate = 0.9
+  utt.pitch = 0.85
   utt.volume = 1
   const voices = window.speechSynthesis.getVoices()
-  const roVoice = voices.find(v => v.lang.startsWith('ro')) || voices.find(v => v.lang.startsWith('en')) || voices[0]
-  if (roVoice) utt.voice = roVoice
+  // Prefer voce feminina romana, apoi feminina engleza, apoi orice
+  const roFem = voices.find(v => v.lang.startsWith('ro') && v.name.toLowerCase().includes('female'))
+    || voices.find(v => v.lang.startsWith('ro') && (v.name.includes('Ioana') || v.name.includes('Carmen') || v.name.includes('Maria')))
+    || voices.find(v => v.lang.startsWith('ro'))
+    || voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
+    || voices.find(v => v.lang.startsWith('en-GB'))
+    || voices.find(v => ['Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Victoria'].some(n => v.name.includes(n)))
+    || voices[0]
+  if (roFem) utt.voice = roFem
   window.speechSynthesis.speak(utt)
 }
 

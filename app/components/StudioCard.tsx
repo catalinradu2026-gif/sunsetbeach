@@ -12,6 +12,8 @@ interface StudioData {
   whatsapp: string
   prices: Record<string, number>
   occupied: string[]
+  checkoutOnly?: string[]
+  checkinOnly?: string[]
 }
 
 interface Props {
@@ -191,6 +193,8 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
             <Calendar
               prices={data.prices}
               occupied={data.occupied}
+              checkoutOnly={data.checkoutOnly}
+              checkinOnly={data.checkinOnly}
               onRangeSelect={handleRangeSelect}
             />
           </div>

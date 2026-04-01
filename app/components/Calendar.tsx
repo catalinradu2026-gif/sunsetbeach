@@ -5,6 +5,8 @@ import { useState, useCallback } from 'react'
 interface Props {
   prices: Record<string, number>
   occupied: string[]
+  checkoutOnly?: string[]
+  checkinOnly?: string[]
   onRangeSelect?: (range: { start: string; end: string } | null) => void
   adminMode?: boolean
   onAdminClick?: (date: string) => void
@@ -17,7 +19,7 @@ function toKey(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
 }
 
-export default function Calendar({ prices, occupied, onRangeSelect, adminMode, onAdminClick }: Props) {
+export default function Calendar({ prices, occupied, checkoutOnly = [], checkinOnly = [], onRangeSelect, adminMode, onAdminClick }: Props) {
   const today = new Date()
   today.setHours(0,0,0,0)
 
@@ -46,6 +48,8 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
   }
 
   const isOccupied = (key: string) => occupied.includes(key)
+  const isCheckoutOnly = (key: string) => checkoutOnly.includes(key)
+  const isCheckinOnly = (key: string) => checkinOnly.includes(key)
   const isPast = (d: Date) => d < today
 
   const inRange = useCallback((key: string) => {
@@ -64,20 +68,32 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
     }
     if (isPast(d) || isOccupied(key)) return
 
+    const coOnly = isCheckoutOnly(key)
+    const ciOnly = isCheckinOnly(key)
+
     if (!rangeStart || rangeEnd) {
+      // Incepem o selectie noua — checkout_only nu poate fi start
+      if (coOnly) return
       setRangeStart(key)
       setRangeEnd(null)
       onRangeSelect?.(null)
     } else {
+      // Completam selectia — checkin_only nu poate fi end
+      if (ciOnly) return
       let start = rangeStart
       let end = key
       if (start > end) [start, end] = [end, start]
 
-      const hasOccupied = Object.keys(prices).length >= 0 && (() => {
+      const hasOccupied = (() => {
         let cur = new Date(start)
         const endD = new Date(end)
         while (cur <= endD) {
-          if (occupied.includes(toKey(cur))) return true
+          const curKey = toKey(cur)
+          if (occupied.includes(curKey)) return true
+          // checkoutOnly blocheaza doar daca NU e data de sfarsit
+          if (checkoutOnly.includes(curKey) && curKey !== end) return true
+          // checkinOnly blocheaza doar daca NU e data de inceput
+          if (checkinOnly.includes(curKey) && curKey !== start) return true
           cur.setDate(cur.getDate() + 1)
         }
         return false
@@ -116,6 +132,8 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
 
     if (past) return base + 'text-gray-300 cursor-not-allowed '
     if (occ) return base + 'bg-red-50 text-red-400 line-through cursor-not-allowed '
+    if (isCheckoutOnly(key)) return base + 'text-gray-700 overflow-hidden '
+    if (isCheckinOnly(key)) return base + 'text-gray-700 overflow-hidden '
     if (isStart || isEnd) return base + 'bg-ocean text-white font-semibold z-10 '
     if (inR) return base + 'bg-blue-100 text-blue-800 rounded-none '
     if (isToday) return base + 'ring-2 ring-ocean text-ocean font-semibold hover:bg-blue-50 '
@@ -155,31 +173,44 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
 
       {/* Days grid */}
       <div className="grid grid-cols-7 gap-y-0.5">
-        {days.map((d, i) => (
-          <div
-            key={i}
-            className={d ? getDayClass(d) : ''}
-            onClick={() => d && handleClick(d)}
-            onMouseEnter={() => {
-              if (d && rangeStart && !rangeEnd) setHovering(toKey(d))
-            }}
-            onMouseLeave={() => setHovering(null)}
-          >
-            {d && (
-              <>
-                <span className="text-xs leading-none">{d.getDate()}</span>
-                {prices[toKey(d)] && !isPast(d) && !isOccupied(toKey(d)) && (
-                  <span className="text-[7px] leading-none text-sunset font-bold">
-                    {prices[toKey(d)]}
-                  </span>
-                )}
-                {adminMode && isOccupied(toKey(d)) && (
-                  <span className="text-[8px] leading-none text-red-500">occ</span>
-                )}
-              </>
-            )}
-          </div>
-        ))}
+        {days.map((d, i) => {
+          const key = d ? toKey(d) : ''
+          const coOnly = d ? isCheckoutOnly(key) : false
+          const ciOnly = d ? isCheckinOnly(key) : false
+          const halfStyle = coOnly
+            ? { background: 'linear-gradient(to bottom right, white 50%, #fee2e2 50%)' }
+            : ciOnly
+            ? { background: 'linear-gradient(to bottom right, #fee2e2 50%, white 50%)' }
+            : undefined
+          return (
+            <div
+              key={i}
+              className={d ? getDayClass(d) : ''}
+              style={halfStyle}
+              onClick={() => d && handleClick(d)}
+              onMouseEnter={() => {
+                if (d && rangeStart && !rangeEnd) setHovering(toKey(d))
+              }}
+              onMouseLeave={() => setHovering(null)}
+            >
+              {d && (
+                <>
+                  <span className="text-xs leading-none">{d.getDate()}</span>
+                  {coOnly && <span className="text-[7px] leading-none text-orange-500 font-bold">C/O</span>}
+                  {ciOnly && <span className="text-[7px] leading-none text-orange-500 font-bold">C/I</span>}
+                  {prices[key] && !isPast(d) && !isOccupied(key) && !coOnly && !ciOnly && (
+                    <span className="text-[7px] leading-none text-sunset font-bold">
+                      {prices[key]}
+                    </span>
+                  )}
+                  {adminMode && isOccupied(key) && (
+                    <span className="text-[8px] leading-none text-red-500">occ</span>
+                  )}
+                </>
+              )}
+            </div>
+          )
+        })}
       </div>
 
       {/* Legend */}
@@ -187,6 +218,12 @@ export default function Calendar({ prices, occupied, onRangeSelect, adminMode, o
         <div className="flex gap-3 mt-3 text-[10px] text-gray-400 flex-wrap">
           <span className="flex items-center gap-1">
             <span className="w-2.5 h-2.5 rounded bg-red-100 inline-block border border-red-200"></span> Ocupat
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded inline-block border border-orange-200" style={{ background: 'linear-gradient(to bottom right, white 50%, #fee2e2 50%)' }}></span> C/O doar checkout
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded inline-block border border-orange-200" style={{ background: 'linear-gradient(to bottom right, #fee2e2 50%, white 50%)' }}></span> C/I doar check-in
           </span>
           <span className="flex items-center gap-1">
             <span className="w-2.5 h-2.5 rounded bg-ocean inline-block"></span> Selectat

@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     canonical: 'https://sunsetbeach.com.ro',
   },
   verification: {
-    google: '',
+    google: 'CowkJShgKC8_g3mJuQXecOVjup9k6_7RVIF3sWYsnGo',
   },
 }
 

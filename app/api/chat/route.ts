@@ -84,11 +84,20 @@ function getDisponibilitateText(): string {
 }
 
 const DISCOVERY_KEYWORDS = [
+  // Atracții & activități
   'vizita', 'vizitat', 'atractii', 'activitat', 'restaurant', 'plaja', 'mare', 'beach',
   'copii', 'familie', 'distanta', 'apropiere', 'excursie', 'locuri', 'ce fac', 'ce facem',
   'unde merg', 'unde mergem', 'visit', 'attraction', 'activity', 'family', 'kids',
-  'things to do', 'nearby', 'around', 'explore', 'olimp', 'mangalia', 'neptun', 'venus',
-  'mamaia', 'constanta', 'vreme', 'weather', 'sezon', 'season'
+  'things to do', 'nearby', 'around', 'explore', 'vreme', 'weather', 'sezon', 'season',
+  // Locuri apropiate
+  'olimp', 'mangalia', 'neptun', 'venus', 'mamaia', 'constanta', '2mai', 'eforie',
+  'agigea', 'valul lui traian', 'enisala',
+  // Specific Olimp
+  'plaja olimp', 'bar olimp', 'restaurant olimp', 'ce mananc', 'unde iau masa',
+  // Activități pe apă
+  'parasail', 'jet ski', 'inot', 'scafandru', 'fishing', 'boat', 'yacht',
+  // Relaxare
+  'spa', 'masaj', 'wellness', 'yoga', 'relaxare', 'liniste'
 ]
 
 function isDiscoveryQuestion(text: string): boolean {
@@ -132,37 +141,52 @@ function getSystemPrompt(webContext: string) {
 
 Data de azi: ${today}
 
-STUDIOURILE DISPONIBILE:
-- Studio G108 (${studios.g108.title}): ${studios.g108.description}
-- Studio G109 (${studios.g109.title}): ${studios.g109.description}
-- Studio E317 (${studios.e317.title}): ${studios.e317.description}
-- Studio E318 (${studios.e318.title}): ${studios.e318.description}
+╔═ STUDIOURILE (4 TOTAL) ═╗
+1️⃣ Studio G108 — PREMIUM cu PISCINE & MARE (${studios.g108.title})
+   ${studios.g108.description}
+
+2️⃣ Studio G109 — PREMIUM cu PISCINE & MARE (${studios.g109.title})
+   ${studios.g109.description}
+
+3️⃣ Studio E317 — PREMIUM cu VEDERE LA LAC (${studios.e317.title})
+   ${studios.e317.description}
+
+4️⃣ Studio E318 — PREMIUM cu VEDERE LA LAC (${studios.e318.title})
+   ${studios.e318.description}
 
 ${disponibilitate}
 
-Prețurile variază în funcție de perioadă — dacă cineva întreabă de preț fără să spună luna, întreabă-l MAI ÎNTÂI pentru ce perioadă se gândește. NU inventa și NU ghici niciun preț.
-Facilități: piscine gratuite, parcare gratuită, beach bar, 250m până la plajă, Wi-Fi, AC, frigider, espressor, balcon.
-Opțional: mic dejun 40 lei/persoană/zi.
-Minim 3 nopți. Discount 10% la plată integrală.
+╔═ REGULI PREȚURI & FACTURARE ═╗
+⚠️  PREȚURI: Variază lunar! Dacă clientul nu spune luna, întreabă-l OBLIGATORIU.
+💳 Minim 3 nopți | Plată integrală = 10% DISCOUNT | Mic dejun opțional = 40 lei/pers/zi
 
-${webContext ? `Informații actuale din web:\n${webContext}\n` : ''}
+╔═ FACILITATI INCLUSE (GRATUIT) ═╗
+✓ Piscine (mare + copii) | Parcare | Beach bar | Wi-Fi | Aer condiționat | Frigider | Espressor
+✓ 250m până la plajă | Prosoape PREMIUM | Balcon cu vedere | Lenjerie PREMIUM | Papuci
 
-REGULI DISPONIBILITATE — OBLIGATORIU DE RESPECTAT:
-- Informațiile din secțiunea "DISPONIBILITATE REALĂ" sunt 100% corecte și actualizate — nu le ignora!
-- Dacă o perioadă e marcată "OCUPAT", studioul NU e disponibil în zilele alea — spune-i clar
-- Zilele "Checkout doar" sunt ultimele zile ale unei rezervări anterioare (clientul pleacă) — NU se poate face check-in
-- Zilele "Checkin doar" sunt primele zile ale unei rezervări următoare (noul client sosește) — NU se poate face check-out
-- Dacă utilizatorul întreabă de o perioadă care nu e menționată, inchide: studioul e liber în acele zile
-- NU INVENTA disponibilitate. Dacă e ocupat, spune-l și propune alte studiouri sau alte perioade
-- La orice întrebare de rezervare, recomandă confirmarea pe WhatsApp: 40787813485
+╔═ DISPONIBILITATE — REGULI STRICTE ═╗
+• "OCUPAT" = NU disponibil în zilele alea
+• "Checkout doar" = client pleacă, NU se face check-in
+• "Checkin doar" = client sosește, NU se face check-out
+• Perioada ne-menționată = studioul e LIBER
+⚠️  NU INVENTA disponibilitate! Dacă e ocupat → propune alternativă
 
-Regulile tale generale:
-- Răspunde în limba în care ți se scrie (română sau engleză)
-- Fii entuziast și pozitiv despre zonă și proprietate
-- Când vorbești despre atracții, subliniază că locația noastră e ideală ca bază de explorare
-- Evidențiază că Olimp e una din cele mai liniștite și frumoase stațiuni de pe litoral
-- Răspunsuri scurte și prietenoase, max 4-5 propoziții
-- Nu inventa prețuri specifice — lasă-l pe client să spună luna, apoi vei fi informat corect`
+${webContext ? `\n🌍 INFORMAȚII ACTUALE DIN WEB:\n${webContext}\n` : ''}
+
+╔═ OLIMP — BEST VACATION SPOT ═╗
+🏖️  Cea mai liniștită stațiune pe litoral | Plajă cu nisip fin | Apă curată | Rar aglomerat
+🚗 Bază ideală pentru explorare (Constanța, Mangalia, atracții) | Mâncare bună local
+🌞 Sezonul ideal: mai-septembrie | Perfect pentru cupluri & familii
+
+╔═ PROCESUL REZERVARE ═╗
+1. Alegi studio & perioadă | 2. Confirmi detalii pe WhatsApp (40787813485)
+3. Primești ofertă finală | 4. Plată (transfer/card/cash)
+
+╔═ TON & STIL ═╗
+✍️  Răspunde în limba clientului | Prietenos & entuziast | Scurt (3-4 propoziții MAX)
+🎯 Propune alternativă dacă studio e ocupat | Totdeauna recomandă WhatsApp: 40787813485
+
+REGULA SUPREMĂ: Ești expert complet pe platformă — răspunde cu siguranță la ORICE!`
 }
 
 const MONTH_KEYWORDS: Record<string, string> = {
@@ -267,11 +291,25 @@ export async function POST(req: NextRequest) {
       webContext = await searchWeb(lastMessage)
     }
 
+    // Injectează FAQ context dacă e o primă întrebare
+    const faqContext = messages.length <= 2 ? `
+📋 ÎNTREBĂRI FRECVENTE:
+Q: Care e diferența între studiouri? A: G108/G109 au vedere la PISCINE + MARE (400-485 lei), E317/E318 au vedere la LAC (370-455 lei)
+Q: Ce include în preț? A: Piscine, parcare, Wi-Fi, AC, frigider, espressor, 250m la plajă — GRATUIT
+Q: Cât costă mic dejunul? A: 40 lei/persoană/zi (opțional)
+Q: Care e perioada ideală? A: mai-septembrie, mai puțin aglomerat decât alte stațiuni
+Q: Cum mă înscriu? A: Trimite WhatsApp cu perioadă & studio, primești ofertă pe spot
+Q: Se poate discuta prețul? A: Contactează direct la 40787813485 pentru oferte speciale
+` : ''
+
     const systemMessages: { role: 'system' | 'user' | 'assistant'; content: string }[] = [
       { role: 'system', content: getSystemPrompt(webContext) },
     ]
     if (pretInjectat) {
       systemMessages.push({ role: 'system', content: pretInjectat })
+    }
+    if (faqContext) {
+      systemMessages.push({ role: 'system', content: faqContext })
     }
 
     const response = await groq.chat.completions.create({

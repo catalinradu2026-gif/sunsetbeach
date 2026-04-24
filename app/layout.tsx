@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import StructuredData from './components/StructuredData'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sunsetbeach.com.ro'),
@@ -55,6 +57,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-gray-50 text-gray-800">
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

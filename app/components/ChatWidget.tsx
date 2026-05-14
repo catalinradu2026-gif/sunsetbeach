@@ -14,13 +14,37 @@ interface ChatWidgetProps {
   onExternalClose?: () => void
 }
 
+function numRo(n: number): string {
+  if (n === 0) return 'zero'
+  const ones = ['', 'unu', 'doi', 'trei', 'patru', 'cinci', 'șase', 'șapte', 'opt', 'nouă',
+    'zece', 'unsprezece', 'doisprezece', 'treisprezece', 'paisprezece', 'cincisprezece',
+    'șaisprezece', 'șaptesprezece', 'optsprezece', 'nouăsprezece']
+  const tens = ['', '', 'douăzeci', 'treizeci', 'patruzeci', 'cincizeci',
+    'șaizeci', 'șaptezeci', 'optzeci', 'nouăzeci']
+  function conv(x: number): string {
+    if (x === 0) return ''
+    if (x < 20) return ones[x]
+    if (x < 100) { const t = Math.floor(x / 10), o = x % 10; return o === 0 ? tens[t] : `${tens[t]} și ${ones[o]}` }
+    if (x < 1000) {
+      const h = Math.floor(x / 100), r = x % 100
+      const s = h === 1 ? 'o sută' : h === 2 ? 'două sute' : `${ones[h]} sute`
+      return r === 0 ? s : `${s} ${conv(r)}`
+    }
+    if (x < 1000000) {
+      const th = Math.floor(x / 1000), r = x % 1000
+      const m = th === 1 ? 'o mie' : th === 2 ? 'două mii' : `${conv(th)} mii`
+      return r === 0 ? m : `${m} ${conv(r)}`
+    }
+    return String(x)
+  }
+  return conv(n)
+}
+
 function prepareForSpeech(text: string): string {
   return text
-    // Studiouri - pronunta direct
-    .replace(/G108/gi, 'G 108')
-    .replace(/G109/gi, 'G 109')
-    .replace(/E317/gi, 'E 317')
-    .replace(/E318/gi, 'E 318')
+    // Studiouri
+    .replace(/G108/gi, 'G 108').replace(/G109/gi, 'G 109')
+    .replace(/E317/gi, 'E 317').replace(/E318/gi, 'E 318')
     // Engleza pronuntata romaneste
     .replace(/Sunset Beach/gi, 'Sanset Bici')
     .replace(/Blaxy Residence/gi, 'Blecsi Rezidenc')
@@ -30,16 +54,31 @@ function prepareForSpeech(text: string): string {
     .replace(/check-out/gi, 'cek aut')
     .replace(/Wi-Fi/gi, 'uai fai')
     .replace(/WhatsApp/gi, 'uotsap')
-    // Unitati
-    .replace(/(\d+)\s*lei\/noapte/gi, '$1 lei pe noapte')
-    .replace(/(\d+)\s*lei\/zi/gi, '$1 lei pe zi')
-    .replace(/(\d+)%/g, '$1 procente')
-    // Sarita cratima si slash din cuvinte
-    .replace(/(\w)-(\w)/g, '$1 $2')
-    .replace(/(\w)\/(\w)/g, '$1 $2')
-    // Emojis si markdown
+    // Emojis si markdown (inainte de numere)
     .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
     .replace(/[*_~`#]/g, '')
+    // Numere zecimale cu virgula: 3.055,5 sau 3055,5
+    .replace(/(\d[\d.]*),(\d+)/g, (_, int, dec) => {
+      const intClean = parseInt(int.replace(/\./g, ''))
+      return `${numRo(intClean)} virgulă ${numRo(parseInt(dec))}`
+    })
+    // Numere cu separator de mii (punct): 3.055
+    .replace(/\b(\d{1,3})(?:\.(\d{3}))+\b/g, (match) => {
+      return numRo(parseInt(match.replace(/\./g, '')))
+    })
+    // Procente
+    .replace(/\b(\d+)\s*%/g, (_, n) => `${numRo(parseInt(n))} la sută`)
+    // Unitati compuse
+    .replace(/\b(\d+)\s*lei\/noapte/gi, (_, n) => `${numRo(parseInt(n))} lei pe noapte`)
+    .replace(/\b(\d+)\s*lei\/zi/gi, (_, n) => `${numRo(parseInt(n))} lei pe zi`)
+    .replace(/\b(\d+)\s*lei\/pers/gi, (_, n) => `${numRo(parseInt(n))} lei pe persoană`)
+    // Numere simple ramase (3+ cifre sau langa unitati comune)
+    .replace(/\b(\d+)\s*(lei|ron|euro|nopți|noapte|persoane|pers|zile|zi)\b/gi, (_, n, unit) =>
+      `${numRo(parseInt(n))} ${unit}`)
+    .replace(/\b(\d{3,})\b/g, (_, n) => numRo(parseInt(n)))
+    // Slash si cratima din cuvinte
+    .replace(/(\w)-(\w)/g, '$1 $2')
+    .replace(/(\w)\/(\w)/g, '$1 $2')
     .trim()
 }
 

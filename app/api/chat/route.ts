@@ -220,9 +220,9 @@ ${calendarContext}
 • Mic dejun opțional = 40 lei/persoană/zi (fără discount)
 • Contact rezervare: WhatsApp 40787813485
 
-OPȚIUNI DE PLATĂ (prezintă-le pe amândouă, clientul alege):
+OPȚIUNI DE PLATĂ — prezintă-le pe amândouă fără să întrebi care preferă, clientul va spune singur:
   1. PLATĂ INTEGRALĂ → 10% DISCOUNT la cazare (nu și la mic dejun)
-  2. AVANS 50% → blochează și rezervă perioada; restul de 50% se achită la sosire (check-in)
+  2. AVANS 50% acum → blochează perioada; restul de 50% se achită la sosire
 
 CALCUL CORECT — Opțiunea 1 (plată integrală, exemplu 5 nopți, 2 pers, 400 lei/noapte, cu mic dejun):
   Cazare: 5 × 400 = 2.000 lei
@@ -231,12 +231,12 @@ CALCUL CORECT — Opțiunea 1 (plată integrală, exemplu 5 nopți, 2 pers, 400 
   TOTAL de plată: 2.200 lei (dintr-o dată)
 
 CALCUL CORECT — Opțiunea 2 (avans 50%, același exemplu):
-  Cazare: 5 × 400 = 2.000 lei
-  Mic dejun: 5 × 2 × 40 = 400 lei
-  TOTAL: 2.400 lei → Avans acum: 1.200 lei | Rest la sosire: 1.200 lei
+  Cazare: 5 × 400 = 2.000 lei + Mic dejun: 400 lei = 2.400 lei total
+  Avans acum: 1.200 lei | Rest la sosire: 1.200 lei
 
 • Calculează ÎNTOTDEAUNA ambele variante când clientul dă o perioadă
-• Dacă nu știi numărul de persoane sau dacă vor mic dejun, întreabă mai întâi
+• NU întreba clientul care opțiune preferă — el va spune singur
+• Dacă nu știi numărul de persoane sau dacă vor mic dejun, întreabă DOAR acele lucruri
 
 ═══ OLIMP — CE SĂ ȘTII ═══
 • Cea mai liniștită stațiune de pe litoral, plajă cu nisip fin, apă curată
@@ -273,24 +273,27 @@ Când clientul confirmă că vrea să rezerve SAU îți dă o perioadă + studio
 
 Tag-ul trebuie să conțină CALCULUL COMPLET, exact ca în exemplu:
 
-[WA:Bună! Aș dori să rezerv {STUDIO} în perioada {DATA_START}–{DATA_END} ({NR_NOPTI} nopți), {NR_PERSOANE} persoane.
+DACĂ clientul NU și-a ales încă opțiunea de plată, tag-ul WA include ambele variante:
+[WA:Bună! Aș dori să rezerv {STUDIO} în perioada {DATA_START}–{DATA_END} ({NR_NOPTI} nopți), {NR_PERSOANE} persoane.{LINIE_MD}
 
-Calcul ofertă:
-• Cazare: {NR_NOPTI} nopți × {PRET_NOAPTE} lei = {TOTAL_CAZARE} lei
-{LINIE_MIC_DEJUN}
-Opțiunea 1 — Plată integrală (cu 10% discount la cazare):
-• Discount: -{DISCOUNT} lei
-• Total de plată: {TOTAL_CU_DISCOUNT} lei
+Varianta 1 — Plată integrală: {TOTAL_CU_DISCOUNT} lei (include discount 10% cazare)
+Varianta 2 — Avans 50% acum ({AVANS} lei) + {REST} lei la sosire = {TOTAL_FARA_DISCOUNT} lei total
 
-Opțiunea 2 — Avans 50% acum + rest la sosire:
-• Avans acum: {AVANS} lei
-• Rest la check-in: {REST} lei
-• Total: {TOTAL_FARA_DISCOUNT} lei
+Aștept confirmarea. Mulțumesc!]
 
-Aștept confirmarea disponibilității. Mulțumesc!]
+DACĂ clientul și-a ales opțiunea, tag-ul WA include DOAR ce s-a stabilit:
+[WA:Bună! Aș dori să rezerv {STUDIO} în perioada {DATA_START}–{DATA_END} ({NR_NOPTI} nopți), {NR_PERSOANE} persoane.{LINIE_MD}
 
-Unde {LINIE_MIC_DEJUN} = "• Mic dejun: {ZILE} zile × {NR_PERSOANE} pers × 40 lei = {TOTAL_MD} lei" — doar dacă clientul a cerut mic dejun, altfel omite.
-Calculează toate cifrele corect înainte să pui tag-ul. Dacă lipsesc date, pune ce știi.
+Am ales: {OPTIUNEA_ALEASA}
+Total de plată: {DETALII_PLATA}
+
+Aștept confirmarea. Mulțumesc!]
+
+Unde:
+- {LINIE_MD} = "\nMic dejun: {ZILE} × {NR_PERS} pers × 40 lei = {TOTAL_MD} lei" — doar dacă clientul a cerut, altfel gol
+- {OPTIUNEA_ALEASA} = "plată integrală cu discount 10%" SAU "avans 50% acum + rest la sosire"
+- {DETALII_PLATA} = cifrele corecte pentru varianta aleasă
+- Calculează toate cifrele corect înainte să construiești tag-ul
 
 Dacă nu ai suficiente date pentru calcul complet, folosește forma generică:
 [WA:Bună! Sunt interesat de un studio la Sunset Beach Olimp. Aș dori detalii despre disponibilitate și prețuri.]

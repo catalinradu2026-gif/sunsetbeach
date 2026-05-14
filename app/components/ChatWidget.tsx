@@ -445,8 +445,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {/* Bubble notification */}
       {bubble && !open && (
         <div
-          className="fixed z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[240px] cursor-pointer transition-all"
-          style={{ top: '16px', left: '80px' }}
+          className="fixed top-20 left-20 z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[240px] cursor-pointer transition-all"
           onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
         >
           <button
@@ -471,6 +470,14 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
 
       {/* Toggle button + eticheta */}
       <div className="fixed top-4 left-4 z-50 flex flex-col items-start gap-1.5">
+        {!open && (
+          <button
+            onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
+            className="bg-white text-ocean border border-ocean/20 shadow-md rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap hover:bg-ocean hover:text-white transition-all"
+          >
+            🎤 Apasă și vorbește cu Marina!
+          </button>
+        )}
         <button
           onClick={() => { setOpen(o => !o); setBubble(false); clearBubbleTimers() }}
           className="bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 shrink-0"
@@ -486,15 +493,6 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
             </svg>
           )}
         </button>
-
-        {!open && (
-          <button
-            onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
-            className="bg-white text-ocean border border-ocean/20 shadow-md rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap hover:bg-ocean hover:text-white transition-all"
-          >
-            🎤 Apasă și vorbește cu Marina!
-          </button>
-        )}
       </div>
     </>
   )

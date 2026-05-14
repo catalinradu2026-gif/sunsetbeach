@@ -428,7 +428,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {bubble && !open && (
         <div
           className="fixed z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[240px] cursor-pointer transition-all"
-          style={{ top: '84px', left: '80px' }}
+          style={{ top: '16px', left: '80px' }}
           onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
         >
           <button

@@ -7,7 +7,7 @@ interface Message {
   content: string
 }
 
-const WELCOME = 'Bună! Sunt Marina, agentul tău de vacanță la Sunset Beach Olimp 🌊 Spune-mi când vrei să vii și cu câte persoane — îți găsesc eu cel mai bun studio disponibil!'
+const WELCOME = 'Bună! Sunt Marina, agentul tău de vacanță la Sunset Beach Olimp. 🌊 Spune-mi când vrei să vii și cu câte persoane — îți găsesc eu cel mai bun studio disponibil!'
 
 interface ChatWidgetProps {
   externalOpen?: boolean

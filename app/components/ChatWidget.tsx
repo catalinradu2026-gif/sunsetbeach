@@ -99,9 +99,25 @@ function speak(text: string) {
   speakNext()
 }
 
+function getBubbleMessages(): string[] {
+  const h = new Date().getHours()
+  const salut = h < 12 ? 'Bună dimineața!' : h < 18 ? 'Bună ziua!' : 'Bună seara!'
+  return [
+    `${salut} Sunt Marina. Câteva zile la mare, cu piscină și vedere la valuri — îți fac eu calculul acum. 🌊`,
+    'Știi că plata integrală îți aduce 10% reducere la cazare? Spune-mi perioada și îți arăt exact cât economisești.',
+    'Studiorile noastre din Olimp se rezervă repede vara. Vrei să verificăm dacă mai avem loc pentru tine?',
+    'De la 370 lei/noapte — piscine, parcare, espressor, 250 m până la plajă. Totul inclus.',
+    'Olimp e cea mai liniștită stațiune de pe litoral. Dacă vrei să scapi de agitație, ești în locul potrivit.',
+    'Îți trebuie doar două minute: îmi spui când vii și cu câți, și ai oferta completă pe loc.',
+  ]
+}
+
 export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
   const [open, setOpen] = useState(false)
   const [bubble, setBubble] = useState(false)
+  const [bubbleTyping, setBubbleTyping] = useState(false)
+  const [bubbleMsg, setBubbleMsg] = useState('')
+  const [bubbleMsgIdx, setBubbleMsgIdx] = useState(0)
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: WELCOME }
   ])
@@ -113,19 +129,45 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
   const [showGuide, setShowGuide] = useState(true)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const bubbleTimers = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  function clearBubbleTimers() {
+    bubbleTimers.current.forEach(clearTimeout)
+    bubbleTimers.current = []
+  }
+
+  function showBubbleMessage(msgs: string[], idx: number) {
+    if (open) return
+    setBubbleTyping(true)
+    setBubbleMsg('')
+    const t1 = setTimeout(() => {
+      setBubbleTyping(false)
+      setBubbleMsg(msgs[idx])
+      const nextIdx = (idx + 1) % msgs.length
+      setBubbleMsgIdx(nextIdx)
+      const t2 = setTimeout(() => showBubbleMessage(msgs, nextIdx), 5000)
+      bubbleTimers.current.push(t2)
+    }, 1200)
+    bubbleTimers.current.push(t1)
+  }
 
   useEffect(() => {
     if (externalOpen) setOpen(true)
   }, [externalOpen])
 
   useEffect(() => {
-    const t = setTimeout(() => setBubble(true), 2000)
-    return () => clearTimeout(t)
+    const t = setTimeout(() => {
+      setBubble(true)
+      const msgs = getBubbleMessages()
+      showBubbleMessage(msgs, 0)
+    }, 2000)
+    return () => { clearTimeout(t); clearBubbleTimers() }
   }, [])
 
   useEffect(() => {
     if (open) {
       setBubble(false)
+      clearBubbleTimers()
       setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [open])
@@ -317,14 +359,26 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {/* Bubble notification */}
       {bubble && !open && (
         <div
-          className="fixed top-20 left-20 z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[220px] cursor-pointer"
-          onClick={() => { setOpen(true); setBubble(false) }}
+          className="fixed top-20 left-20 z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[240px] cursor-pointer transition-all"
+          onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
         >
           <button
             className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-5 h-5 text-xs flex items-center justify-center text-gray-500 hover:bg-gray-300"
-            onClick={e => { e.stopPropagation(); setBubble(false) }}
+            onClick={e => { e.stopPropagation(); setBubble(false); clearBubbleTimers() }}
           >×</button>
-          <p className="text-sm text-gray-800">🌊 Bună! Sunt Marina — spune-mi când vrei să vii la mare!</p>
+
+          {bubbleTyping ? (
+            <div className="flex items-center gap-2 py-1">
+              <span className="text-xs text-gray-400 italic">Marina scrie</span>
+              <span className="flex gap-0.5">
+                <span className="w-1.5 h-1.5 bg-ocean/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-1.5 h-1.5 bg-ocean/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-1.5 h-1.5 bg-ocean/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              </span>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-800 leading-snug">{bubbleMsg}</p>
+          )}
         </div>
       )}
 

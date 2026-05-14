@@ -382,22 +382,33 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         </div>
       )}
 
-      {/* Toggle button */}
-      <button
-        onClick={() => { setOpen(o => !o); setBubble(false) }}
-        className="fixed top-4 left-4 z-50 bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105"
-        aria-label="Deschide chat"
-      >
-        {open ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-          </svg>
+      {/* Toggle button + eticheta */}
+      <div className="fixed top-4 left-4 z-50 flex items-center gap-2">
+        <button
+          onClick={() => { setOpen(o => !o); setBubble(false); clearBubbleTimers() }}
+          className="bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 shrink-0"
+          aria-label="Deschide chat"
+        >
+          {open ? (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+            </svg>
+          )}
+        </button>
+
+        {!open && (
+          <button
+            onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
+            className="bg-white text-ocean border border-ocean/20 shadow-md rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap hover:bg-ocean hover:text-white transition-all"
+          >
+            🎤 Apasă și vorbește cu Marina!
+          </button>
         )}
-      </button>
+      </div>
     </>
   )
 }

@@ -427,7 +427,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       {/* Bubble notification */}
       {bubble && !open && (
         <div
-          className="fixed top-20 left-20 z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[240px] cursor-pointer transition-all"
+          className="fixed top-24 left-20 z-50 bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-100 px-4 py-3 max-w-[240px] cursor-pointer transition-all"
           onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}
         >
           <button

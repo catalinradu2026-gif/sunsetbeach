@@ -55,45 +55,63 @@ function numRo(n: number): string {
 }
 
 function prepareForSpeech(text: string): string {
-  return text
-    // Studiouri
-    .replace(/G108/gi, 'G 108').replace(/G109/gi, 'G 109')
-    .replace(/E317/gi, 'E 317').replace(/E318/gi, 'E 318')
-    // Engleza pronuntata romaneste
-    .replace(/Sunset Beach/gi, 'Sanset Bici')
-    .replace(/Blaxy Residence/gi, 'Blecsi Rezidenc')
-    .replace(/Blaxy/gi, 'Blecsi')
-    .replace(/beach/gi, 'bici')
-    .replace(/check-in/gi, 'cek in')
-    .replace(/check-out/gi, 'cek aut')
-    .replace(/Wi-Fi/gi, 'uai fai')
-    .replace(/WhatsApp/gi, 'uotsap')
-    // Emojis si markdown (inainte de numere)
-    .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
-    .replace(/[*_~`#]/g, '')
-    // Numere zecimale cu virgula: 3.055,5 sau 3055,5
-    .replace(/(\d[\d.]*),(\d+)/g, (_, int, dec) => {
-      const intClean = parseInt(int.replace(/\./g, ''))
-      return `${numRo(intClean)} virgulă ${numRo(parseInt(dec))}`
-    })
-    // Numere cu separator de mii (punct): 3.055
-    .replace(/\b(\d{1,3})(?:\.(\d{3}))+\b/g, (match) => {
-      return numRo(parseInt(match.replace(/\./g, '')))
-    })
-    // Procente
-    .replace(/\b(\d+)\s*%/g, (_, n) => `${numRo(parseInt(n))} la sută`)
-    // Unitati compuse
-    .replace(/\b(\d+)\s*lei\/noapte/gi, (_, n) => `${numRo(parseInt(n))} lei pe noapte`)
-    .replace(/\b(\d+)\s*lei\/zi/gi, (_, n) => `${numRo(parseInt(n))} lei pe zi`)
-    .replace(/\b(\d+)\s*lei\/pers/gi, (_, n) => `${numRo(parseInt(n))} lei pe persoană`)
-    // Numere simple ramase (3+ cifre sau langa unitati comune)
-    .replace(/\b(\d+)\s*(lei|ron|euro|nopți|noapte|persoane|pers|zile|zi)\b/gi, (_, n, unit) =>
-      `${numRo(parseInt(n))} ${unit}`)
-    .replace(/\b(\d{3,})\b/g, (_, n) => numRo(parseInt(n)))
-    // Slash si cratima din cuvinte
-    .replace(/(\w)-(\w)/g, '$1 $2')
-    .replace(/(\w)\/(\w)/g, '$1 $2')
-    .trim()
+  let s = text
+
+  // 1. Studiouri si cuvinte speciale (inainte de orice)
+  s = s.replace(/G108/gi, 'G 108').replace(/G109/gi, 'G 109')
+       .replace(/E317/gi, 'E 317').replace(/E318/gi, 'E 318')
+  s = s.replace(/Sunset Beach/gi, 'Sanset Bici')
+       .replace(/Blaxy Residence/gi, 'Blecsi Rezidenc')
+       .replace(/Blaxy/gi, 'Blecsi')
+       .replace(/beach/gi, 'bici')
+       .replace(/check-in/gi, 'sosire').replace(/check-out/gi, 'plecare')
+       .replace(/Wi-Fi/gi, 'uai fai')
+       .replace(/WhatsApp/gi, 'uotsap')
+       .replace(/discount/gi, 'discaunt')
+
+  // 2. Emojis si markdown
+  s = s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[*_~`#]/g, '')
+
+  // 3. Protejeaza numerele de telefon (10+ cifre) cu placeholder
+  const phoneMap: Record<string, string> = {}
+  let phoneIdx = 0
+  s = s.replace(/\b\d{10,}\b/g, (m) => {
+    const key = `__PHONE${phoneIdx++}__`
+    phoneMap[key] = m.split('').join(' ')
+    return key
+  })
+
+  // 4. Numere zecimale cu virgula: 1800,50 sau 3.055,5
+  s = s.replace(/(\d[\d.]*),(\d+)/g, (_, int, dec) => {
+    const n = parseInt(int.replace(/\./g, ''))
+    return `${numRo(n)} virgulă ${numRo(parseInt(dec))}`
+  })
+
+  // 5. Numere cu separator de mii (punct): 3.055
+  s = s.replace(/\b\d{1,3}(?:\.\d{3})+\b/g, (m) => numRo(parseInt(m.replace(/\./g, ''))))
+
+  // 6. Procente
+  s = s.replace(/\b(\d+)\s*%/g, (_, n) => `${numRo(parseInt(n))} la sută`)
+
+  // 7. Unitati compuse (slash)
+  s = s.replace(/\b(\d+)\s*lei\/noapte/gi, (_, n) => `${numRo(parseInt(n))} lei pe noapte`)
+  s = s.replace(/\b(\d+)\s*lei\/zi/gi, (_, n) => `${numRo(parseInt(n))} lei pe zi`)
+  s = s.replace(/\b(\d+)\s*lei\/pers\w*/gi, (_, n) => `${numRo(parseInt(n))} lei pe persoană`)
+
+  // 8. Numere langa unitati comune (orice numar, 1+ cifre)
+  s = s.replace(/\b(\d+)\s*(lei|ron|euro|nopți|noapte|persoane|persoană|pers|zile|zi|ore|km)\b/gi,
+    (_, n, unit) => `${numRo(parseInt(n))} ${unit}`)
+
+  // 9. Toate numerele ramase de 1-9 cifre (nu telefoane)
+  s = s.replace(/\b(\d{1,9})\b/g, (_, n) => numRo(parseInt(n)))
+
+  // 10. Restaureaza numerele de telefon
+  for (const [key, val] of Object.entries(phoneMap)) s = s.replace(key, val)
+
+  // 11. Slash si cratima din cuvinte
+  s = s.replace(/(\w)-(\w)/g, '$1 $2').replace(/(\w)\/(\w)/g, '$1 $2')
+
+  return s.trim()
 }
 
 function getVoice(): SpeechSynthesisVoice | null {

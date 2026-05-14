@@ -8,12 +8,17 @@ interface Message {
   waText?: string  // mesaj pre-completat pentru WhatsApp
 }
 
-function extractWA(text: string): { clean: string; waText: string | null } {
-  const match = text.match(/\[WA:(.+?)\]\s*$/s)
-  if (!match) return { clean: text.trim(), waText: null }
+function extractWA(text: string): { clean: string; waText: string | null; voiceText: string | null } {
+  const waMatch = text.match(/\[WA:([\s\S]+?)\]/)
+  const voiceMatch = text.match(/\[VOCE:([\s\S]+?)\]/)
+  const clean = text
+    .replace(/\[WA:[\s\S]+?\]/g, '')
+    .replace(/\[VOCE:[\s\S]+?\]/g, '')
+    .trim()
   return {
-    clean: text.replace(/\[WA:.+?\]\s*$/s, '').trim(),
-    waText: match[1].trim(),
+    clean,
+    waText: waMatch ? waMatch[1].trim() : null,
+    voiceText: voiceMatch ? voiceMatch[1].trim() : null,
   }
 }
 
@@ -315,9 +320,9 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       })
       const data = await res.json()
       const raw = data.reply || 'Ne pare rău, a apărut o eroare.'
-      const { clean, waText } = extractWA(raw)
+      const { clean, waText, voiceText } = extractWA(raw)
       setMessages(prev => [...prev, { role: 'assistant', content: clean, waText: waText || undefined }])
-      speakText(clean)
+      speakText(voiceText || clean)
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Eroare de conexiune. Încearcă din nou.' }])
     } finally {

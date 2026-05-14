@@ -422,7 +422,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       )}
 
       {/* Toggle button + eticheta */}
-      <div className="fixed top-4 left-4 z-50 flex items-center gap-2">
+      <div className="fixed top-4 left-4 z-50 flex flex-col items-start gap-1.5">
         <button
           onClick={() => { setOpen(o => !o); setBubble(false); clearBubbleTimers() }}
           className="bg-ocean hover:bg-blue-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 shrink-0"

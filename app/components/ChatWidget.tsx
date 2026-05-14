@@ -49,8 +49,8 @@ function speak(text: string) {
   const clean = prepareForSpeech(text)
   const utt = new SpeechSynthesisUtterance(clean)
   utt.lang = 'ro-RO'
-  utt.rate = 0.9
-  utt.pitch = 0.85
+  utt.rate = 1.0
+  utt.pitch = 1.0
   utt.volume = 1
   const voices = window.speechSynthesis.getVoices()
   // Prefer voce feminina romana, apoi feminina engleza, apoi orice

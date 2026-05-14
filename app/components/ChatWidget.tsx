@@ -69,7 +69,17 @@ function prepareForSpeech(text: string): string {
        .replace(/WhatsApp/gi, 'uotsap')
        .replace(/discount/gi, 'discaunt')
 
-  // 2. Emojis si markdown
+  // 2. Simboluri matematice si speciale
+  s = s.replace(/×/g, ' ori ')
+  s = s.replace(/(\d)\s*[xX]\s*(\d)/g, '$1 ori $2')   // 5 x 3 → 5 ori 3
+  s = s.replace(/\+/g, ' plus ')
+  s = s.replace(/\s*=\s*/g, ' egal ')
+  s = s.replace(/−/g, ' minus ')                        // minus unicode
+  s = s.replace(/(\d)\s*-\s*(\d)/g, '$1 minus $2')     // 100 - 10 → 100 minus 10
+  s = s.replace(/÷/g, ' împărțit la ')
+  s = s.replace(/·/g, ' ori ')
+
+  // 3. Emojis si markdown
   s = s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[*_~`#]/g, '')
 
   // 3. Protejeaza numerele de telefon (10+ cifre) cu placeholder

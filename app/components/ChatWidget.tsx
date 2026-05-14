@@ -479,7 +479,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       )}
 
       {/* Toggle button + eticheta */}
-      <div className="fixed top-4 left-4 z-50 flex flex-col items-start gap-1.5">
+      <div className="fixed top-4 left-4 z-50 flex flex-col items-center gap-1.5">
         {!open && (
           <button
             onClick={() => { setOpen(true); setBubble(false); clearBubbleTimers() }}

@@ -43,26 +43,60 @@ function prepareForSpeech(text: string): string {
     .trim()
 }
 
-function speak(text: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return
-  window.speechSynthesis.cancel()
-  const clean = prepareForSpeech(text)
-  const utt = new SpeechSynthesisUtterance(clean)
-  utt.lang = 'ro-RO'
-  utt.rate = 1.0
-  utt.pitch = 1.0
-  utt.volume = 1
+function getVoice(): SpeechSynthesisVoice | null {
   const voices = window.speechSynthesis.getVoices()
-  // Prefer voce feminina romana, apoi feminina engleza, apoi orice
-  const roFem = voices.find(v => v.lang.startsWith('ro') && v.name.toLowerCase().includes('female'))
+  return voices.find(v => v.lang.startsWith('ro') && v.name.toLowerCase().includes('female'))
     || voices.find(v => v.lang.startsWith('ro') && (v.name.includes('Ioana') || v.name.includes('Carmen') || v.name.includes('Maria')))
     || voices.find(v => v.lang.startsWith('ro'))
     || voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
     || voices.find(v => v.lang.startsWith('en-GB'))
     || voices.find(v => ['Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Victoria'].some(n => v.name.includes(n)))
     || voices[0]
-  if (roFem) utt.voice = roFem
-  window.speechSynthesis.speak(utt)
+    || null
+}
+
+function splitSentences(text: string): string[] {
+  // Taie la punct, semnul exclamarii, intrebarii, puncte de suspensie, linie lunga
+  // Pastreaza delimitatorul atasat de propozitie
+  return text
+    .split(/(?<=[.!?…])\s+|(?<=—)\s*/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0)
+}
+
+function speak(text: string) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const clean = prepareForSpeech(text)
+  const sentences = splitSentences(clean)
+  if (sentences.length === 0) return
+
+  const voice = getVoice()
+
+  function makeUtt(s: string): SpeechSynthesisUtterance {
+    const u = new SpeechSynthesisUtterance(s)
+    u.lang = 'ro-RO'
+    u.rate = 1.0
+    u.pitch = 1.0
+    u.volume = 1
+    if (voice) u.voice = voice
+    return u
+  }
+
+  // Pune propozitiile in coada cu pauza intre ele via onend + setTimeout
+  let index = 0
+  function speakNext() {
+    if (index >= sentences.length) return
+    const u = makeUtt(sentences[index])
+    index++
+    // Pauza dupa propozitie: 280ms dupa punct simplu, 180ms dupa virgula/linie
+    const lastChar = sentences[index - 1].slice(-1)
+    const pause = (lastChar === '.' || lastChar === '!' || lastChar === '?') ? 280 : 180
+    u.onend = () => setTimeout(speakNext, pause)
+    window.speechSynthesis.speak(u)
+  }
+
+  speakNext()
 }
 
 export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
@@ -109,10 +143,14 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
     setSpeaking(true)
     const trySpeak = () => {
       speak(text)
+      // Verifica periodic daca s-a terminat de vorbit (inclusiv pauze intre propozitii)
       const interval = setInterval(() => {
-        if (!window.speechSynthesis.speaking) { setSpeaking(false); clearInterval(interval) }
-      }, 200)
-      setTimeout(() => { setSpeaking(false); clearInterval(interval) }, 15000)
+        if (!window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
+          setSpeaking(false)
+          clearInterval(interval)
+        }
+      }, 250)
+      setTimeout(() => { setSpeaking(false); clearInterval(interval) }, 30000)
     }
     if (window.speechSynthesis.getVoices().length > 0) {
       trySpeak()

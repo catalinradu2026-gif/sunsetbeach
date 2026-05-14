@@ -7,7 +7,7 @@ interface Message {
   content: string
 }
 
-const WELCOME = 'Bună! Sunt asistentul virtual Sunset Beach Olimp. Te ajut cu disponibilitate, prețuri și rezervări. Vorbește cu mine sau scrie!'
+const WELCOME = 'Bună! Sunt Marina, agentul tău de vacanță la Sunset Beach Olimp 🌊 Spune-mi când vrei să vii și cu câte persoane — îți găsesc eu cel mai bun studio disponibil!'
 
 interface ChatWidgetProps {
   externalOpen?: boolean
@@ -286,7 +286,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
             className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-5 h-5 text-xs flex items-center justify-center text-gray-500 hover:bg-gray-300"
             onClick={e => { e.stopPropagation(); setBubble(false) }}
           >×</button>
-          <p className="text-sm text-gray-800">🌅 Bună! Te ajut cu rezervări și prețuri. Vorbește sau scrie!</p>
+          <p className="text-sm text-gray-800">🌊 Bună! Sunt Marina — spune-mi când vrei să vii la mare!</p>
         </div>
       )}
 

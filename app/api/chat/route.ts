@@ -386,28 +386,47 @@ export async function POST(req: NextRequest) {
       })),
     ]
 
-    // Fallback pe modele diferite la 429 (rate limit)
-    const MODELS = [
-      'llama-3.3-70b-versatile',
-      'llama-3.1-8b-instant',
-      'gemma2-9b-it',
+    // Prompt scurt pentru modele mici (fallback)
+    const shortSystemPrompt = `Esti MARINA, agentul de turism Sunset Beach Olimp. Vorbesti cald, empatic, in romana corecta (diacritice obligatorii).
+Studiouri: G108/G109 (piscine+mare, 2-3 pers), E317/E318 (vedere lac, 2-3 pers). Minim 3 nopti.
+Mic dejun optional: 40 lei/persoana/zi (fara discount).
+Reduceri: 10% la plata integrala (doar cazare). Avans 50% = blocheaza perioada, rest la sosire.
+Cod secret CMB Jurnal de Craiova = 5% extra la cazare (cumulabil).
+Intreaba mereu: nr persoane, date, daca vor mic dejun.
+Calculeaza ambele variante de plata cand dai un pret.
+WhatsApp rezervari: 40787813485
+${calendarContext.slice(0, 800)}`
+
+    const shortMessages = [
+      { role: 'system' as const, content: shortSystemPrompt },
+      ...messages.slice(-4).map((m: { role: string; content: string }) => ({
+        role: m.role as 'user' | 'assistant',
+        content: m.content.slice(0, 600),
+      })),
+    ]
+
+    // Incearca modelul principal, apoi fallback cu context redus
+    const ATTEMPTS = [
+      { model: 'llama-3.3-70b-versatile', msgs: groqMessages },
+      { model: 'llama-3.3-70b-versatile', msgs: groqMessages, delay: 1500 },
+      { model: 'llama-3.1-8b-instant', msgs: shortMessages },
     ]
     let lastErr: unknown
-    for (const model of MODELS) {
+    for (const attempt of ATTEMPTS) {
+      if ('delay' in attempt) await new Promise(r => setTimeout(r, attempt.delay as number))
       try {
         const response = await groq.chat.completions.create({
-          model,
+          model: attempt.model,
           max_tokens: 900,
           temperature: 0.7,
-          messages: groqMessages,
+          messages: attempt.msgs,
         })
         const reply = response.choices[0]?.message?.content
         if (reply) return NextResponse.json({ reply })
       } catch (e: unknown) {
         lastErr = e
         const status = (e as { status?: number })?.status
-        if (status !== 429) break // eroare alta decat rate limit — nu mai incercam
-        // 429 => trecem la modelul urmator
+        if (status !== 429 && status !== 413) break
       }
     }
 

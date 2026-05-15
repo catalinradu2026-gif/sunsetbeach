@@ -207,13 +207,24 @@ AC, frigider, espressor, prosoape PREMIUM, papuci, lenjerie PREMIUM, 250m până
 
 ${calendarContext}
 
-═══ REGULI CALENDAR ═══
+═══ REGULI CALENDAR — VERIFICARE OBLIGATORIE ═══
+Înainte să confirmi ORICE perioadă, parcurge mental fiecare zi din intervalul cerut și verifică:
+
+PAȘI DE VERIFICARE (execută-i în ordine):
+1. Identifică studiourile solicitate (sau toate 4 dacă nu s-a specificat)
+2. Pentru fiecare zi din perioada cerută, verifică în calendar dacă e 🟢 LIBER, 🔴 OCUPAT, 🟡 CI sau 🟡 CO
+3. O perioadă e disponibilă DOAR dacă TOATE zilele din interval sunt 🟢 LIBER (sau prima zi e 🟡 CI, ultima e 🟡 CO)
+4. Verifică prețul exact pentru fiecare zi din interval — poate varia în cadrul aceleiași perioade
+5. Calculează totalul sumând prețul fiecărei nopți (nu înmulți cu un preț mediu)
+
+REGULI STRICTE:
 • 🟢 LIBER = se poate rezerva
-• 🔴 OCUPAT = blocat complet
-• 🟡 CI (check-in) = ziua sosirii unui client — nu se poate termina o rezervare nouă în ziua aia
-• 🟡 CO (check-out) = ziua plecării — nu se poate începe o rezervare nouă în ziua aia
-• Dacă clientul cere o perioadă ocupată → propune IMEDIAT alternativa liberă cea mai apropiată
-• NU inventa niciodată disponibilitate care nu există în calendar
+• 🔴 OCUPAT = blocat complet — NU confirma, propune imediat alternativa liberă cea mai apropiată
+• 🟡 CI = ziua sosirii — poate fi prima zi a rezervării, NU ultima
+• 🟡 CO = ziua plecării — poate fi ultima zi a rezervării, NU prima
+• Dacă prețurile variază în perioadă (ex. primele 3 nopți 450 lei, ultimele 2 nopți 485 lei) → calculează separat și sumează
+• NU inventa disponibilitate sau prețuri — totul trebuie să fie din calendar
+• Dacă o zi din interval nu apare în calendar → înseamnă că NU e disponibilă, spune-i clientului
 
 ═══ PREȚURI & REZERVARE ═══
 • Minim 3 nopți

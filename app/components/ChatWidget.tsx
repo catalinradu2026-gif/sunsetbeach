@@ -9,14 +9,17 @@ interface Message {
 }
 
 function extractWA(text: string): { clean: string; waText: string | null; voiceText: string | null } {
-  const waMatch = text.match(/\[WA:([\s\S]+?)\]/)
-  const voiceMatch = text.match(/\[VOCE:([\s\S]+?)\]/)
+  // WA tag poate fi multiline si uneori modelul nu inchide ] — cautam si varianta deschisa
+  const waMatch = text.match(/\[WA:([\s\S]+?)\]/) || text.match(/\[WA:([\s\S]+)$/)
+  const voiceMatch = text.match(/\[VOCE:([\s\S]+?)\]/) || text.match(/\[VOCE:([\s\S]+)$/)
   const clean = text
     .replace(/\[WA:[\s\S]+?\]/g, '')
+    .replace(/\[WA:[\s\S]+$/g, '')
     .replace(/\[VOCE:[\s\S]+?\]/g, '')
+    .replace(/\[VOCE:[\s\S]+$/g, '')
     .trim()
   return {
-    clean,
+    clean: clean || text.trim(),
     waText: waMatch ? waMatch[1].trim() : null,
     voiceText: voiceMatch ? voiceMatch[1].trim() : null,
   }
@@ -319,8 +322,10 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         }),
       })
       const data = await res.json()
-      const raw = data.reply || 'Ne pare rău, a apărut o eroare.'
-      const { clean, waText, voiceText } = extractWA(raw)
+      if (data.error) throw new Error(data.error)
+      const raw = data.reply || ''
+      if (!raw) throw new Error('empty')
+      const { clean, waText } = extractWA(raw)
       setMessages(prev => [...prev, { role: 'assistant', content: clean, waText: waText || undefined }])
       speakText(clean)
     } catch {

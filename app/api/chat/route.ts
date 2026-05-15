@@ -365,7 +365,7 @@ export async function POST(req: NextRequest) {
 
     const response = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
-      max_tokens: 500,
+      max_tokens: 900,
       temperature: 0.75,
       messages: [
         { role: 'system', content: getSystemPrompt(webContext, calendarContext) },

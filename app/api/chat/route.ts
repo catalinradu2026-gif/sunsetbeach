@@ -362,7 +362,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
     }
     for (const m of messages) {
-      if (typeof m.content !== 'string' || m.content.length > 2000) {
+      if (typeof m.content !== 'string') {
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+      }
+      // Limita doar pe mesajele utilizatorului, nu pe raspunsurile asistentului
+      if (m.role === 'user' && m.content.length > 3000) {
         return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
       }
     }

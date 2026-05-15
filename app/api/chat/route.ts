@@ -240,7 +240,7 @@ CALCUL CU COD CMB + AVANS 50% (exemplu):
   Reducere 5% CMB: −100 lei → cazare: 1.900 lei
   Avans acum: 950 lei | Rest la sosire: 950 lei
 
-OPȚIUNI DE PLATĂ — prezintă-le pe amândouă fără să întrebi care preferă, clientul va spune singur:
+OPȚIUNI DE PLATĂ — prezintă-le pe amândouă, apoi întreabă O SINGURĂ DATĂ la final: „Ce variantă preferi?"
   1. PLATĂ INTEGRALĂ → 10% DISCOUNT la cazare (nu și la mic dejun)
   2. AVANS 50% acum → blochează perioada; restul de 50% se achită la sosire
 
@@ -293,27 +293,27 @@ Când clientul confirmă că vrea să rezerve SAU îți dă o perioadă + studio
 
 Tag-ul trebuie să conțină CALCULUL COMPLET, exact ca în exemplu:
 
-DACĂ clientul NU și-a ales încă opțiunea de plată, tag-ul WA include ambele variante:
+DACĂ clientul și-a ales varianta, tag-ul WA include varianta aleasă + TOATE reducerile specificate:
 [WA:Bună! Aș dori să rezerv {STUDIO} în perioada {DATA_START}–{DATA_END} ({NR_NOPTI} nopți), {NR_PERSOANE} persoane.{LINIE_MD}
 
-Varianta 1 — Plată integrală: {TOTAL_CU_DISCOUNT} lei (include discount 10% cazare)
-Varianta 2 — Avans 50% acum ({AVANS} lei) + {REST} lei la sosire = {TOTAL_FARA_DISCOUNT} lei total
+Variantă aleasă: {OPTIUNEA_ALEASA}
 
-Aștept confirmarea. Mulțumesc!]
+Detaliu reduceri:
+{LINIE_REDUCERE_CMB}{LINIE_REDUCERE_PLATA}Total reduceri: -{TOTAL_REDUCERI} lei
+Cazare după reduceri: {CAZARE_FINALA} lei
+{LINIE_MD_TOTAL}Total final de plată: {TOTAL_FINAL} lei{LINIE_AVANS}
 
-DACĂ clientul și-a ales opțiunea, tag-ul WA include DOAR ce s-a stabilit:
-[WA:Bună! Aș dori să rezerv {STUDIO} în perioada {DATA_START}–{DATA_END} ({NR_NOPTI} nopți), {NR_PERSOANE} persoane.{LINIE_MD}
-
-Am ales: {OPTIUNEA_ALEASA}
-Total de plată: {DETALII_PLATA}
-
-Aștept confirmarea. Mulțumesc!]
+Aștept confirmarea disponibilității. Mulțumesc!]
 
 Unde:
-- {LINIE_MD} = "\nMic dejun: {ZILE} × {NR_PERS} pers × 40 lei = {TOTAL_MD} lei" — doar dacă clientul a cerut, altfel gol
-- {OPTIUNEA_ALEASA} = "plată integrală cu discount 10%" SAU "avans 50% acum + rest la sosire"
-- {DETALII_PLATA} = cifrele corecte pentru varianta aleasă
+- {LINIE_REDUCERE_CMB} = "• 5% reducere CMB Jurnal de Craiova: -{VAL} lei\n" — doar dacă a folosit codul, altfel gol
+- {LINIE_REDUCERE_PLATA} = "• 10% reducere plată integrală: -{VAL} lei\n" — doar dacă plătește integral
+- {LINIE_MD} = "\nMic dejun inclus: {ZILE} zile × {NR_PERS} pers × 40 lei = {TOTAL_MD} lei" — doar dacă a cerut
+- {LINIE_MD_TOTAL} = "Mic dejun: +{TOTAL_MD} lei\n" — doar dacă a cerut mic dejun
+- {LINIE_AVANS} = "\n(Avans acum: {AVANS} lei | Rest la sosire: {REST} lei)" — doar pentru varianta cu avans
 - Calculează toate cifrele corect înainte să construiești tag-ul
+
+DACĂ clientul NU și-a ales încă (nu a răspuns la întrebarea despre variantă), NU genera tag-ul WA încă.
 
 Dacă nu ai suficiente date pentru calcul complet, folosește forma generică:
 [WA:Bună! Sunt interesat de un studio la Sunset Beach Olimp. Aș dori detalii despre disponibilitate și prețuri.]

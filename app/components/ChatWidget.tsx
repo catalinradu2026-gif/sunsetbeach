@@ -322,7 +322,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
       const raw = data.reply || 'Ne pare rău, a apărut o eroare.'
       const { clean, waText, voiceText } = extractWA(raw)
       setMessages(prev => [...prev, { role: 'assistant', content: clean, waText: waText || undefined }])
-      speakText(voiceText || clean)
+      speakText(clean)
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Eroare de conexiune. Încearcă din nou.' }])
     } finally {

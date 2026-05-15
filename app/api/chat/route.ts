@@ -378,23 +378,34 @@ export async function POST(req: NextRequest) {
       isDiscoveryQuestion(lastMessage) ? searchWeb(lastMessage) : Promise.resolve(''),
     ])
 
-    const response = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      max_tokens: 900,
-      temperature: 0.75,
-      messages: [
-        { role: 'system', content: getSystemPrompt(webContext, calendarContext) },
-        ...messages.slice(-10).map((m: { role: string; content: string }) => ({
-          role: m.role as 'user' | 'assistant',
-          content: m.content,
-        })),
-      ],
-    })
+    const groqMessages = [
+      { role: 'system' as const, content: getSystemPrompt(webContext, calendarContext) },
+      ...messages.slice(-8).map((m: { role: string; content: string }) => ({
+        role: m.role as 'user' | 'assistant',
+        content: m.content.slice(0, 1500), // trunchiem mesajele lungi din istoric
+      })),
+    ]
 
-    const reply = response.choices[0]?.message?.content || 'Ne pare rău, a apărut o eroare.'
-    return NextResponse.json({ reply })
-  } catch (err) {
-    console.error('Chat error:', err)
-    return NextResponse.json({ error: 'Eroare server' }, { status: 500 })
+    // Retry automat de 2 ori daca Groq esueaza
+    let lastErr: unknown
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const response = await groq.chat.completions.create({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 900,
+          temperature: 0.7,
+          messages: groqMessages,
+        })
+        const reply = response.choices[0]?.message?.content
+        if (reply) return NextResponse.json({ reply })
+      } catch (e) {
+        lastErr = e
+        if (attempt < 2) await new Promise(r => setTimeout(r, 800))
+      }
+    }
+
+    const msg = lastErr instanceof Error ? lastErr.message : String(lastErr)
+    console.error('Chat error după 3 încercări:', msg)
+    return NextResponse.json({ reply: `Îmi pare rău, am o problemă tehnică momentan. Te rog încearcă din nou în câteva secunde! (${msg.slice(0, 80)})` })
   }
 }

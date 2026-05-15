@@ -322,9 +322,7 @@ export default function ChatWidget({ externalOpen }: ChatWidgetProps = {}) {
         }),
       })
       const data = await res.json()
-      if (data.error) throw new Error(data.error)
-      const raw = data.reply || ''
-      if (!raw) throw new Error('empty')
+      const raw = data.reply || 'Îmi pare rău, încearcă din nou!'
       const { clean, waText } = extractWA(raw)
       setMessages(prev => [...prev, { role: 'assistant', content: clean, waText: waText || undefined }])
       speakText(clean)

@@ -405,7 +405,11 @@ export async function POST(req: NextRequest) {
     }
 
     const msg = lastErr instanceof Error ? lastErr.message : String(lastErr)
-    console.error('Chat error după 3 încercări:', msg)
-    return NextResponse.json({ reply: `Îmi pare rău, am o problemă tehnică momentan. Te rog încearcă din nou în câteva secunde! (${msg.slice(0, 80)})` })
+    console.error('Chat error dupa 3 incercari:', msg)
+    return NextResponse.json({ reply: 'Problema tehnica momentana. Incearca din nou! (' + msg.slice(0, 80) + ')' })
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error('Chat error:', msg)
+    return NextResponse.json({ reply: 'Eroare: ' + msg.slice(0, 100) })
   }
 }

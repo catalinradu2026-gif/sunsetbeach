@@ -386,26 +386,33 @@ export async function POST(req: NextRequest) {
       })),
     ]
 
-    // Retry automat de 2 ori daca Groq esueaza
+    // Fallback pe modele diferite la 429 (rate limit)
+    const MODELS = [
+      'llama-3.3-70b-versatile',
+      'llama-3.1-8b-instant',
+      'gemma2-9b-it',
+    ]
     let lastErr: unknown
-    for (let attempt = 0; attempt < 3; attempt++) {
+    for (const model of MODELS) {
       try {
         const response = await groq.chat.completions.create({
-          model: 'llama-3.3-70b-versatile',
+          model,
           max_tokens: 900,
           temperature: 0.7,
           messages: groqMessages,
         })
         const reply = response.choices[0]?.message?.content
         if (reply) return NextResponse.json({ reply })
-      } catch (e) {
+      } catch (e: unknown) {
         lastErr = e
-        if (attempt < 2) await new Promise(r => setTimeout(r, 800))
+        const status = (e as { status?: number })?.status
+        if (status !== 429) break // eroare alta decat rate limit — nu mai incercam
+        // 429 => trecem la modelul urmator
       }
     }
 
     const msg = lastErr instanceof Error ? lastErr.message : String(lastErr)
-    console.error('Chat error dupa 3 incercari:', msg)
+    console.error('Chat error dupa toate modelele:', msg)
     return NextResponse.json({ reply: 'Problema tehnica momentana. Incearca din nou! (' + msg.slice(0, 80) + ')' })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)

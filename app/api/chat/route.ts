@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 import { readFileSync } from 'fs'
@@ -5,6 +7,18 @@ import { join } from 'path'
 import { rateLimit } from '@/lib/rateLimit'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+
+// Cache calendar cu TTL 1 ora — se regenereaza automat
+let calendarCache: { data: string; ts: number } | null = null
+const CACHE_TTL = 60 * 60 * 1000
+
+function getCachedCalendar(): string {
+  const now = Date.now()
+  if (calendarCache && now - calendarCache.ts < CACHE_TTL) return calendarCache.data
+  const data = getFullCalendarContext()
+  calendarCache = { data, ts: now }
+  return data
+}
 
 const MONTH_RO = ['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie']
 const MONTH_SHORT = ['ian','feb','mar','apr','mai','iun','iul','aug','sep','oct','nov','dec']
@@ -367,7 +381,7 @@ export async function POST(req: NextRequest) {
     const lastMessage = messages[messages.length - 1]?.content || ''
 
     const [calendarContext, webContext] = await Promise.all([
-      Promise.resolve(getFullCalendarContext()),
+      Promise.resolve(getCachedCalendar()),
       isDiscoveryQuestion(lastMessage) ? searchWeb(lastMessage) : Promise.resolve(''),
     ])
 

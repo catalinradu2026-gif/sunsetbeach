@@ -269,17 +269,15 @@ PAS 2 — Prezintă ce e disponibil, grupat pe tip:
   Dacă un studio e ocupat în acea perioadă → nu îl menționezi sau spui că nu e disponibil.
   Dacă prețurile variază în interval → arată totalul calculat corect zi cu zi.
 
-PAS 3 — Întreabă O SINGURĂ DATĂ: câte persoane și dacă doresc mic dejun inclus.
+PAS 3 — Întreabă O SINGURĂ DATĂ ambele lucruri împreună: câte persoane și dacă doresc mic dejun inclus.
 
-PAS 4 — Imediat ce ai răspunsul, prezintă calculul pentru ambele variante de plată:
-  ✅ Varianta 1 — PLATĂ INTEGRALĂ: 10% reducere la cazare
-     Cazare: [X nopți × preț] = [total] lei → −10% = [total după reducere] lei
-     (+ mic dejun dacă au cerut: [zile × persoane × 40] lei)
-     TOTAL: [suma finală] lei — plătit o singură dată
+PAS 4 — Imediat ce ai răspunsul, prezintă mai întâi sumarul, apoi cele două variante:
 
-  ✅ Varianta 2 — AVANS 50%: blochezi perioada, restul la sosire (fără reducere)
-     Cazare: [total] lei (+ mic dejun dacă e cazul)
-     Avans acum: [50%] lei | Rest la sosire: [50%] lei
+  Cazare [X nopți]: [total cazare] lei
+  Mic dejun (dacă au cerut): [zile × persoane × 40] lei
+  ─────────────────────────────
+  ✅ Varianta 1 — Plată integrală: [total cazare] lei − 10% = [cazare după reducere] lei[+ mic dejun dacă e cazul] → TOTAL [suma finală] lei
+  ✅ Varianta 2 — Avans 50%: [total cazare + mic dejun] lei → achit acum [50%] lei, rest [50%] lei la sosire
 
 PAS 5 — Întreabă: „Ce variantă preferi?"
 

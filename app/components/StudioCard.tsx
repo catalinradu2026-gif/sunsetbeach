@@ -118,7 +118,7 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
       }
     }
 
-    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}${priceLines}${paymentText}\n🔐 Garanție: 500 lei la check-in (se returnează la check-out)\n\nVă rog să confirmați disponibilitatea.`
+    return `Bună ziua! Doresc să rezerv la sunsetbeach.com.ro:\n\n🏠 Studio: ${data.name}\n📅 Perioada: ${start} – ${end}\n🌙 Nopți: ${nights}\n🕓 Check-in: 16:00 | Check-out: 11:00${priceLines}${paymentText}\n🔐 Garanție: 500 lei la check-in (se returnează la check-out)\n\nVă rog să confirmați disponibilitatea.`
   }
 
   const waNumber = data.whatsapp.replace(/\D/g, '')
@@ -183,6 +183,10 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
           </div>
 
           <p className="text-gray-500 text-sm leading-relaxed mb-3">{data.description}</p>
+          <div className="flex gap-4 mb-3">
+            <span className="text-xs text-gray-500">🕓 Check-in: <strong>16:00</strong></span>
+            <span className="text-xs text-gray-500">🕙 Check-out: <strong>11:00</strong></span>
+          </div>
           <p className="text-xs text-orange-500 font-medium mb-4">{tr.minNights}</p>
 
           <div className="border-t border-gray-100 mb-4" />

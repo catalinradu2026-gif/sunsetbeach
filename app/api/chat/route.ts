@@ -459,6 +459,69 @@ REGULA DE AUR:
   Clientul vine cu un vis — vacanța perfectă la mare. Tu ești cel care îl ajută să o facă reală, cu căldură, precizie și entuziasm sincer. Fii Marina, nu un robot.`
 }
 
+function calcWAPrice(studioId: string, start: string, end: string, persons: number, fullPayment: boolean, breakfast: boolean, cmb: boolean): string {
+  try {
+    const studios = JSON.parse(readFileSync(join(process.cwd(), 'data', 'studios.json'), 'utf-8'))
+    const studio = studios[studioId.toLowerCase()]
+    if (!studio) return ''
+    const prices: Record<string, number> = studio.prices
+
+    let cazare = 0
+    let nights = 0
+    const cur = new Date(start + 'T00:00:00Z')
+    const endD = new Date(end + 'T00:00:00Z')
+    while (cur < endD) {
+      const key = cur.toISOString().split('T')[0]
+      cazare += prices[key] || 0
+      nights++
+      cur.setUTCDate(cur.getUTCDate() + 1)
+    }
+    if (cazare === 0 || nights === 0) return ''
+
+    const r1 = fullPayment ? Math.round(cazare * 0.10) : 0
+    const r2 = cmb ? Math.round(cazare * 0.05) : 0
+    const cazareRedusa = cazare - r1 - r2
+    const md = breakfast ? nights * persons * 40 : 0
+    const total = cazareRedusa + md
+
+    const fmt = (n: number) => n.toLocaleString('ro-RO')
+
+    let lines = `Cazare ${nights} nopți: ${fmt(cazare)} lei\n`
+    if (fullPayment) lines += `• 10% plată integrală: -${fmt(r1)} lei\n`
+    if (cmb) lines += `• 5% CMB Jurnal de Craiova: -${fmt(r2)} lei\n`
+    if (r1 || r2) lines += `Cazare după reduceri: ${fmt(cazareRedusa)} lei\n`
+    if (breakfast) lines += `Mic dejun: ${nights} nopți × ${persons} pers × 40 lei = +${fmt(md)} lei\n`
+    lines += `Total: ${fmt(total)} lei`
+    if (!fullPayment) lines += `\n(Avans: ${fmt(Math.round(total / 2))} lei acum | Rest: ${fmt(total - Math.round(total / 2))} lei la sosire)`
+    return lines
+  } catch { return '' }
+}
+
+function injectWAPrice(reply: string): string {
+  return reply.replace(/\[WA:([\s\S]+?)\]/g, (match, content) => {
+    // Extrage datele din tag
+    const studioM = content.match(/Rezervare\s+(G108|G109|E317|E318)/i)
+    const dateM = content.match(/(\d{4}-\d{2}-\d{2})[^,\n]*[–-]\s*(\d{4}-\d{2}-\d{2})/)
+    const persM = content.match(/(\d+)\s*pers/)
+    const fullPay = /plată integrală|plata integrala/i.test(content)
+    const avans = /avans\s*50|50%\s*avans/i.test(content)
+    const breakfast = /mic dejun/i.test(content)
+    const cmb = /CMB/i.test(content)
+
+    if (!studioM || !dateM || !persM) return match
+
+    const calcLines = calcWAPrice(studioM[1], dateM[1], dateM[2], parseInt(persM[1]), fullPay, breakfast, cmb)
+    if (!calcLines) return match
+
+    // Reconstruieste tag-ul cu calculul injectat
+    const headerLine = content.split('\n')[0].trim()
+    const variantaLine = content.match(/Variantă:[^\n]+/)?.[0] || ''
+    const cmbLine = cmb ? '\nCod reducere: CMB Jurnal de Craiova' : ''
+    const newContent = `${headerLine}\n${variantaLine}${cmbLine}\n\n${calcLines}\n\nAștept confirmarea disponibilității.`
+    return `[WA:${newContent}]`
+  })
+}
+
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
@@ -540,7 +603,7 @@ ${calendarContext.slice(0, 800)}`
           messages: attempt.msgs,
         })
         const reply = response.choices[0]?.message?.content
-        if (reply) return NextResponse.json({ reply })
+        if (reply) return NextResponse.json({ reply: injectWAPrice(reply) })
       } catch (e: unknown) {
         lastErr = e
         const status = (e as { status?: number })?.status

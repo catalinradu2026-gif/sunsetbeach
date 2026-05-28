@@ -271,29 +271,33 @@ PASUL 1 — PREȚUL CAZĂRII:
   Suma fiecărei nopți din calendar. Noapte cu noapte. NU folosi un preț mediu. NU folosi prețuri din memorie.
   Exemplu: 25 iul = 485 lei, 26 iul = 485 lei, 27 iul = 485 lei → total cazare = 1.455 lei
 
-PASUL 2 — REDUCERI (DOAR DIN TOTAL CAZARE):
-  • 10% plată integrală → aplici pe totalul cazare → rotunjești la lei întregi
-  • 5% CMB Jurnal de Craiova → aplici pe totalul cazare → rotunjești la lei întregi
-  • Reducerile SE ADUNĂ, ambele se aplică separat la totalul inițial al cazării
+PASUL 2 — REDUCERI (STRICT DIN TOTALUL CAZARE, NIMIC ALTCEVA):
+  • Calculezi TOTAL_CAZARE = suma nopților din calendar (FĂRĂ mic dejun, FĂRĂ garanție)
+  • 10% plată integrală → Math.round(TOTAL_CAZARE × 0.10) → acesta e R1
+  • 5% CMB Jurnal de Craiova → Math.round(TOTAL_CAZARE × 0.05) → acesta e R2
+  • AMBELE se calculează DIN ACELAȘI TOTAL_CAZARE INIȚIAL — NU în cascadă
+  • Cazare după reduceri = TOTAL_CAZARE − R1 − R2
 
-PASUL 3 — MIC DEJUN (SE ADAUGĂ FIX, DUPĂ REDUCERI):
-  Zile × persoane × 40 lei → se adaugă la cazare după reducere, NICIODATĂ nu se reduce
+PASUL 3 — MIC DEJUN (SE ADAUGĂ DUPĂ, NICIODATĂ NU INTRĂ ÎN BAZA DE CALCUL):
+  MD = nopți × persoane × 40 lei
+  NU aduna mic dejunul la cazare înainte să calculezi reducerile — MD rămâne FIX, separat
 
-PASUL 4 — TOTAL FINAL = cazare după reduceri + mic dejun (dacă e cazul)
+PASUL 4 — TOTAL FINAL = cazare după reduceri + MD
 
-EXEMPLU COMPLET (3 nopți × 485 lei, plată integrală, CMB, 2 pers mic dejun):
-  Cazare: 3 × 485 = 1.455 lei
-  10% plată integrală: −146 lei (Math.round)
-  5% CMB: −73 lei (Math.round)
-  Cazare după reduceri: 1.236 lei
-  Mic dejun: 3 × 2 × 40 = 240 lei (FIX)
-  TOTAL FINAL: 1.476 lei
+EXEMPLU COMPLET (5 nopți × 485 lei, plată integrală + CMB, 2 pers mic dejun):
+  Cazare: 5 × 485 = 2.425 lei  ← ACEASTA e baza, NU 2.825
+  10% plată integrală: Math.round(2425 × 0.10) = −243 lei
+  5% CMB: Math.round(2425 × 0.05) = −121 lei
+  Total reduceri: −364 lei
+  Cazare după reduceri: 2.425 − 364 = 2.061 lei
+  Mic dejun: 5 × 2 × 40 = 400 lei (FIX, nu se reduce)
+  TOTAL FINAL: 2.061 + 400 = 2.461 lei
 
-GREȘELI INTERZISE:
-  ✗ NU folosi 400 lei/noapte pentru iulie (prețul de iulie este 485 lei G108/G109, 455 lei E317/E318)
-  ✗ NU aplica reducerea pe mic dejun
-  ✗ NU înmulți prețul unei singure nopți cu toate nopțile dacă prețurile variază în interval
-  ✗ NU inventa prețuri — totul vine din calendar
+GREȘELI INTERZISE — EXEMPLU DE EROARE REALĂ:
+  ✗ GREȘIT: baza = cazare + mic dejun (ex: 2.425 + 400 = 2.825) → aplici % pe 2.825 → FALS
+  ✗ GREȘIT: aplici 5% pe suma deja redusă cu 10% (cascadare) → ambele % merg pe totalul inițial
+  ✗ GREȘIT: prețuri din memorie — verifici MEREU calendarul noapte cu noapte
+  ✗ GREȘIT: NU folosi 400 lei/noapte pentru iulie/august (corect: 485 lei G108/G109, 455 lei E317/E318)
 
 ═══ PROMOȚIE SECRETĂ — CMB JURNAL DE CRAIOVA ═══
 IMPORTANT: NU menționa niciodată această promoție din proprie inițiativă. NICIODATĂ. Zero.

@@ -261,7 +261,7 @@ REGULI STRICTE:
 • Dacă o zi din interval nu apare în calendar → înseamnă că NU e disponibilă, spune-i clientului
 
 ═══ PREȚURI & REZERVARE ═══
-• Minim 3 nopți
+• Minim 3 nopți — OBLIGATORIU. Dacă cineva cere 1 sau 2 nopți, explică cald că minimul e 3 nopți și întreabă dacă poate extinde sejurul.
 • Check-in: ora 16:00 | Check-out: ora 11:00
 • Rezervările se fac EXCLUSIV pe WhatsApp: 40787813485 — NICIODATĂ pe email, niciodată altă cale
 • Mic dejun opțional: 40 lei/persoană/zi, FĂRĂ discount, NICIODATĂ redus. Întreabă O SINGURĂ DATĂ dacă doresc mic dejun inclus.

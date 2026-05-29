@@ -229,8 +229,27 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
 
           {/* Avertisment minim nopți */}
           {minNightsWarning && (
-            <div className="mt-3 px-3 py-2 bg-orange-50 border border-orange-200 rounded-xl text-xs text-orange-700">
-              {tr.minNightsMsg}
+            <div className="mt-4 rounded-2xl border border-orange-200 bg-gradient-to-br from-orange-50 to-amber-50 p-4 shadow-sm">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center">
+                  <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-orange-800">{tr.minNights}</p>
+                  <p className="text-xs text-orange-700 mt-1 leading-relaxed">{tr.minNightsMsg}</p>
+                </div>
+                <button
+                  onClick={() => setMinNightsWarning(false)}
+                  className="flex-shrink-0 text-orange-400 hover:text-orange-600 transition mt-0.5"
+                  aria-label="Închide"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
 

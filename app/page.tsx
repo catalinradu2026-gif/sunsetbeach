@@ -290,6 +290,8 @@ export default function Home() {
                     '/images/g109/1.jpeg','/images/g109/2.jpeg','/images/g109/3.jpeg',
                     '/images/g109/4.jpeg','/images/g109/6.jpeg','/images/g109/7.jpeg',
                     '/images/g109/8.jpeg','/images/g109/9.jpeg','/images/g109/10.jpeg','/images/g109/11.jpeg',
+                    '/images/g109/12.jpeg','/images/g109/13.jpeg','/images/g109/14.jpeg',
+                    '/images/g109/15.jpeg','/images/g109/16.jpeg',
                     '/images/g109/piscina1.jpeg','/images/g109/piscina2.jpeg','/images/g109/piscina3.jpeg',
                     '/images/g109/piscina4.jpeg','/images/g109/piscina5.jpeg',
                     '/images/g109/piscina bar.jpeg','/images/g109/piscina bar2.jpeg',

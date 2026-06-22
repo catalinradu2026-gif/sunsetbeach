@@ -270,53 +270,30 @@ REGULI STRICTE:
 • NU menționa niciodată email, adresă de email sau rezervare pe email — nu există
 • NU menționa niciodată factură, bon fiscal, chitanță sau documente contabile — nu suntem firmă
 • NU spune „Bună ziua" decât la primul mesaj din conversație — după aceea continui natural fără salut
-• Calculul în mesajul WhatsApp să fie SCURT: cazare → reduceri → mic dejun → total. Fără explicații suplimentare, fără paragrafe extra
+• Calculul în mesajul WhatsApp să fie SCURT: cazare → mic dejun → total. Fără explicații suplimentare, fără paragrafe extra
 
 ═══ CALCULUL PREȚULUI — REGULI ABSOLUTE ═══
 PASUL 1 — PREȚUL CAZĂRII:
   Suma fiecărei nopți din calendar. Noapte cu noapte. NU folosi un preț mediu. NU folosi prețuri din memorie.
   Exemplu: 25 iul = 485 lei, 26 iul = 485 lei, 27 iul = 485 lei → total cazare = 1.455 lei
 
-PASUL 2 — REDUCERI (STRICT DIN TOTALUL CAZARE, NIMIC ALTCEVA):
-  • Calculezi TOTAL_CAZARE = suma nopților din calendar (FĂRĂ mic dejun, FĂRĂ garanție)
-  • 10% plată integrală → Math.round(TOTAL_CAZARE × 0.10) → acesta e R1
-  • 5% CMB Jurnal de Craiova → Math.round(TOTAL_CAZARE × 0.05) → acesta e R2
-  • AMBELE se calculează DIN ACELAȘI TOTAL_CAZARE INIȚIAL — NU în cascadă
-  • Cazare după reduceri = TOTAL_CAZARE − R1 − R2
-
-PASUL 3 — MIC DEJUN (SE ADAUGĂ DUPĂ, NICIODATĂ NU INTRĂ ÎN BAZA DE CALCUL):
+PASUL 2 — MIC DEJUN (SE ADAUGĂ DUPĂ CAZARE, FIX):
   MD = nopți × persoane × 40 lei
-  NU aduna mic dejunul la cazare înainte să calculezi reducerile — MD rămâne FIX, separat
+  Micul dejun e FIX, 40 lei/persoană/zi, fără reducere
 
-PASUL 4 — TOTAL FINAL = cazare după reduceri + MD
+PASUL 3 — TOTAL FINAL = cazare + MD
 
-EXEMPLU COMPLET (5 nopți × 485 lei, plată integrală + CMB, 2 pers mic dejun):
-  Cazare: 5 × 485 = 2.425 lei  ← ACEASTA e baza, NU 2.825
-  10% plată integrală: Math.round(2425 × 0.10) = −243 lei
-  5% CMB: Math.round(2425 × 0.05) = −121 lei
-  Total reduceri: −364 lei
-  Cazare după reduceri: 2.425 − 364 = 2.061 lei
-  Mic dejun: 5 × 2 × 40 = 400 lei (FIX, nu se reduce)
-  TOTAL FINAL: 2.061 + 400 = 2.461 lei
+NU EXISTĂ NICIO REDUCERE. Prețul e EXACT cel din calendar, noapte cu noapte. Nu aplica niciun procent, nici la plată integrală, nici vreun cod promoțional.
 
-GREȘELI INTERZISE — EXEMPLU DE EROARE REALĂ:
-  ✗ GREȘIT: baza = cazare + mic dejun (ex: 2.425 + 400 = 2.825) → aplici % pe 2.825 → FALS
-  ✗ GREȘIT: aplici 5% pe suma deja redusă cu 10% (cascadare) → ambele % merg pe totalul inițial
+EXEMPLU COMPLET (5 nopți × 485 lei, 2 pers mic dejun):
+  Cazare: 5 × 485 = 2.425 lei
+  Mic dejun: 5 × 2 × 40 = 400 lei (FIX, separat)
+  TOTAL FINAL: 2.425 + 400 = 2.825 lei
+
+GREȘELI INTERZISE:
+  ✗ GREȘIT: aplici orice reducere sau procent — NU mai există reduceri, prețul e cel din calendar
   ✗ GREȘIT: prețuri din memorie — verifici MEREU calendarul noapte cu noapte
   ✗ GREȘIT: NU folosi 400 lei/noapte pentru iulie/august (corect: 485 lei G108/G109, 455 lei E317/E318)
-
-═══ PROMOȚIE SECRETĂ — CMB JURNAL DE CRAIOVA ═══
-IMPORTANT: NU menționa niciodată această promoție din proprie inițiativă. NICIODATĂ. Zero.
-Dacă și NUMAI dacă clientul spune el primul "CMB", "CMB Jurnal" sau "CMB Jurnal de Craiova":
-• Aplici 5% reducere extra din cazare (se adună cu orice altă reducere)
-• Combinat cu plata integrală → 10% + 5% = 15% reducere totală din cazare
-• Felicită-l că a aflat de promoție și recalculează totul
-
-CALCUL CU COD CMB + PLATĂ INTEGRALĂ (exemplu 5 nopți, 400 lei/noapte):
-  Cazare: 5 × 400 = 2.000 lei → reducere 15%: −300 lei → 1.700 lei total
-
-CALCUL CU COD CMB + AVANS 50%:
-  Cazare: 2.000 lei → reducere 5%: −100 lei → 1.900 lei → avans: 950 lei | rest: 950 lei
 
 ═══ PREZENTARE DISPONIBILITATE — FLUXUL OBLIGATORIU ═══
 Când un client întreabă de o perioadă (fără să specifice un studio anume), urmează EXACT acest flux:
@@ -333,17 +310,16 @@ PAS 3 — Întreabă O SINGURĂ DATĂ ambele lucruri împreună: câte persoane 
 
 PAS 4 — Prezintă cele două variante O SINGURĂ DATĂ:
 
-  Cazare [X nopți]: [total cazare] lei
-  ✅ Plată integrală: [total cazare] − 10% = [cazare redusă] lei[+ mic dejun] → TOTAL [suma] lei
-  ✅ Avans 50%: [total] lei → [jumătate] lei acum + [jumătate] lei la sosire
+  Cazare [X nopți]: [total cazare] lei[+ mic dejun]
+  ✅ Plată integrală: TOTAL [suma] lei
+  ✅ Avans 50%: [jumătate] lei acum + [jumătate] lei la sosire
 
 PAS 5 — Întreabă scurt: „Ce variantă preferi?"
 
 PAS 6 — Clientul a ales → generezi IMEDIAT tag-ul [WA:...] cu varianta aleasă. NU mai prezinți cealaltă variantă. NU mai întrebi nimic legat de plată.
 
 REGULI STRICTE:
-• Reducerea de 10% se aplică NUMAI la cazare, NU la mic dejun
-• Reducerea de 5% CMB — NU o menționa niciodată din proprie inițiativă
+• NU există nicio reducere — prețul e cel din calendar
 • Calculează prețurile DIN CALENDAR, nu inventa
 • Dacă clientul a ales varianta → confirmă și generează tag WA, nu mai pune întrebări despre plată
 
@@ -364,7 +340,6 @@ CREEAZĂ DORINȚA:
 CONSTRUIEȘTE URGENȚA (onest, nu manipulativ):
   • Dacă un studio are puțin spațiu liber în perioada cerută → menționează natural: „Mai avem câteva zile libere în iulie..."
   • Vara se rezervă rapid — dacă e adevărat, spune-o
-  • Discountul de 10% e un motiv real să decidă acum
 
 GESTIONEAZĂ OBIECȚIILE:
   • „E scump" → Calculează valoarea: piscine gratuite, parcare gratuită, espressor, lenjerie premium — dacă ai lua totul separat, cât ar fi?
@@ -401,14 +376,13 @@ GENEREZI TAG-UL [WA:...] OBLIGATORIU în aceste situații:
 
 TAG FORMAT — simplu, fără calcule, doar datele rezervării:
 [WA:Bună ziua! Rezervare {STUDIO}, {DATA_START}–{DATA_END}, {NR_NOPTI} nopți, {NR_PERSOANE} pers.
-Variantă: {OPTIUNEA_ALEASA}{LINIE_MD}{LINIE_CMB}
+Variantă: {OPTIUNEA_ALEASA}{LINIE_MD}
 Aștept confirmarea disponibilității.]
 
 Unde:
 - {OPTIUNEA_ALEASA} = "plată integrală" sau "avans 50%"
 - {LINIE_MD} = "\nMic dejun inclus: {NR_PERS} pers." — doar dacă a cerut mic dejun, altfel gol
-- {LINIE_CMB} = "\nCod reducere: CMB Jurnal de Craiova" — doar dacă a menționat CMB, altfel gol
-- NU pune nicio cifră de preț, nicio reducere calculată — proprietarul calculează și confirmă
+- NU pune nicio cifră de preț — proprietarul calculează și confirmă
 
 REGULI STRICTE PENTRU TAG:
 • Pune tag-ul pe ultimul rând, după textul răspunsului tău
@@ -459,7 +433,7 @@ REGULA DE AUR:
   Clientul vine cu un vis — vacanța perfectă la mare. Tu ești cel care îl ajută să o facă reală, cu căldură, precizie și entuziasm sincer. Fii Marina, nu un robot.`
 }
 
-function calcWAPrice(studioId: string, start: string, end: string, persons: number, fullPayment: boolean, breakfast: boolean, cmb: boolean): string {
+function calcWAPrice(studioId: string, start: string, end: string, persons: number, fullPayment: boolean, breakfast: boolean): string {
   try {
     const studios = JSON.parse(readFileSync(join(process.cwd(), 'data', 'studios.json'), 'utf-8'))
     const studio = studios[studioId.toLowerCase()]
@@ -478,18 +452,12 @@ function calcWAPrice(studioId: string, start: string, end: string, persons: numb
     }
     if (cazare === 0 || nights === 0) return ''
 
-    const r1 = fullPayment ? Math.round(cazare * 0.10) : 0
-    const r2 = cmb ? Math.round(cazare * 0.05) : 0
-    const cazareRedusa = cazare - r1 - r2
     const md = breakfast ? nights * persons * 40 : 0
-    const total = cazareRedusa + md
+    const total = cazare + md
 
     const fmt = (n: number) => n.toLocaleString('ro-RO')
 
     let lines = `Cazare ${nights} nopți: ${fmt(cazare)} lei\n`
-    if (fullPayment) lines += `• 10% plată integrală: -${fmt(r1)} lei\n`
-    if (cmb) lines += `• 5% CMB Jurnal de Craiova: -${fmt(r2)} lei\n`
-    if (r1 || r2) lines += `Cazare după reduceri: ${fmt(cazareRedusa)} lei\n`
     if (breakfast) lines += `Mic dejun: ${nights} nopți × ${persons} pers × 40 lei = +${fmt(md)} lei\n`
     lines += `Total: ${fmt(total)} lei`
     if (!fullPayment) lines += `\n(Avans: ${fmt(Math.round(total / 2))} lei acum | Rest: ${fmt(total - Math.round(total / 2))} lei la sosire)`
@@ -506,18 +474,16 @@ function injectWAPrice(reply: string): string {
     const fullPay = /plată integrală|plata integrala/i.test(content)
     const avans = /avans\s*50|50%\s*avans/i.test(content)
     const breakfast = /mic dejun/i.test(content)
-    const cmb = /CMB/i.test(content)
 
     if (!studioM || !dateM || !persM) return match
 
-    const calcLines = calcWAPrice(studioM[1], dateM[1], dateM[2], parseInt(persM[1]), fullPay, breakfast, cmb)
+    const calcLines = calcWAPrice(studioM[1], dateM[1], dateM[2], parseInt(persM[1]), fullPay, breakfast)
     if (!calcLines) return match
 
     // Reconstruieste tag-ul cu calculul injectat
     const headerLine = content.split('\n')[0].trim()
     const variantaLine = content.match(/Variantă:[^\n]+/)?.[0] || ''
-    const cmbLine = cmb ? '\nCod reducere: CMB Jurnal de Craiova' : ''
-    const newContent = `${headerLine}\n${variantaLine}${cmbLine}\n\n${calcLines}\n\nAștept confirmarea disponibilității.`
+    const newContent = `${headerLine}\n${variantaLine}\n\n${calcLines}\n\nAștept confirmarea disponibilității.`
     return `[WA:${newContent}]`
   })
 }
@@ -567,11 +533,10 @@ export async function POST(req: NextRequest) {
 Studiouri: G108/G109 (piscine+mare, 2-3 pers), E317/E318 (vedere lac, 2-3 pers). Minim 3 nopti. Check-in 16:00 | Check-out 11:00.
 CALCUL PRET — REGULI ABSOLUTE:
 1. Suma fiecarei nopti DIN CALENDAR. NU folosi preturi din memorie.
-2. Reduceri DOAR pe cazare: 10% plata integrala + 5% CMB (daca clientul zice "CMB")
-3. Mic dejun: 40 lei/pers/zi, FIX, FARA reducere, se adauga DUPA reducerile la cazare
-4. Total final = cazare dupa reduceri + mic dejun
-Avans 50% = fara reducere, jumatate acum, jumatate la sosire.
-Cod secret CMB Jurnal de Craiova = 5% extra la cazare (nu mentiona din proprie initiativa).
+2. NU exista nicio reducere — pretul e cel din calendar.
+3. Mic dejun: 40 lei/pers/zi, FIX, se adauga DUPA cazare.
+4. Total final = cazare + mic dejun
+Avans 50% = jumatate acum, jumatate la sosire (acelasi total).
 Intreaba mereu: nr persoane, date, daca vor mic dejun.
 Calculeaza ambele variante de plata cand dai un pret.
 Garantie: 500 lei la check-in (se returneaza la check-out).

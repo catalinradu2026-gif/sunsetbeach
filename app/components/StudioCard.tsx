@@ -89,13 +89,9 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
 
     if (total) {
       if (paymentOption === 'full') {
-        const saved = Math.round(total * 0.1)
-        const discountedRoom = total - saved
-        const grandTotal = discountedRoom + breakfastTotal
+        const grandTotal = total + breakfastTotal
         priceLines = `\n💰 Preț/noapte: ~${perNight.toLocaleString('ro-RO')} lei`
           + `\n💰 Cazare (${nightCount} nopți): ${total.toLocaleString('ro-RO')} lei`
-          + `\n✅ Reducere 10%: -${saved.toLocaleString('ro-RO')} lei`
-          + `\n💰 Total cazare cu reducere: ${discountedRoom.toLocaleString('ro-RO')} lei`
           + (breakfastTotal > 0 ? `\n🍳 Mic dejun (${breakfastPersons} pers. × ${nightCount} zile × 40 lei): ${breakfastTotal.toLocaleString('ro-RO')} lei` : `\n🍳 Mic dejun: nu`)
           + `\n💰 TOTAL FINAL: ${grandTotal.toLocaleString('ro-RO')} lei`
         paymentText = `\n💳 Plată: integrală`
@@ -287,11 +283,9 @@ export default function StudioCard({ studioId, data, images, flip = false, lang 
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-semibold text-gray-800">{tr.fullPayment}</p>
-                    <p className="text-xs text-green-600 font-medium">{tr.discount10}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-base font-bold text-green-700">{Math.round(priceInfo.total * 0.9).toLocaleString('ro-RO')} lei</p>
-                    <p className="text-xs text-gray-400 line-through">{priceInfo.total.toLocaleString('ro-RO')} lei</p>
+                    <p className="text-base font-bold text-green-700">{priceInfo.total.toLocaleString('ro-RO')} lei</p>
                   </div>
                 </div>
               </button>

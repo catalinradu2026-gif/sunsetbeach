@@ -53,7 +53,7 @@ export default function StructuredData() {
           name: 'Cât costă cazarea la Olimp în 2026?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Prețurile încep de la 370 lei/noapte în mai-septembrie 2026. Studiourile cu vedere la mare costă 400-1200 lei/noapte, iar cele cu vedere la lac 370-1170 lei/noapte. La plata integrală se acordă discount 10%.',
+            text: 'Prețurile încep de la 370 lei/noapte în mai-septembrie 2026. Studiourile cu vedere la mare costă 400-1200 lei/noapte, iar cele cu vedere la lac 370-1170 lei/noapte.',
           },
         },
         {

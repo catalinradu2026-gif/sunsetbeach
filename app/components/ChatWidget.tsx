@@ -193,7 +193,7 @@ function getBubbleMessages(): string[] {
   const salut = h < 12 ? 'Bună dimineața!' : h < 18 ? 'Bună ziua!' : 'Bună seara!'
   return [
     `${salut} Sunt Marina. Câteva zile la mare, cu piscină și vedere la valuri — îți fac eu calculul acum. 🌊`,
-    'Știi că plata integrală îți aduce 10% reducere la cazare? Spune-mi perioada și îți arăt exact cât economisești.',
+    'Spune-mi perioada și câte persoane și îți fac pe loc oferta completă, cu prețul exact din calendar.',
     'Studiorile noastre din Olimp se rezervă repede vara. Vrei să verificăm dacă mai avem loc pentru tine?',
     'De la 370 lei/noapte — piscine, parcare, espressor, 250 m până la plajă. Totul inclus.',
     'Olimp e cea mai liniștită stațiune de pe litoral. Dacă vrei să scapi de agitație, ești în locul potrivit.',
